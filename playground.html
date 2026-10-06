@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anvil Playground</title>
+<meta name="description" content="Try Anvil components live: change their content, icons, illustrations and states, and copy the code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css">
+<link rel="stylesheet" href="dist/anvil.css">
+<link rel="stylesheet" href="site/site.css">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body class="pg-page">
+<header class="site-top">
+  <a class="site-brand" href="index.html">Anvil</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="components.html">Components</a><a href="playground.html" aria-current="page">Playground</a><a href="colors.html">Colors</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+<main><div id="playground"></div></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js"></script>
+<script src="site/playground.js"></script>
+<footer class="site-foot">Anvil (formerly Pulse) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+<script src="site/site.js"></script>
+</body>
+</html>
