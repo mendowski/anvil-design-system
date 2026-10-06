@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 20px 24px; background: var(--background-surface, #ffffff); font-family: var(--font-sans, system-ui, sans-serif); }
+  .grid { display: grid; grid-template-columns: 96px repeat(6, max-content); gap: 16px 20px; align-items: center; }
+  .head { font-size: 12px; line-height: 16px; color: #716775; font-weight: 500; }
+  .row-label { font-size: 12px; line-height: 16px; color: #716775; }
+  .sep { grid-column: 1 / -1; height: 1px; background: #ececee; margin: 4px 0; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement;
+  var Button = Anvil.Button;
+  var states = [
+    ["Default", {}],
+    ["Hover", { state: "hover" }],
+    ["Focus", { state: "focus" }],
+    ["Pressed", { state: "pressed" }],
+    ["Disabled", { disabled: true }],
+    ["Loading", { loading: true }]
+  ];
+  var rows = [
+    ["Primary", { variant: "primary", icon: "left" }],
+    ["Primary destructive", { variant: "primary", destructive: true }],
+    ["Secondary", { variant: "secondary", icon: "right" }],
+    ["Secondary destructive", { variant: "secondary", destructive: true }],
+    ["Tertiary", { variant: "tertiary", icon: "left" }],
+    ["Tertiary destructive", { variant: "tertiary", destructive: true }],
+    ["Tertiary small", { variant: "tertiary", size: "small", icon: "right" }]
+  ];
+  var cells = [h("span", { key: "corner" })];
+  states.forEach(function (s) { cells.push(h("span", { key: "h" + s[0], className: "head" }, s[0])); });
+  rows.forEach(function (r, i) {
+    if (i === 2 || i === 4) cells.push(h("span", { key: "sep" + i, className: "sep" }));
+    cells.push(h("span", { key: "l" + i, className: "row-label" }, r[0]));
+    states.forEach(function (s) {
+      cells.push(h("span", { key: i + s[0] }, h(Button, Object.assign({}, r[1], s[1]), "Button label")));
+    });
+  });
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "grid" }, cells));
+</script>
+</body>
+</html>

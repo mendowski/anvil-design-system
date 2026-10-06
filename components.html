@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anvil Components</title>
+<meta name="description" content="Live Anvil React components with usage guidelines.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css">
+<link rel="stylesheet" href="dist/anvil.css">
+<link rel="stylesheet" href="site/site.css">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Anvil</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="components.html" aria-current="page">Components</a><a href="colors.html">Colors</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="eyebrow">Components</p><h1 class="page-title">Components</h1>
+<p class="lede">Live React components built from the Anvil Figma component sets. Every example below is running code, so switch the theme at the top to see each one in Core UI and PLI, light and dark.</p>
+<nav class="jump" aria-label="Components"><a href="#Button">Button</a><a href="#TextInput">Text Input</a><a href="#PasswordInput">Password Input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection Card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#GlobalHeader">Global Header</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
+<section class="comp" id="Button">
+  <div class="comp-head"><h2 class="sec">Button</h2><code>Anvil.Button</code></div>
+  <p class="lede">Buttons start actions, in three levels of emphasis: primary, secondary and tertiary, each with a destructive version.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Button.html" title="Button examples" height="400" loading="lazy" style="min-width:1080px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Buttons start actions, in three levels of emphasis: primary, secondary and tertiary, each with a destructive version.</p>
+<h2>Choosing a variant</h2>
+<ul>
+<li><strong>Primary</strong> marks the most important action on a page. Use one per view where you can.</li>
+<li><strong>Secondary</strong> is for important actions that sit alongside a primary one, like "Continue" and "Cancel" in a confirmation modal. Also use it when many actions on a screen have the same priority.</li>
+<li><strong>Tertiary</strong> looks like a text link but is a standalone action, not a link inside a block of copy. Use it for lower-priority actions. It's the only variant with a small size.</li>
+<li><strong>Destructive</strong> (<code>destructive</code>) is for actions that delete data or can't be undone. Pair a destructive primary button with a plain secondary "Cancel".</li>
+</ul>
+<h2>States</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>What changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hover</td>
+<td>Primary turns to a light tint (<code>button-primary-background-hover</code>) with dark text. Secondary fills with the tint and darkens its outline. Tertiary underlines.</td>
+</tr>
+<tr>
+<td>Focus</td>
+<td>Same as hover, plus the <code>focus-ring</code> shadow: a 2px white gap and a 4px purple halo. Tertiary gets a white background and the wider <code>focus-ring-tertiary</code>. Shown only for keyboard focus (<code>:focus-visible</code>).</td>
+</tr>
+<tr>
+<td>Pressed</td>
+<td>Primary fills with <code>button-primary-background-pressed</code>. Secondary and tertiary darken their text and outline.</td>
+</tr>
+<tr>
+<td>Disabled</td>
+<td>Every variant goes to <code>background-disabled</code> with <code>text-body-disabled</code> text. Tertiary keeps a transparent background.</td>
+</tr>
+<tr>
+<td>Loading</td>
+<td>Looks disabled, adds a spinner and sets <code>aria-busy</code>. The spinner replaces the icon, or sits on the right when there's no icon.</td>
+</tr>
+</tbody>
+</table>
+<h2>Layout</h2>
+<ul>
+<li><strong>Shape:</strong> primary and secondary are pills (<code>radius-200</code>).</li>
+<li><strong>Desktop size:</strong> <code>button-min-height</code> 48px, with <code>button-vertical-padding</code> 14px and <code>button-horizontal-padding</code> 32px.</li>
+<li><strong>Mobile size (under 600px):</strong> 44px tall with 12px / 24px padding, so the touch target stays at least 44px.</li>
+<li><strong>Icons:</strong> 16px (<code>height-icon-200</code>), with <code>space-100</code> (8px) between icon and label.</li>
+<li><strong>Labels:</strong> Lexend Deca Medium, 16/20. Small tertiary buttons use 14/20.</li>
+<li><strong>Tertiary</strong> has no padding or minimum height. Give it room in the layout so the tap area reaches 44px on touch screens.</li>
+</ul>
+<h2>What you provide</h2>
+<ul>
+<li>A short verb-phrase label, such as "Book a visit" or "Save changes".</li>
+<li>Optionally, an icon: <code>iconName</code> takes any Anvil icon name (see the Icons assets), and the default is <code>plus</code>. For custom art, pass a 16px SVG drawn with <code>currentColor</code> as <code>iconNode</code>.</li>
+<li><code>href</code> when the button navigates, so it renders as a link.</li>
+</ul>
+<h2>Accessibility</h2>
+<ul>
+<li>Labels must make sense on their own. Avoid "Click here".</li>
+<li>A loading button is disabled, so it can't be submitted twice.</li>
+<li>Disabled buttons can't be focused. If people need to know why an action is unavailable, say so in nearby text.</li>
+<li>Disabled text (<code>#716775</code> on <code>#ececee</code>) has 4.5:1 contrast.</li>
+<li>The primary hover and focus state (<code>#542f9b</code> on <code>#ededff</code>) has 8:1 contrast.</li>
+</ul>
+<h2>Differences from Figma</h2>
+<ul>
+<li><strong>Spinner:</strong> Figma's loading spinner uses the Teladoc Health connector mark. Here it's a plain ring until that artwork is added.</li>
+<li><strong>Platform:</strong> iOS uses a native spinner in Figma (the Platform collection). This web version always uses the ring.</li>
+<li><strong>Themes:</strong> button colors switch with all four themes (Core UI Light and Dark, PLI Light and Dark).</li>
+</ul></div></details>
+</section>
+<section class="comp" id="TextInput">
+  <div class="comp-head"><h2 class="sec">Text Input</h2><code>Anvil.TextInput</code></div>
+  <p class="lede">Text input lets people write or edit a single line of text, with an optional unit, icon and status message.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/TextInput.html" title="Text Input examples" height="620" loading="lazy" style="min-width:1080px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Text input lets people write or edit a single line of text, with an optional unit, icon and status message.</p>
+<h2>When to use</h2>
+<ul>
+<li>Short free text: names, emails, numbers with a unit such as weight in lbs.</li>
+<li>Use a select or radio group when the answer comes from a fixed list.</li>
+</ul>
+<h2>Anatomy</h2>
+<ul>
+<li><strong>Label</strong> (<code>label</code>): 16/20 semibold. It turns red (<code>form-input-label-text-label-error</code>) in the error state.</li>
+<li><strong>Helper</strong> (<code>helper</code>): 14/20 in <code>form-input-label-text-helper</code>. Use it for format hints, not instructions that must be read.</li>
+<li><strong>Control:</strong> 44px tall (<code>form-input-control-height</code>), 12px padding, <code>form-input-control-radius</code> corners, 1px <code>form-input-control-stroke-default</code> outline.</li>
+<li><strong>Unit</strong> (<code>unit</code>, <code>unitPosition</code>): placeholder-colored text before or after the value, such as <code>$</code> or <code>lbs</code>.</li>
+<li><strong>Icon</strong> (<code>icon</code>): any Anvil icon name, shown before the text, such as <code>search</code>.</li>
+<li><strong>Inline message</strong> (<code>message</code>): appears under the control with a status icon.</li>
+</ul>
+<h2>States</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>What changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hover</td>
+<td>Outline becomes 2px <code>form-input-control-stroke-hover</code>.</td>
+</tr>
+<tr>
+<td>Focus</td>
+<td>2px hover outline plus the <code>focus-ring</code> halo.</td>
+</tr>
+<tr>
+<td>Warning</td>
+<td><code>form-input-control-stroke-warning</code> outline and a warning message. Use it for unusual but allowed values.</td>
+</tr>
+<tr>
+<td>Error</td>
+<td><code>form-input-control-stroke-error</code> outline, red label, error message. The input gets <code>aria-invalid</code>.</td>
+</tr>
+<tr>
+<td>Disabled</td>
+<td><code>form-input-control-background-disabled</code> fill, disabled text.</td>
+</tr>
+<tr>
+<td>View only (<code>readOnly</code>)</td>
+<td><code>form-input-control-background-view-only</code> fill and a lock icon. The value can be read and copied but not changed.</td>
+</tr>
+</tbody>
+</table>
+<h2>Writing messages</h2>
+<ul>
+<li>Error: say what's needed, such as "Email is required" or "Enter a date like 04/12/1986".</li>
+<li>Warning: say what looks off and what to check.</li>
+</ul>
+<h2>Accessibility</h2>
+<ul>
+<li>The label is a real <code>&lt;label&gt;</code>. The helper and message are linked with <code>aria-describedby</code>.</li>
+<li>The placeholder is never a substitute for the label.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="PasswordInput">
+  <div class="comp-head"><h2 class="sec">Password Input</h2><code>Anvil.PasswordInput</code></div>
+  <p class="lede">Password input is for entering or creating a password, with a Show/Hide toggle and, when creating, live strength and requirement feedback.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/PasswordInput.html" title="Password Input examples" height="700" loading="lazy" style="min-width:1080px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Password input is for entering or creating a password, with a Show/Hide toggle and, when creating, live strength and requirement feedback.</p>
+<h2>Modes</h2>
+<ul>
+<li><strong>Sign in</strong> (default): the field and the Show/Hide button. <code>autocomplete</code> is <code>current-password</code>.</li>
+<li><strong>Create</strong> (<code>mode="create"</code>): adds a three-part strength bar and a requirements list that update as people type. <code>autocomplete</code> is <code>new-password</code>.</li>
+</ul>
+<h2>Strength</h2>
+<ul>
+<li><strong>Very weak:</strong> one of three segments, in <code>background-status-critical-base</code>. Shown when fewer than half the requirements are met.</li>
+<li><strong>Average:</strong> two of three segments, in <code>background-status-success-base</code>. Shown when at least half are met.</li>
+<li><strong>Strong:</strong> the full bar is green, when every requirement is met.</li>
+</ul>
+<h2>Requirements</h2>
+<ul>
+<li>The default list matches Figma: at least 10 characters, upper and lower case, a number and a symbol, and no name or email.</li>
+<li>Pass <code>excludeWords</code> (the person's name, email and so on) to check the last rule.</li>
+<li>Pass <code>requirements</code> as <code>[{ label, test(value) }]</code> to change the list, or <code>[{ label, met }]</code> to control it yourself.</li>
+<li>Met items show a filled <code>check-circle</code> in <code>icon-status-success</code>. Unmet items show the outline icon in <code>icon-disabled</code>.</li>
+</ul>
+<h2>States</h2>
+<ul>
+<li><strong>Input and toggle:</strong> they have separate hover and focus states (<code>state="hover-input"</code>, <code>"focus-input"</code>, <code>"hover-button"</code>, <code>"focus-button"</code> force them for docs). The toggle text turns <code>form-input-control-text-hover</code> on hover.</li>
+<li><strong>Error:</strong> both parts get the error outline.</li>
+<li><strong>Disabled:</strong> both parts grey out.</li>
+<li><strong>View only:</strong> shows the obscured value with a lock icon and no toggle.</li>
+</ul>
+<h2>Accessibility</h2>
+<ul>
+<li>The toggle is a button with <code>aria-pressed</code> and <code>aria-controls</code>, labelled "Show password" or "Hide password".</li>
+<li>Strength changes are announced politely (<code>aria-live</code>).</li>
+<li>Each requirement includes hidden "met" or "not met" text, so it isn't conveyed by the icon alone.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="Checkbox">
+  <div class="comp-head"><h2 class="sec">Checkbox</h2><code>Anvil.Checkbox</code></div>
+  <p class="lede">Checkbox lets people pick any number of options from a short list, or confirm agreement.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Checkbox.html" title="Checkbox examples" height="470" loading="lazy" style="min-width:1080px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Checkbox lets people pick any number of options from a short list, or confirm agreement.</p>
+<h2>Usage</h2>
+<ul>
+<li>Use <code>Checkbox</code> for one option and <code>CheckboxGroup</code> to give a set of options a label, helper and message.</li>
+<li><code>CheckboxGroup</code> renders a <code>&lt;fieldset&gt;</code> with the label as its <code>&lt;legend&gt;</code>.</li>
+<li>For one answer from a list, use radio buttons or SelectionCard (radio).</li>
+<li>Labels can include links (pass children). Links use <code>text-body-link</code>.</li>
+</ul>
+<h2>Anatomy</h2>
+<ul>
+<li><strong>Box:</strong> 24px (<code>form-input-control-selection-height</code>) with 4px corners.</li>
+<li><strong>Row padding:</strong> 8px vertical, 4px horizontal, with 12px between the box and the label (<code>form-input-control-selection-gap</code>).</li>
+<li><strong>Label:</strong> 16/20 regular.</li>
+<li><strong>Selected:</strong> fills with <code>form-input-control-checkbox-background-selected</code>, with a white check.</li>
+</ul>
+<h2>States</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>What changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hover</td>
+<td>Box outline becomes 2px <code>form-input-control-stroke-hover</code>; label turns <code>form-input-control-text-hover</code>.</td>
+</tr>
+<tr>
+<td>Focus</td>
+<td>Hover styles plus a white row background and the <code>focus-ring</code> around the whole row.</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>Red outline; a selected box fills with <code>background-status-critical-base</code>. The group label turns red and the message appears below.</td>
+</tr>
+<tr>
+<td>Disabled</td>
+<td><code>form-input-control-background-disabled</code> box, grey check, disabled label.</td>
+</tr>
+<tr>
+<td>View only (<code>readOnly</code>)</td>
+<td>Selected boxes fill with <code>form-input-control-checkbox-background-view-only-selected</code>. Clicks are ignored and the box has <code>aria-readonly</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>Accessibility</h2>
+<ul>
+<li>The native checkbox stays in the page, visually hidden, so keyboard and screen readers work as normal.</li>
+<li>The whole row is the click target, so it's at least 40px tall.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="SelectionCard">
+  <div class="comp-head"><h2 class="sec">Selection Card</h2><code>Anvil.SelectionCard</code></div>
+  <p class="lede">Selection card is a radio or checkbox option that needs more than a one-line label, such as a visit type with a short description.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/SelectionCard.html" title="Selection Card examples" height="560" loading="lazy" style="min-width:1080px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Selection card is a radio or checkbox option that needs more than a one-line label, such as a visit type with a short description.</p>
+<h2>Usage</h2>
+<ul>
+<li><code>type="radio"</code> (default) is for picking one. Give the cards in a set the same <code>name</code>, and wrap them in an element with <code>role="radiogroup"</code> and a label.</li>
+<li><code>type="checkbox"</code> is for picking any.</li>
+<li><code>title</code> is 16/20 semibold. <code>description</code> (or children) is 14/20 and can hold a custom body.</li>
+<li>Stack cards with <code>space-150</code> (12px) between them.</li>
+</ul>
+<h2>Anatomy</h2>
+<ul>
+<li><strong>Padding:</strong> 24px (<code>padding-300</code>) with 16px between content and control.</li>
+<li><strong>Shape:</strong> <code>radius-150</code> corners and a 1px <code>form-input-control-stroke-default</code> outline.</li>
+<li><strong>Control:</strong> 24px, on the right.</li>
+</ul>
+<h2>States</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>What changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hover</td>
+<td>Fill <code>form-input-control-chip-background-hover</code>, title <code>form-input-control-chip-text-hover</code>, control outline 2px.</td>
+</tr>
+<tr>
+<td>Focus</td>
+<td>Hover styles plus <code>focus-ring</code>.</td>
+</tr>
+<tr>
+<td>Selected</td>
+<td>Fill <code>form-input-control-chip-background-selected</code> and a 2px <code>form-input-control-chip-stroke-default-selected</code> outline. Radio shows a 16px dot; checkbox fills.</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>White fill, red outline and control, and an inline message under the card (<code>message</code>).</td>
+</tr>
+<tr>
+<td>Disabled</td>
+<td>Grey fill and text. A selected card keeps a 2px grey outline.</td>
+</tr>
+<tr>
+<td>View only (<code>readOnly</code>)</td>
+<td>View-only fill, and a lock replaces the control.</td>
+</tr>
+</tbody>
+</table>
+<h2>Accessibility</h2>
+<ul>
+<li>Each card is a <code>&lt;label&gt;</code> wrapping a visually hidden native input, so arrow keys move between radio cards.</li>
+<li>The error message is linked with <code>aria-describedby</code>.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="Slider">
+  <div class="comp-head"><h2 class="sec">Slider</h2><code>Anvil.Slider</code></div>
+  <p class="lede">Slider lets people pick a value, or a range of values, by dragging along a track.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Slider.html" title="Slider examples" height="420" loading="lazy" style="min-width:1080px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Slider lets people pick a value, or a range of values, by dragging along a track.</p>
+<h2>Types</h2>
+<ul>
+<li><strong>Left to right</strong> (default): fills from the minimum up to the handle.</li>
+<li><strong>Right to left</strong> (<code>direction="rtl"</code>): fills from the handle to the maximum. Use it when lower is the goal.</li>
+<li><strong>Range</strong> (<code>range</code>, value <code>[low, high]</code>): two handles with the fill between them. Clicking the track moves the nearest handle.</li>
+</ul>
+<h2>Anatomy</h2>
+<ul>
+<li><strong>Value above the handle:</strong> 16/20 semibold, formatted with <code>formatValue</code>, such as <code>v =&gt; v + " lbs"</code>.</li>
+<li><strong>Track:</strong> 8px tall, <code>form-input-control-background-disabled</code> with a 1px <code>form-input-control-stroke-default</code> outline.</li>
+<li><strong>Fill:</strong> <code>form-input-control-background-default-interactive</code>.</li>
+<li><strong>Handle:</strong> 24px, with a 2px white border and a 44px tap target.</li>
+<li><strong>Min and max:</strong> shown under the track in helper color. Turn them off with <code>showRange={false}</code>.</li>
+<li><strong>Gap:</strong> 24px between the labels and the slider (<code>form-input-slider-gap</code>).</li>
+</ul>
+<h2>States</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>What changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hover</td>
+<td>Handle turns <code>form-input-control-background-hover-interactive</code>.</td>
+</tr>
+<tr>
+<td>Focus</td>
+<td>Hover color plus <code>focus-ring</code> on the handle (keyboard only).</td>
+</tr>
+<tr>
+<td>Pressed</td>
+<td>Handle grows to 32px (<code>form-input-slider-handle-height-pressed</code>) while dragging.</td>
+</tr>
+<tr>
+<td>Disabled</td>
+<td>Fill and handle turn <code>form-input-control-slider-background-active-disabled</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>Accessibility</h2>
+<ul>
+<li>Each handle is a native range input, so arrow keys, Page Up/Down and Home/End work.</li>
+<li>Screen readers hear the formatted value (<code>aria-valuetext</code>). Range handles are named "Minimum" and "Maximum".</li>
+<li>Always pair a slider with a label. When the exact value matters, offer a text input as well.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="Card">
+  <div class="comp-head"><h2 class="sec">Card</h2><code>Anvil.Card</code></div>
+  <p class="lede">Cards group related content, such as text, media and actions, into one container.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Card.html" title="Card examples" height="900" loading="lazy" style="min-width:1080px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Cards group related content, such as text, media and actions, into one container. They can be arranged in stacks, columns or grids.</p>
+<h2>Anatomy</h2>
+<ul>
+<li><strong>Container:</strong> <code>background-surface</code>, a 1px <code>stroke-base</code> border and <code>radius-150</code> corners.</li>
+<li><strong>Image</strong> (<code>image</code>): optional, one of three types.</li>
+<li><code>hero</code>: a full-width 2:1 image on top.</li>
+<li><code>spot</code> or <code>avatar</code>: a circle that bleeds off the top-right corner.</li>
+<li>Pass <code>{ type, src, alt }</code> for a photo, or <code>{ type, node }</code> for an illustration.</li>
+<li><strong>Header:</strong> optional <code>eyebrow</code> (12/20) and <code>header</code> (20/26 semibold on desktop, 18/24 on mobile). <code>headerAction</code> puts a control, such as an icon button, on the right.</li>
+<li><strong>Main content</strong> (children): body text at 16/26, with 12px (<code>space-150</code>) between blocks.</li>
+<li><strong>Footer</strong> (<code>footer</code>): buttons.</li>
+<li>Default: buttons sit in a row.</li>
+<li><code>footerStyle="filled"</code>: stacks them on a <code>background-subdued</code> band.</li>
+<li><strong>Spacing:</strong> 24px (<code>padding-300</code>) on every side.</li>
+</ul>
+<h2>Responsive</h2>
+<p>The card reacts to its own width, not the window's. Under 480px:</p>
+<ul>
+<li>Footer buttons stack and fill the width.</li>
+<li>The header drops to 18/24.</li>
+<li>Spot and avatar circles shrink.</li>
+</ul>
+<h2>Usage</h2>
+<ul>
+<li>Use no more than one primary button per card.</li>
+<li>Keep the header short. The body can wrap.</li>
+<li>Spot and avatar images need room: the header and first body block get extra right padding automatically.</li>
+</ul>
+<h2>Accessibility</h2>
+<ul>
+<li>Cards render as <code>&lt;section&gt;</code>. Set <code>headerAs</code> to keep the heading levels in order on the page (the default is <code>h3</code>).</li>
+<li>Images need <code>alt</code> text unless they're decorative.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="GlobalHeader">
+  <div class="comp-head"><h2 class="sec">Global Header</h2><code>Anvil.GlobalHeader</code></div>
+  <p class="lede">Global header is the top bar of every screen: main navigation in the app, a focused header for single tasks, and a progress tracker for multi-step flows.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/GlobalHeader.html" title="Global Header examples" height="500" loading="lazy" style="min-width:1180px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Global header is the top bar of every screen: main navigation in the app, a focused header for single tasks, and a progress tracker for multi-step flows.</p>
+<h2>Types</h2>
+<ul>
+<li><strong>Default</strong> (<code>type="default"</code>): logo, main <code>nav</code>, <code>utilities</code> (icon + label, with optional <code>badge</code>), <code>language</code>, and a primary <code>cta</code>.</li>
+<li>Desktop: 76px tall, content up to 1280px wide.</li>
+<li>Mobile: icon buttons and the CTA.</li>
+<li><strong>Focused task</strong> (<code>type="focused"</code>): Back, the logo (or the page <code>title</code> on mobile) and Close. Use it when people should finish one task without wandering off.</li>
+<li><strong>Progress tracker</strong> (<code>type="progress"</code>): Back, the <code>steps</code> with the <code>currentStep</code> in bold, a 4px progress bar in <code>progress-tracker-active</code>, and Exit.</li>
+<li>On mobile: the current step label and "Step N of N".</li>
+<li>Pass <code>progress</code> (0 to 1) to set the fill yourself.</li>
+</ul>
+<h2>Responsive</h2>
+<p>The header reacts to its own width. Under 768px it switches to the mobile layout. <code>layout="desktop"</code> or <code>"mobile"</code> forces one.</p>
+<h2>Nav items</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Look</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default</td>
+<td><code>navigation-text-default</code>, transparent.</td>
+</tr>
+<tr>
+<td>Hover</td>
+<td><code>navigation-background-hover</code> fill, <code>navigation-text-hover</code>.</td>
+</tr>
+<tr>
+<td>Focus</td>
+<td>Hover plus <code>focus-ring</code>.</td>
+</tr>
+<tr>
+<td>Current</td>
+<td><code>navigation-background-hover</code> fill, <code>navigation-text-current</code> semibold, filled icon, <code>aria-current="page"</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>Badges</h2>
+<ul>
+<li><code>badge: 2</code> shows a count in <code>background-status-critical-base</code>.</li>
+<li><code>badge: true</code> shows an 8px dot.</li>
+<li>Screen readers hear the count as part of the label, such as "Messages, 2 new".</li>
+</ul>
+<h2>Logo</h2>
+<ul>
+<li>Pass your logo as <code>logo</code> (an <code>&lt;img&gt;</code> or SVG). Without one, the header shows a text wordmark.</li>
+<li>The Figma file's logo artwork isn't part of this export.</li>
+</ul>
+<h2>Accessibility</h2>
+<ul>
+<li>It renders as <code>&lt;header&gt;</code>, and the main links are in a <code>&lt;nav&gt;</code> labelled "Main".</li>
+<li>Mobile icon buttons are 44px with labels.</li>
+<li>Hide Back or Close by passing <code>onBack={null}</code> or <code>onClose={null}</code>.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="Illustration">
+  <div class="comp-head"><h2 class="sec">Illustration</h2><code>Anvil.Illustration</code></div>
+  <p class="lede">Illustration is the frame for Anvil artwork: a spot illustration for small moments and way-finding, or a hero illustration for onboarding and big moments.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Illustration.html" title="Illustration examples" height="620" loading="lazy" style="min-width:1080px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Illustration is the frame for Anvil artwork: a spot illustration for small moments and way-finding, or a hero illustration for onboarding and big moments.</p>
+<h2>Types</h2>
+<ul>
+<li><strong>Spot</strong> (<code>type="spot"</code>, default): 72px. Use it at small scale in a larger layout, such as a card, an empty state or a success message, where it speaks to one point.</li>
+<li><code>placement="round"</code> (default) is a circle.</li>
+<li><code>placement="fill"</code> is a square.</li>
+<li><strong>Hero</strong> (<code>type="hero"</code>): full width at 2:1 (320 × 160 in Figma). Use it for stories that combine people and objects, mostly in onboarding flows and overlays.</li>
+<li><code>placement="fill"</code> (default) has square corners.</li>
+<li><code>placement="round"</code> uses <code>radius-150</code>.</li>
+</ul>
+<h2>Backgrounds</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Backgrounds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spot</td>
+<td><code>purple</code>, <code>purple-subdued</code> (default), <code>aqua</code>, <code>aqua-subdued</code>, <code>green</code>, <code>green-subdued</code>, <code>berry</code>, <code>berry-subdued</code>, <code>neutral-0</code> to <code>neutral-3</code>, or <code>none</code></td>
+</tr>
+<tr>
+<td>Hero</td>
+<td>the <code>-subdued</code> colors and <code>neutral-0</code> to <code>neutral-3</code>, or <code>none</code> (default)</td>
+</tr>
+</tbody>
+</table>
+<p>They map to the <code>illustration-spot-background-*</code> and <code>illustration-hero-background-*</code> color tokens. Pick a background that contrasts with the artwork's main color. Subdued backgrounds suit most art; the full-strength spot colors are for bold moments such as celebrations.</p>
+<h2>Artwork</h2>
+<ul>
+<li>Pass <code>name</code> to use Anvil artwork, such as <code>name="celebration"</code> or, for a hero, <code>name="anytime"</code>. The names match the Spot illustrations and Hero illustrations assets.</li>
+<li>Or pass <code>src</code> for any image, or inline SVG as children.</li>
+<li>Until artwork is added, a placeholder icon shows (<code>icon</code> changes it).</li>
+<li>Artwork keeps its own colors. Don't recolor illustrations.</li>
+</ul>
+<h2>Accessibility</h2>
+<ul>
+<li>Most illustrations are decorative: leave <code>alt</code> empty so screen readers skip them.</li>
+<li>When the art carries meaning that the text around it doesn't, describe it in <code>alt</code>.</li>
+</ul>
+<h2>Artwork available</h2>
+<ul>
+<li>76 spot illustrations at 72 × 72, and 68 hero illustrations at 320 × 160. They were exported from the illustration library and live in Assets.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="Icon">
+  <div class="comp-head"><h2 class="sec">Icon</h2><code>Anvil.Icon</code></div>
+  <p class="lede">Icons are the 172 glyphs from the Anvil Figma Icons page.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Icon.html" title="Icon examples" height="1180" loading="lazy" style="min-width:960px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Icons are the 172 glyphs from the Anvil Figma Icons page. They're drawn on a 16px grid and follow the surrounding text color.</p>
+<h2>Using icons</h2>
+<ul>
+<li>Render one with <code>&lt;Icon name="calendar" /&gt;</code>. <code>Icon.names</code> lists every name.</li>
+<li>Names are the Figma names in lowercase with hyphens: <code>Health-insights</code> is <code>health-insights</code>, and <code>Camera_AI</code> is <code>camera-ai</code>.</li>
+<li><strong>Size:</strong> 16px is the default and matches the Figma components. Use 24px for standalone navigation or empty-state icons. Stick to multiples of 8 so the strokes stay crisp.</li>
+<li><strong>Color:</strong> icons use <code>currentColor</code>, so they take the text color around them. Inside a Button they follow its state colors automatically. For a standalone icon, use <code>icon-base</code> and the other <code>icon-*</code> tokens.</li>
+<li><strong>Card logos</strong> (<code>card-visa</code>, <code>card-mastercard</code>, <code>card-american-express</code>, <code>card-unknown</code>, <code>card-cvc</code>, <code>card-empty</code>) keep their own colors and are wider than tall (28 × 18).</li>
+</ul>
+<h2>Default and active</h2>
+<p>Most icons have two variants. Use <code>default</code> (outline) normally, and <code>active</code> (filled) to show a selected state, such as the current tab in navigation. <code>sort</code> has <code>default</code>, <code>up</code> and <code>down</code>.</p>
+<h2>Accessibility</h2>
+<ul>
+<li>Icons next to a text label are decorative and hidden from screen readers, which is the default.</li>
+<li>An icon that stands alone as a control needs a <code>title</code>, such as <code>&lt;Icon name="close" title="Close" /&gt;</code>. Better still, put it inside a button that has an accessible label.</li>
+<li>Don't rely on an icon alone to convey status. Pair status icons (<code>alert</code>, <code>error</code>, <code>check-circle</code>) with text.</li>
+</ul>
+<h2>Categories</h2>
+<ul>
+<li><strong>Health:</strong> blood-sugar, blood-pressure, glucose, weight, steps, heart-pulse, medicine, stethoscope, lab, behavioral-health, primary-care, body-composition, sleep</li>
+<li><strong>Care and visits:</strong> calendar, past-visits, video, phone, chat, headset, doctor-bag, insurance, emergency-contact</li>
+<li><strong>Mood:</strong> mood-joy, mood-happy, mood-neutral, mood-unhappy, mood-terrible</li>
+<li><strong>Actions:</strong> plus, edit, trash, copy, share, download, upload, search, filter, close</li>
+<li><strong>Navigation:</strong> arrow-<em>, line-arrow-</em>, caret-down, menu, home, external-link</li>
+<li><strong>Status:</strong> alert, alert-triangle, error, info, check, check-circle</li>
+</ul></div></details>
+</section>
+</main>
+<footer class="site-foot">Anvil (formerly Pulse) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+<script src="site/site.js"></script>
+</body>
+</html>

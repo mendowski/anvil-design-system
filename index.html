@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anvil Design System</title>
+<meta name="description" content="Anvil, the Teladoc Health design system: tokens, React components and assets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css">
+<link rel="stylesheet" href="dist/anvil.css">
+<link rel="stylesheet" href="site/site.css">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Anvil</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html" aria-current="page">Overview</a><a href="components.html">Components</a><a href="colors.html">Colors</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="eyebrow">Design system</p><h1 class="page-title">Anvil</h1>
+<p class="lede">Anvil (formerly Pulse) is the design system that brought Teladoc Health, Livongo and myStrength under one foundation for web, iOS and Android. This site holds its tokens, React components and assets, rebuilt from the Anvil Figma library to power interactive portfolio prototypes.</p>
+<div class="stats"><div><b>4</b>themes</div><div><b>331</b>color tokens</div><div><b>125</b>scale tokens</div><div><b>30</b>text styles</div><div><b>10</b>components</div><div><b>339</b>icons</div><div><b>144</b>illustrations</div></div>
+<div class="tiles"><a class="tile" href="components.html"><strong>Components</strong><span>Live examples and guidelines for buttons, inputs, cards, the global header and more.</span></a><a class="tile" href="colors.html"><strong>Colors</strong><span>Every color token by group, in all four themes, with search.</span></a><a class="tile" href="assets.html"><strong>Icons and illustrations</strong><span>The full icon set and the spot and hero illustration libraries.</span></a></div>
+<h2 class="sec">Themes</h2>
+<p class="lede">Anvil has four color themes. <b>Core UI Light</b> and <b>Core UI Dark</b> are the Teladoc Health experience; <b>PLI Light</b> and <b>PLI Dark</b> are the partner theme. Set <code>data-theme</code> on the page to switch, or use the Theme menu at the top of this site.</p>
+<h2 class="sec">Typography</h2>
+<p class="lede">Lexend Deca for interface text, Reckless Neue for titles and large headings, Effra for body italics.</p>
+<div class="typelist"><div class="typerow"><small>heading-title<br>30px / 36px</small><span class="heading-title">Care that fits your life</span></div><div class="typerow"><small>heading-heading-1<br>24px / 32px</small><span class="heading-heading-1">Care that fits your life</span></div><div class="typerow"><small>heading-heading-2<br>20px / 26px</small><span class="heading-heading-2">Care that fits your life</span></div><div class="typerow"><small>heading-heading-3<br>18px / 24px</small><span class="heading-heading-3">Care that fits your life</span></div><div class="typerow"><small>heading-heading-4<br>16px / 22px</small><span class="heading-heading-4">Care that fits your life</span></div><div class="typerow"><small>heading-sections<br>14px / 20px</small><span class="heading-sections">Care that fits your life</span></div><div class="typerow"><small>heading-eyebrow<br>12px / 20px</small><span class="heading-eyebrow">Care that fits your life</span></div><div class="typerow"><small>body-default<br>16px / 24px</small><span class="body-default">Care that fits your life</span></div><div class="typerow"><small>body-strong<br>16px / 24px</small><span class="body-strong">Care that fits your life</span></div><div class="typerow"><small>body-italics<br>18px / 24px</small><span class="body-italics">Care that fits your life</span></div><div class="typerow"><small>body-text-link<br>16px / 24px</small><span class="body-text-link">Care that fits your life</span></div><div class="typerow"><small>utility-1-default<br>16px / 20px</small><span class="utility-1-default">Care that fits your life</span></div><div class="typerow"><small>utility-1-strong<br>16px / 20px</small><span class="utility-1-strong">Care that fits your life</span></div><div class="typerow"><small>utility-1-text-link<br>16px / 20px</small><span class="utility-1-text-link">Care that fits your life</span></div><div class="typerow"><small>data-data-1<br>24px / 32px</small><span class="data-data-1">128 mg/dL</span></div><div class="typerow"><small>data-data-2<br>20px / 26px</small><span class="data-data-2">128 mg/dL</span></div><div class="typerow"><small>data-data-3<br>18px / 24px</small><span class="data-data-3">128 mg/dL</span></div><div class="typerow"><small>data-goal<br>10px / 12px</small><span class="data-goal">128 mg/dL</span></div></div>
+<h2 class="sec">Spacing</h2><p class="lede">Spacing runs on an 8px base. Each step's name is a multiple of the base: <code>space-100</code> is 8px.</p>
+<div class="scalelist"><code>space-0</code><span>0px</span><span class="bar" style="width:0px"></span><code>space-025</code><span>2px</span><span class="bar" style="width:2px"></span><code>space-050</code><span>4px</span><span class="bar" style="width:4px"></span><code>space-100</code><span>8px</span><span class="bar" style="width:8px"></span><code>space-150</code><span>12px</span><span class="bar" style="width:12px"></span><code>space-200</code><span>16px</span><span class="bar" style="width:16px"></span><code>space-250</code><span>20px</span><span class="bar" style="width:20px"></span><code>space-300</code><span>24px</span><span class="bar" style="width:24px"></span><code>space-400</code><span>32px</span><span class="bar" style="width:32px"></span><code>space-500</code><span>40px</span><span class="bar" style="width:40px"></span><code>space-550</code><span>44px</span><span class="bar" style="width:44px"></span><code>space-600</code><span>48px</span><span class="bar" style="width:48px"></span><code>space-800</code><span>64px</span><span class="bar" style="width:64px"></span></div>
+<h2 class="sec">Radius</h2>
+<div class="scalelist"><code>radius-0</code><span>0px</span><span class="bar" style="width:48px;height:32px;border-radius:min(0px,16px)"></span><code>radius-050</code><span>4px</span><span class="bar" style="width:48px;height:32px;border-radius:min(4px,16px)"></span><code>radius-150</code><span>12px</span><span class="bar" style="width:48px;height:32px;border-radius:min(12px,16px)"></span><code>radius-200</code><span>9999px</span><span class="bar" style="width:48px;height:32px;border-radius:min(9999px,16px)"></span><code>radius-300</code><span>24px</span><span class="bar" style="width:48px;height:32px;border-radius:min(24px,16px)"></span><code>radius-round</code><span>9999px</span><span class="bar" style="width:48px;height:32px;border-radius:min(9999px,16px)"></span><code>radius-menu</code><span>20px</span><span class="bar" style="width:48px;height:32px;border-radius:min(20px,16px)"></span></div>
+<h2 class="sec">Use Anvil in a prototype</h2>
+<p class="lede">Add these lines to the <code>&lt;head&gt;</code> of any HTML page, then render components with React. <code>BASE</code> is <code>https://mendowski.github.io/anvil-design-system</code>.</p>
+<pre><code>&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&amp;display=swap&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;BASE/tokens/anvil-tokens.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;BASE/dist/anvil.css&quot;&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;BASE/dist/anvil.js&quot;&gt;&lt;/script&gt;</code></pre>
+<pre><code>&lt;html data-theme=&quot;core-light&quot;&gt;
+...
+&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+  const h = React.createElement;
+  ReactDOM.createRoot(document.getElementById(&quot;app&quot;)).render(
+    h(Anvil.Button, { variant: &quot;primary&quot; }, &quot;Schedule a visit&quot;)
+  );
+&lt;/script&gt;</code></pre>
+</main>
+<footer class="site-foot">Anvil (formerly Pulse) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+<script src="site/site.js"></script>
+</body>
+</html>

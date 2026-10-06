@@ -1,0 +1,689 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;500;600;700&display=swap");
+
+/* ---------- Button ---------- */
+
+.anvil-btn {
+  --_bg: transparent;
+  --_fg: inherit;
+  --_icon: var(--_fg);
+  --_bd: transparent;
+  --_focus: 0 0 0 0 transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-100);
+  box-sizing: border-box;
+  min-height: var(--button-min-height);
+  padding: var(--button-vertical-padding) var(--button-horizontal-padding);
+  border: 0;
+  border-radius: var(--radius-200);
+  background: var(--_bg);
+  color: var(--_fg);
+  box-shadow: inset 0 0 0 1px var(--_bd), var(--_focus);
+  font-family: var(--font-sans, "Lexend Deca", system-ui, sans-serif);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 599px) {
+  .anvil-btn {
+    --button-horizontal-padding: 24px;
+    --button-vertical-padding: 12px;
+    --button-min-height: 44px;
+  }
+}
+
+.anvil-btn__icon {
+  display: inline-flex;
+  width: var(--height-icon-200);
+  height: var(--height-icon-200);
+  color: var(--_icon);
+  flex: none;
+}
+.anvil-btn__icon svg { width: 100%; height: 100%; }
+
+.anvil-btn__spinner {
+  box-sizing: border-box;
+  width: var(--height-icon-200);
+  height: var(--height-icon-200);
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  color: var(--icon-disabled);
+  animation: anvil-spin 0.9s linear infinite;
+}
+@keyframes anvil-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .anvil-btn__spinner { animation-duration: 2.4s; } }
+
+/* Interaction state selectors: real pointer/keyboard state, or a forced data-state for docs. */
+/* (Disabled and loading buttons ignore hover and press.) */
+
+/* Primary */
+.anvil-btn--primary {
+  --_bg: var(--button-primary-background-default);
+  --_fg: var(--button-primary-text-default);
+  --_icon: var(--button-primary-icon-default);
+}
+.anvil-btn--primary:not(:disabled):hover,
+.anvil-btn--primary:not(:disabled):focus-visible,
+.anvil-btn--primary[data-state="hover"],
+.anvil-btn--primary[data-state="focus"] {
+  --_bg: var(--button-primary-background-hover);
+  --_fg: var(--button-primary-text-hover);
+  --_icon: var(--button-primary-icon-hover);
+}
+.anvil-btn--primary:not(:disabled):active,
+.anvil-btn--primary[data-state="pressed"] {
+  --_bg: var(--button-primary-background-pressed);
+  --_fg: var(--button-primary-text-pressed);
+  --_icon: var(--button-primary-text-pressed);
+}
+.anvil-btn--primary.anvil-btn--destructive {
+  --_bg: var(--button-primary-destructive-background-default);
+  --_fg: var(--button-primary-destructive-text-default);
+  --_icon: var(--button-primary-destructive-icon-default);
+}
+.anvil-btn--primary.anvil-btn--destructive:not(:disabled):hover,
+.anvil-btn--primary.anvil-btn--destructive:not(:disabled):focus-visible,
+.anvil-btn--primary.anvil-btn--destructive[data-state="hover"],
+.anvil-btn--primary.anvil-btn--destructive[data-state="focus"] {
+  --_bg: var(--button-primary-destructive-background-hover);
+  --_fg: var(--button-primary-destructive-text-hover);
+  --_icon: var(--button-primary-destructive-icon-hover);
+}
+.anvil-btn--primary.anvil-btn--destructive:not(:disabled):active,
+.anvil-btn--primary.anvil-btn--destructive[data-state="pressed"] {
+  --_bg: var(--button-primary-destructive-background-pressed);
+  --_fg: var(--button-primary-text-pressed);
+  --_icon: var(--button-primary-text-pressed);
+}
+
+/* Secondary */
+.anvil-btn--secondary {
+  --_bg: var(--button-secondary-background-default);
+  --_fg: var(--button-secondary-text-default);
+  --_icon: var(--button-secondary-icon-default);
+  --_bd: var(--button-secondary-stroke-default);
+}
+.anvil-btn--secondary:not(:disabled):hover,
+.anvil-btn--secondary:not(:disabled):focus-visible,
+.anvil-btn--secondary[data-state="hover"],
+.anvil-btn--secondary[data-state="focus"] {
+  --_bg: var(--button-secondary-background-hover);
+  --_fg: var(--button-secondary-text-hover);
+  --_icon: var(--button-secondary-icon-hover);
+  --_bd: var(--button-secondary-stroke-hover);
+}
+.anvil-btn--secondary:not(:disabled):active,
+.anvil-btn--secondary[data-state="pressed"] {
+  --_bg: var(--button-secondary-background-default);
+  --_fg: var(--button-secondary-text-pressed);
+  --_icon: var(--button-secondary-icon-pressed);
+  --_bd: var(--button-secondary-stroke-pressed);
+}
+.anvil-btn--secondary.anvil-btn--destructive {
+  --_fg: var(--button-secondary-destructive-text-default);
+  --_icon: var(--button-secondary-destructive-icon-default);
+  --_bd: var(--button-secondary-destructive-stroke-default);
+}
+.anvil-btn--secondary.anvil-btn--destructive:not(:disabled):hover,
+.anvil-btn--secondary.anvil-btn--destructive:not(:disabled):focus-visible,
+.anvil-btn--secondary.anvil-btn--destructive[data-state="hover"],
+.anvil-btn--secondary.anvil-btn--destructive[data-state="focus"] {
+  --_bg: var(--button-secondary-destructive-background-hover);
+  --_fg: var(--button-secondary-destructive-text-hover);
+  --_icon: var(--button-secondary-destructive-icon-hover);
+  --_bd: var(--button-secondary-destructive-stroke-hover);
+}
+.anvil-btn--secondary.anvil-btn--destructive:not(:disabled):active,
+.anvil-btn--secondary.anvil-btn--destructive[data-state="pressed"] {
+  --_bg: var(--button-secondary-background-default);
+  --_fg: var(--button-secondary-destructive-text-pressed);
+  --_icon: var(--button-secondary-destructive-icon-pressed);
+  --_bd: var(--button-secondary-destructive-stroke-pressed);
+}
+
+/* Focus ring (primary + secondary) */
+.anvil-btn:not(.anvil-btn--tertiary):not(:disabled):focus-visible,
+.anvil-btn:not(.anvil-btn--tertiary)[data-state="focus"] {
+  --_focus: var(--focus-ring);
+}
+
+/* Tertiary */
+.anvil-btn--tertiary {
+  --_fg: var(--button-secondary-text-default);
+  --_icon: var(--button-secondary-icon-default);
+  min-height: 0;
+  padding: 0;
+  border-radius: var(--radius-050);
+}
+.anvil-btn--tertiary:not(:disabled):hover,
+.anvil-btn--tertiary[data-state="hover"] {
+  --_fg: var(--button-tertiary-text-hover);
+  --_icon: var(--button-tertiary-icon-hover);
+}
+.anvil-btn--tertiary:not(:disabled):hover .anvil-btn__label,
+.anvil-btn--tertiary[data-state="hover"] .anvil-btn__label,
+.anvil-btn--tertiary:not(:disabled):active .anvil-btn__label,
+.anvil-btn--tertiary[data-state="pressed"] .anvil-btn__label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.anvil-btn--tertiary:not(:disabled):focus-visible,
+.anvil-btn--tertiary[data-state="focus"] {
+  --_bg: var(--button-tertiary-background-focus);
+  --_fg: var(--button-tertiary-text-hover);
+  --_icon: var(--button-tertiary-icon-hover);
+  --_focus: var(--focus-ring-tertiary);
+}
+.anvil-btn--tertiary:not(:disabled):active,
+.anvil-btn--tertiary[data-state="pressed"] {
+  --_bg: transparent;
+  --_focus: 0 0 0 0 transparent;
+  --_fg: var(--button-secondary-text-pressed);
+  --_icon: var(--button-secondary-icon-pressed);
+}
+.anvil-btn--tertiary.anvil-btn--destructive,
+.anvil-btn--tertiary.anvil-btn--destructive:not(:disabled):hover,
+.anvil-btn--tertiary.anvil-btn--destructive[data-state="hover"],
+.anvil-btn--tertiary.anvil-btn--destructive:not(:disabled):focus-visible,
+.anvil-btn--tertiary.anvil-btn--destructive[data-state="focus"] {
+  --_fg: var(--button-tertiary-destructive-text-hover);
+  --_icon: var(--button-tertiary-destructive-icon-hover);
+}
+.anvil-btn--tertiary.anvil-btn--destructive:not(:disabled):active,
+.anvil-btn--tertiary.anvil-btn--destructive[data-state="pressed"] {
+  --_fg: var(--button-tertiary-destructive-text-pressed);
+  --_icon: var(--button-tertiary-destructive-icon-pressed);
+}
+.anvil-btn--tertiary.anvil-btn--small { font-size: 14px; }
+
+/* Disabled + loading (all variants) */
+.anvil-btn:disabled,
+.anvil-btn[aria-disabled="true"] {
+  --_bg: var(--background-disabled);
+  --_fg: var(--text-body-disabled);
+  --_icon: var(--icon-disabled);
+  --_bd: transparent;
+  --_focus: 0 0 0 0 transparent;
+  cursor: not-allowed;
+}
+.anvil-btn.is-loading { cursor: progress; }
+.anvil-btn--tertiary:disabled,
+.anvil-btn--tertiary[aria-disabled="true"] { --_bg: transparent; }
+
+/* ---------- Icon ---------- */
+
+.anvil-icon {
+  display: inline-block;
+  flex: none;
+  vertical-align: middle;
+  color: inherit;
+}
+
+/* ---------- Shared ---------- */
+
+.anvil-visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.anvil-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-input-gap);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: var(--font-sans);
+  color: var(--text-body-base);
+}
+.anvil-field__labels { display: flex; flex-direction: column; gap: var(--form-input-label-space); padding: 0; }
+.anvil-field__label {
+  padding: 0;
+  font-size: 16px; line-height: 20px; font-weight: 600;
+  color: var(--form-input-label-text-label-default);
+}
+.anvil-field--error .anvil-field__label { color: var(--form-input-label-text-label-error); }
+.anvil-field__helper { font-size: 14px; line-height: 20px; color: var(--form-input-label-text-helper); }
+
+.anvil-msg { display: flex; gap: var(--space-100); font-family: var(--font-sans); font-size: 16px; line-height: 20px; color: var(--text-body-base); }
+.anvil-msg__icon { display: inline-flex; align-items: center; height: 20px; flex: none; }
+.anvil-msg--error .anvil-msg__icon { color: var(--icon-status-critical); }
+.anvil-msg--warning .anvil-msg__icon { color: var(--icon-status-warning); }
+.anvil-msg--success .anvil-msg__icon { color: var(--icon-status-success); }
+.anvil-msg--info .anvil-msg__icon { color: var(--icon-status-info); }
+
+/* ---------- Text input (also used by Password input) ---------- */
+
+.anvil-input {
+  --_stroke: var(--form-input-control-stroke-default);
+  --_sw: 1px;
+  --_ring: 0 0 0 0 transparent;
+  display: flex;
+  align-items: center;
+  gap: var(--form-input-control-gap);
+  box-sizing: border-box;
+  min-height: var(--form-input-control-height);
+  padding: 0 var(--form-input-control-padding);
+  border-radius: var(--form-input-control-radius);
+  background: var(--form-input-control-background-default);
+  box-shadow: inset 0 0 0 var(--_sw) var(--_stroke), var(--_ring);
+  font-family: var(--font-sans);
+  font-size: 16px; line-height: 20px;
+  color: var(--form-input-control-text-filled);
+  cursor: text;
+}
+.anvil-input:not(.is-disabled):not(.is-view-only):hover,
+.anvil-input[data-state="hover"] { --_stroke: var(--form-input-control-stroke-hover); --_sw: 2px; }
+.anvil-input:not(.is-disabled):not(.is-view-only):focus-within,
+.anvil-input[data-state="focus"] { --_stroke: var(--form-input-control-stroke-hover); --_sw: 2px; --_ring: var(--focus-ring); }
+.anvil-input--warning, .anvil-input--warning:not(.is-disabled):hover { --_stroke: var(--form-input-control-stroke-warning); }
+.anvil-input--error, .anvil-input--error:not(.is-disabled):hover { --_stroke: var(--form-input-control-stroke-error); }
+.anvil-input.is-disabled { --_stroke: var(--form-input-control-stroke-disabled); background: var(--form-input-control-background-disabled); color: var(--form-input-control-text-disabled); cursor: not-allowed; }
+.anvil-input.is-view-only { --_stroke: var(--form-input-control-stroke-disabled); background: var(--form-input-control-background-view-only); cursor: default; }
+
+.anvil-input__native {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+}
+.anvil-input__native::placeholder { color: var(--form-input-control-text-placeholder); opacity: 1; }
+.anvil-input__native:disabled { color: var(--form-input-control-text-disabled); -webkit-text-fill-color: var(--form-input-control-text-disabled); }
+.anvil-input__unit { flex: none; color: var(--form-input-control-text-placeholder); }
+.anvil-input__icon { display: inline-flex; color: var(--form-input-control-icon-default); flex: none; }
+.anvil-input__lock { display: inline-flex; color: var(--form-input-control-icon-view-only); flex: none; }
+.anvil-input.is-disabled .anvil-input__icon { color: var(--form-input-control-icon-disabled); }
+
+/* ---------- Password input ---------- */
+
+.anvil-password-field { display: flex; flex-direction: column; gap: var(--space-200); font-family: var(--font-sans); }
+.anvil-password { display: flex; }
+.anvil-password__box { flex: 1; border-top-right-radius: 0; border-bottom-right-radius: 0; position: relative; }
+.anvil-password__box:hover, .anvil-password__box:focus-within, .anvil-password__box[data-state] { z-index: 1; }
+.anvil-password__toggle {
+  --_stroke: var(--form-input-control-stroke-default);
+  --_sw: 1px;
+  --_ring: 0 0 0 0 transparent;
+  position: relative;
+  margin-left: -1px;
+  min-width: 62px;
+  min-height: var(--form-input-control-height);
+  padding: 0 var(--padding-150);
+  border: 0;
+  border-radius: 0 var(--form-input-control-radius) var(--form-input-control-radius) 0;
+  background: var(--form-input-control-background-default);
+  box-shadow: inset 0 0 0 var(--_sw) var(--_stroke), var(--_ring);
+  font-family: var(--font-sans);
+  font-size: 14px; line-height: 20px; font-weight: 500;
+  color: var(--text-body-subdued);
+  cursor: pointer;
+  outline: none;
+}
+.anvil-password__toggle:not(:disabled):hover,
+.anvil-password__toggle[data-state="hover"] { --_stroke: var(--form-input-control-stroke-hover); --_sw: 2px; color: var(--form-input-control-text-hover); z-index: 1; }
+.anvil-password__toggle:not(:disabled):focus-visible,
+.anvil-password__toggle[data-state="focus"] { --_stroke: var(--form-input-control-stroke-hover); --_sw: 2px; --_ring: var(--focus-ring); color: var(--form-input-control-text-hover); z-index: 1; }
+.anvil-password__toggle.anvil-input--error { --_stroke: var(--form-input-control-stroke-error); }
+.anvil-password__toggle:disabled { --_stroke: var(--form-input-control-stroke-disabled); background: var(--form-input-control-background-disabled); color: var(--text-body-disabled); cursor: not-allowed; }
+
+.anvil-password__tools { display: flex; flex-direction: column; gap: var(--space-200); }
+.anvil-strength { display: flex; flex-direction: column; gap: var(--space-100); }
+.anvil-strength__bar { display: flex; height: 8px; border-radius: 9999px; overflow: hidden; background: var(--progress-tracker-base); }
+.anvil-strength__seg { flex: 1; }
+.anvil-strength--very-weak .anvil-strength__seg:nth-child(1) { background: var(--background-status-critical-base); }
+.anvil-strength--average .anvil-strength__seg:nth-child(-n+2) { background: var(--background-status-success-base); }
+.anvil-strength--strong .anvil-strength__seg { background: var(--background-status-success-base); }
+.anvil-strength--very-weak .anvil-strength__seg:nth-child(1),
+.anvil-strength--average .anvil-strength__seg:nth-child(2) { border-radius: 0 9999px 9999px 0; }
+.anvil-strength__label { font-size: 16px; line-height: 20px; font-weight: 600; color: var(--text-body-base); }
+
+.anvil-requirements {
+  display: flex; flex-direction: column; gap: var(--space-200);
+  padding: var(--padding-200);
+  border-radius: var(--form-input-control-radius);
+  background: var(--background-subdued);
+}
+.anvil-requirements__title { font-size: 16px; line-height: 20px; font-weight: 600; color: var(--text-body-base); }
+.anvil-requirements__list { display: flex; flex-direction: column; gap: var(--space-200); margin: 0; padding: 0; list-style: none; }
+.anvil-requirement { position: relative; display: flex; gap: var(--space-100); font-size: 14px; line-height: 20px; color: var(--text-body-base); }
+.anvil-requirement__icon { display: inline-flex; align-items: center; height: 20px; flex: none; color: var(--icon-disabled); }
+.anvil-requirement.is-met .anvil-requirement__icon { color: var(--icon-status-success); }
+
+/* ---------- Checkbox ---------- */
+
+.anvil-check-group__options { display: flex; flex-direction: column; }
+.anvil-check {
+  position: relative;
+  display: flex;
+  gap: var(--form-input-control-selection-gap);
+  padding: var(--form-input-control-selection-padding-vertical) var(--form-input-control-selection-padding-horizontal);
+  border-radius: var(--radius-050);
+  font-family: var(--font-sans);
+  font-size: 16px; line-height: 20px;
+  color: var(--form-input-control-text-filled);
+  cursor: pointer;
+}
+.anvil-check__input { position: absolute; opacity: 0; width: 24px; height: 24px; margin: 0; }
+.anvil-check__box {
+  --_stroke: var(--form-input-control-stroke-default);
+  --_sw: 1px;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: none;
+  width: var(--form-input-control-selection-height);
+  height: var(--form-input-control-selection-height);
+  border-radius: 4px;
+  background: var(--form-input-control-background-default);
+  box-shadow: inset 0 0 0 var(--_sw) var(--_stroke);
+  color: var(--icon-inverted);
+}
+.anvil-check__box .anvil-icon { opacity: 0; }
+.anvil-check__label { padding-top: 2px; }
+.anvil-check__label a { color: var(--text-body-link); }
+
+.anvil-check:not(.is-disabled):not(.is-view-only):hover,
+.anvil-check[data-state="hover"],
+.anvil-check:not(.is-disabled):has(.anvil-check__input:focus-visible),
+.anvil-check[data-state="focus"] { color: var(--form-input-control-text-hover); }
+.anvil-check:not(.is-disabled):not(.is-view-only):hover .anvil-check__box,
+.anvil-check[data-state="hover"] .anvil-check__box,
+.anvil-check:has(.anvil-check__input:focus-visible) .anvil-check__box,
+.anvil-check[data-state="focus"] .anvil-check__box { --_stroke: var(--form-input-control-stroke-hover); --_sw: 2px; }
+.anvil-check:has(.anvil-check__input:focus-visible),
+.anvil-check[data-state="focus"] { background: var(--form-input-control-background-default); box-shadow: var(--focus-ring); }
+
+.anvil-check__input:checked + .anvil-check__box { --_sw: 0px; background: var(--form-input-control-checkbox-background-selected); }
+.anvil-check__input:checked + .anvil-check__box .anvil-icon { opacity: 1; }
+
+.anvil-check.is-error .anvil-check__box { --_stroke: var(--form-input-control-stroke-error); }
+.anvil-check.is-error .anvil-check__input:checked + .anvil-check__box { background: var(--background-status-critical-base); }
+
+.anvil-check.is-disabled { color: var(--form-input-control-text-disabled); cursor: not-allowed; }
+.anvil-check.is-disabled .anvil-check__box,
+.anvil-check.is-disabled .anvil-check__input:checked + .anvil-check__box { --_sw: 1px; --_stroke: var(--form-input-control-stroke-default); background: var(--form-input-control-background-disabled); color: var(--form-input-control-icon-disabled); }
+
+.anvil-check.is-view-only { cursor: default; }
+.anvil-check.is-view-only .anvil-check__box { background: var(--form-input-control-background-view-only); }
+.anvil-check.is-view-only .anvil-check__input:checked + .anvil-check__box { --_sw: 0px; background: var(--form-input-control-checkbox-background-view-only-selected); }
+
+/* ---------- Selection card ---------- */
+
+.anvil-sc-wrap { display: flex; flex-direction: column; gap: var(--form-input-gap); }
+.anvil-sc {
+  --_stroke: var(--form-input-control-stroke-default);
+  --_sw: 1px;
+  --_ring: 0 0 0 0 transparent;
+  --_ind: var(--form-input-control-stroke-default);
+  --_ind-w: 1px;
+  --_ind-bg: var(--form-input-control-background-default);
+  --_dot: transparent;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-200);
+  padding: var(--padding-300);
+  border-radius: var(--radius-150);
+  background: var(--form-input-control-background-default);
+  box-shadow: inset 0 0 0 var(--_sw) var(--_stroke), var(--_ring);
+  font-family: var(--font-sans);
+  color: var(--form-input-label-text-label-default);
+  cursor: pointer;
+}
+.anvil-sc__input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.anvil-sc__content { display: flex; flex-direction: column; gap: var(--space-050); flex: 1; min-width: 0; }
+.anvil-sc__title { font-size: 16px; line-height: 20px; font-weight: 600; }
+.anvil-sc__body { font-size: 14px; line-height: 20px; }
+.anvil-sc__radio, .anvil-sc__box {
+  position: relative; flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px;
+  background: var(--_ind-bg);
+  box-shadow: inset 0 0 0 var(--_ind-w) var(--_ind);
+  color: var(--icon-inverted);
+}
+.anvil-sc__radio { border-radius: 50%; }
+.anvil-sc__radio::after { content: ""; width: 16px; height: 16px; border-radius: 50%; background: var(--_dot); }
+.anvil-sc__box { border-radius: 4px; }
+.anvil-sc__box .anvil-icon { opacity: 0; }
+.anvil-sc__lock { display: inline-flex; flex: none; color: var(--form-input-control-icon-default); }
+
+.anvil-sc:not(.is-disabled):not(.is-view-only):not(.is-error):hover,
+.anvil-sc[data-state="hover"],
+.anvil-sc:not(.is-disabled):not(.is-error):has(.anvil-sc__input:focus-visible),
+.anvil-sc[data-state="focus"] { background: var(--form-input-control-chip-background-hover); --_ind: var(--form-input-control-stroke-hover); --_ind-w: 2px; }
+.anvil-sc:not(.is-disabled):not(.is-view-only):not(.is-error):hover .anvil-sc__title,
+.anvil-sc[data-state="hover"] .anvil-sc__title,
+.anvil-sc:not(.is-error):has(.anvil-sc__input:focus-visible) .anvil-sc__title,
+.anvil-sc[data-state="focus"] .anvil-sc__title { color: var(--form-input-control-chip-text-hover); }
+.anvil-sc:has(.anvil-sc__input:focus-visible),
+.anvil-sc[data-state="focus"] { --_ring: var(--focus-ring); }
+
+.anvil-sc:has(.anvil-sc__input:checked) { --_stroke: var(--form-input-control-chip-stroke-default-selected); --_sw: 2px; background: var(--form-input-control-chip-background-selected); }
+.anvil-sc--radio:has(.anvil-sc__input:checked) { --_ind: var(--form-input-control-stroke-selected); --_dot: var(--form-input-control-icon-selected); }
+.anvil-sc--checkbox:has(.anvil-sc__input:checked) { --_ind-w: 0px; --_ind-bg: var(--form-input-control-checkbox-background-selected); }
+.anvil-sc--checkbox:has(.anvil-sc__input:checked) .anvil-sc__box .anvil-icon { opacity: 1; }
+
+.anvil-sc.is-error { --_stroke: var(--form-input-control-stroke-error); --_ind: var(--form-input-control-stroke-error); background: var(--form-input-control-background-default); }
+.anvil-sc.is-error:has(.anvil-sc__input:checked) { --_stroke: var(--form-input-control-stroke-error); background: var(--form-input-control-background-default); --_dot: var(--icon-status-critical); }
+.anvil-sc--checkbox.is-error:has(.anvil-sc__input:checked) { --_ind-bg: var(--background-status-critical-base); }
+
+.anvil-sc.is-disabled,
+.anvil-sc.is-disabled:has(.anvil-sc__input:checked) { --_stroke: var(--form-input-control-stroke-disabled); --_ind: var(--form-input-control-stroke-disabled); --_ind-w: 1px; --_ind-bg: var(--form-input-control-background-disabled); background: var(--form-input-control-background-disabled); color: var(--text-body-disabled); cursor: not-allowed; }
+.anvil-sc.is-disabled .anvil-sc__title { color: var(--form-input-control-text-disabled); }
+.anvil-sc--radio.is-disabled:has(.anvil-sc__input:checked) { --_dot: var(--form-input-control-icon-disabled); }
+.anvil-sc--checkbox.is-disabled:has(.anvil-sc__input:checked) .anvil-sc__box { color: var(--form-input-control-icon-disabled); }
+
+.anvil-sc.is-view-only,
+.anvil-sc.is-view-only:has(.anvil-sc__input:checked) { --_stroke: var(--form-input-control-stroke-disabled); background: var(--form-input-control-background-view-only); cursor: default; }
+
+/* ---------- Slider ---------- */
+
+.anvil-slider-field { gap: var(--form-input-slider-gap); }
+.anvil-slider { display: flex; flex-direction: column; gap: var(--form-input-control-gap); font-family: var(--font-sans); }
+.anvil-slider__values { position: relative; height: 20px; margin: 0 12px; }
+.anvil-slider__value { position: absolute; top: 0; width: 80px; text-align: center; font-size: 16px; line-height: 20px; font-weight: 600; color: var(--form-input-control-text-filled); white-space: nowrap; }
+.anvil-slider__rail { position: relative; height: 24px; margin: 0 12px; touch-action: none; }
+.anvil-slider__track, .anvil-slider__fill { position: absolute; top: 8px; height: var(--form-input-slider-track-height-default); border-radius: 9999px; }
+.anvil-slider__track { left: -12px; right: -12px; background: var(--form-input-control-background-disabled); box-shadow: inset 0 0 0 1px var(--form-input-control-stroke-default); }
+.anvil-slider__fill { background: var(--form-input-control-background-default-interactive); }
+.anvil-slider__handle {
+  position: absolute; top: 12px;
+  width: 24px; height: 24px;
+  box-sizing: border-box;
+  border: 2px solid var(--stroke-inverted);
+  border-radius: 50%;
+  background: var(--form-input-control-background-default-interactive);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: width .12s, height .12s;
+}
+.anvil-slider__handle.is-hover { background: var(--form-input-control-background-hover-interactive); }
+.anvil-slider__handle.is-focus { background: var(--form-input-control-background-hover-interactive); box-shadow: var(--focus-ring); }
+.anvil-slider__handle.is-pressed { width: var(--form-input-slider-handle-height-pressed); height: var(--form-input-slider-handle-height-pressed); background: var(--form-input-control-background-hover-interactive); }
+.anvil-slider-field.is-disabled .anvil-slider__fill,
+.anvil-slider-field.is-disabled .anvil-slider__handle { background: var(--form-input-control-slider-background-active-disabled); }
+
+.anvil-slider__input {
+  position: absolute; inset: -10px -22px; width: calc(100% + 44px); height: 44px;
+  margin: 0; opacity: 0; cursor: pointer;
+  -webkit-appearance: none; appearance: none; background: transparent;
+}
+.anvil-slider--range .anvil-slider__input { pointer-events: none; }
+.anvil-slider__input::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 44px; pointer-events: auto; cursor: grab; }
+.anvil-slider__input::-moz-range-thumb { width: 44px; height: 44px; border: 0; pointer-events: auto; cursor: grab; }
+.anvil-slider__input:disabled { cursor: not-allowed; }
+.anvil-slider__range { display: flex; justify-content: space-between; font-size: 16px; line-height: 20px; color: var(--form-input-label-text-helper); }
+
+/* ---------- Card ---------- */
+
+.anvil-card {
+  container-type: inline-size;
+  position: relative;
+  display: flex; flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid var(--stroke-base);
+  border-radius: var(--radius-150);
+  background: var(--background-surface);
+  font-family: var(--font-sans);
+  color: var(--text-body-base);
+}
+.anvil-card__inner { display: flex; flex-direction: column; padding: var(--padding-300) var(--padding-300) 0; }
+.anvil-card__hero { aspect-ratio: 2 / 1; overflow: hidden; background: var(--illustration-hero-background-purple-subdued); }
+.anvil-card__hero img, .anvil-card__spot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.anvil-card__spot {
+  position: absolute; top: -16px; right: -16px;
+  width: 120px; height: 120px;
+  border-radius: 50%; overflow: hidden;
+  background: var(--illustration-spot-background-purple-subdued);
+}
+.anvil-card__placeholder { display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--brand-primary-1); }
+.anvil-card--spot .anvil-card__header, .anvil-card--avatar .anvil-card__header,
+.anvil-card--spot .anvil-card__body > :first-child, .anvil-card--avatar .anvil-card__body > :first-child { padding-right: 88px; }
+.anvil-card__header { display: flex; align-items: center; gap: var(--space-300); padding-bottom: var(--space-200); }
+.anvil-card__titles { display: flex; flex-direction: column; gap: var(--space-025); flex: 1; min-width: 0; }
+.anvil-card__eyebrow { font-size: 12px; line-height: 20px; font-weight: 500; color: var(--text-header-eyebrow); }
+.anvil-card__title { margin: 0; font-size: 20px; line-height: 26px; font-weight: 600; color: var(--text-body-base); }
+.anvil-card__body { display: flex; flex-direction: column; gap: var(--space-150); padding-bottom: var(--padding-300); font-size: 16px; line-height: 26px; }
+.anvil-card__body p { margin: 0; }
+.anvil-card__footer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-200); padding: 0 var(--padding-300) var(--padding-300); }
+.anvil-card__footer--filled { flex-direction: column; align-items: stretch; padding-top: var(--space-200); border-top: 1px solid var(--stroke-base); background: var(--background-subdued); }
+.anvil-card__footer--filled .anvil-btn--tertiary { align-self: center; }
+
+@container (max-width: 479px) {
+  .anvil-card__title { font-size: 18px; line-height: 24px; }
+  .anvil-card__body { line-height: 24px; }
+  .anvil-card__spot { width: 96px; height: 96px; top: -12px; right: -12px; }
+  .anvil-card--spot .anvil-card__header, .anvil-card--avatar .anvil-card__header,
+  .anvil-card--spot .anvil-card__body > :first-child, .anvil-card--avatar .anvil-card__body > :first-child { padding-right: 64px; }
+  .anvil-card__footer { flex-direction: column; align-items: stretch; }
+  .anvil-card__footer .anvil-btn--tertiary { align-self: center; }
+}
+
+/* ---------- Badge, icon button ---------- */
+
+.anvil-badge {
+  position: absolute; top: -8px; left: 8px;
+  box-sizing: border-box;
+  min-width: 16px; height: 16px;
+  padding: 2px 4px;
+  border-radius: 9999px;
+  background: var(--background-status-critical-base);
+  outline: 1px solid var(--stroke-inverted);
+  font-family: var(--font-sans);
+  font-size: 12px; line-height: 12px; font-weight: 600;
+  color: var(--text-body-inverted);
+  text-align: center;
+}
+.anvil-badge--dot { top: -3px; left: 10px; min-width: 0; width: 8px; height: 8px; padding: 0; }
+
+.anvil-icon-btn {
+  box-sizing: border-box;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+  padding: 0; border: 0; border-radius: 50%;
+  background: transparent;
+  color: var(--navigation-icon-default);
+  cursor: pointer; outline: none;
+  text-decoration: none;
+}
+.anvil-icon-btn--brand { color: var(--button-secondary-icon-default); }
+.anvil-icon-btn:hover { background: var(--navigation-background-hover); color: var(--navigation-icon-hover); }
+.anvil-icon-btn:focus-visible { background: var(--navigation-background-hover); color: var(--navigation-icon-hover); box-shadow: var(--focus-ring); }
+.anvil-icon-btn__glyph { position: relative; display: inline-flex; }
+
+/* ---------- Global header ---------- */
+
+.anvil-gh {
+  container-type: inline-size;
+  display: block;
+  background: var(--background-base);
+  font-family: var(--font-sans);
+  color: var(--text-body-base);
+}
+.anvil-gh__desktop { border-bottom: 1px solid var(--stroke-base); }
+.anvil-gh__mobile { display: none; }
+.anvil-gh__logo { display: inline-flex; align-items: center; color: var(--brand-primary-1); text-decoration: none; border-radius: 4px; outline: none; }
+.anvil-gh__logo:focus-visible { box-shadow: var(--focus-ring); }
+.anvil-gh__wordmark { font-size: 26px; line-height: 32px; font-weight: 700; letter-spacing: -0.5px; }
+
+.anvil-gh__row { box-sizing: border-box; height: 76px; margin: 0 auto; padding: 0 var(--padding-300); }
+.anvil-gh__row--default { display: flex; align-items: center; justify-content: space-between; gap: var(--space-300); max-width: 1328px; }
+.anvil-gh__left, .anvil-gh__right { display: flex; align-items: center; }
+.anvil-gh__left { gap: var(--space-400); }
+.anvil-gh__right { gap: var(--space-150); }
+.anvil-gh__nav, .anvil-gh__utils { display: flex; align-items: center; gap: var(--space-100); }
+.anvil-gh__utils { gap: var(--space-150); }
+.anvil-gh__actions { display: flex; align-items: center; gap: var(--space-200); }
+.anvil-gh__row--focused { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; max-width: 1072px; }
+.anvil-gh__end { justify-self: end; }
+.anvil-gh__row--progress { display: flex; align-items: center; gap: var(--space-300); max-width: 1072px; }
+.anvil-gh__steps { flex: 1; align-self: stretch; display: flex; flex-direction: column; justify-content: flex-end; gap: var(--space-300); }
+.anvil-gh__step-labels { display: flex; margin: 0; padding: 0 var(--padding-300) 0 0; list-style: none; }
+.anvil-gh__step-labels li { flex: 1; font-size: 16px; line-height: 20px; color: var(--text-body-subdued); }
+.anvil-gh__step-labels li.is-current { font-weight: 600; color: var(--text-body-base); }
+.anvil-gh__progress { height: 4px; border-radius: 9999px; background: var(--progress-tracker-base); overflow: hidden; }
+.anvil-gh__progress span { display: block; height: 100%; border-radius: 9999px; background: var(--progress-tracker-active); }
+.anvil-gh--progress .anvil-gh__desktop { border-bottom-color: transparent; }
+
+.anvil-nav-item {
+  box-sizing: border-box;
+  display: inline-flex; align-items: center; gap: var(--space-100);
+  min-height: 44px;
+  padding: var(--padding-150) var(--space-100);
+  border: 0; border-radius: 4px;
+  background: transparent;
+  font-family: var(--font-sans); font-size: 16px; line-height: 20px;
+  color: var(--navigation-text-default);
+  text-decoration: none; cursor: pointer; outline: none;
+}
+.anvil-nav-item__icon { position: relative; display: inline-flex; color: var(--navigation-icon-default); }
+.anvil-nav-item:hover, .anvil-nav-item[data-state="hover"] { background: var(--navigation-background-hover); color: var(--navigation-text-hover); }
+.anvil-nav-item:focus-visible, .anvil-nav-item[data-state="focus"] { background: var(--navigation-background-hover); color: var(--navigation-text-hover); box-shadow: var(--focus-ring); }
+.anvil-nav-item:active { background: transparent; color: var(--navigation-text-pressed); }
+.anvil-nav-item:hover .anvil-nav-item__icon, .anvil-nav-item:focus-visible .anvil-nav-item__icon, .anvil-nav-item:active .anvil-nav-item__icon { color: inherit; }
+.anvil-nav-item.is-current { background: var(--navigation-background-hover); color: var(--navigation-text-current); font-weight: 600; }
+.anvil-nav-item.is-current .anvil-nav-item__icon { color: var(--navigation-icon-current); }
+
+.anvil-gh__m { box-sizing: border-box; }
+.anvil-gh__m--default { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 var(--padding-200); border-bottom: 1px solid var(--stroke-base); }
+.anvil-gh__m-left, .anvil-gh__m-right { display: flex; align-items: center; gap: var(--space-050); }
+.anvil-gh__m-row { display: flex; align-items: center; gap: var(--space-050); height: 56px; padding: 0 var(--padding-025); }
+.anvil-gh--focused .anvil-gh__m { border-bottom: 1px solid var(--stroke-base); }
+.anvil-gh__m-title { flex: 1; min-width: 0; text-align: center; }
+.anvil-gh__m-step { font-size: 16px; line-height: 20px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.anvil-gh__m-count { font-size: 14px; line-height: 20px; }
+.anvil-gh__m-spacer { width: 44px; flex: none; }
+.anvil-gh__m .anvil-gh__progress { border-radius: 0; }
+
+@container (max-width: 767px) {
+  .anvil-gh__desktop { display: none; }
+  .anvil-gh__mobile { display: block; }
+}
+.anvil-gh--mobile .anvil-gh__desktop { display: none; }
+.anvil-gh--mobile .anvil-gh__mobile { display: block; }
+.anvil-gh--desktop .anvil-gh__desktop { display: block; }
+.anvil-gh--desktop .anvil-gh__mobile { display: none; }
+
+/* ---------- Illustration ---------- */
+
+.anvil-illo { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; flex: none; box-sizing: border-box; }
+.anvil-illo--spot.anvil-illo--round { border-radius: 50%; }
+.anvil-illo--spot.anvil-illo--fill { border-radius: 0; }
+.anvil-illo--hero { width: 100%; aspect-ratio: 2 / 1; }
+.anvil-illo--hero.anvil-illo--round { border-radius: var(--radius-150); }
+.anvil-illo__img, .anvil-illo > svg { display: block; width: 100%; height: 100%; object-fit: contain; }
+.anvil-illo__placeholder { display: inline-flex; color: var(--brand-primary-1); opacity: .55; }

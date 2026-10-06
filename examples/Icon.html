@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 20px 24px; background: var(--background-surface, #fff); font-family: var(--font-sans, system-ui, sans-serif); color: var(--icon-base, #0f1213); }
+  .bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; font-size: 14px; line-height: 20px; color: var(--text-body-subdued, #4d3f4f); }
+  .bar input[type="search"] { font: inherit; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--form-input-control-stroke-default, #716775); width: 220px; }
+  .grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+  .tile { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 4px; border-radius: 8px; }
+  .tile:hover { background: var(--background-subdued, #f1f0f8); }
+  .tile span { font-size: 11px; line-height: 14px; color: var(--text-body-subdued, #4d3f4f); text-align: center; word-break: break-word; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement;
+  var Icon = Anvil.Icon;
+  function Gallery() {
+    var s = React.useState(""), q = s[0], setQ = s[1];
+    var a = React.useState(false), active = a[0], setActive = a[1];
+    var names = Icon.names.filter(function (n) { return n.indexOf(q.trim().toLowerCase()) !== -1; });
+    return h("div", null,
+      h("div", { className: "bar" },
+        h("input", { type: "search", placeholder: "Search icons", value: q, "aria-label": "Search icons", onChange: function (e) { setQ(e.target.value); } }),
+        h("label", null, h("input", { type: "checkbox", checked: active, onChange: function (e) { setActive(e.target.checked); } }), " Show active (filled) style"),
+        h("span", null, names.length + " icons")
+      ),
+      h("div", { className: "grid" }, names.map(function (n) {
+        return h("div", { key: n, className: "tile", title: n },
+          h(Icon, { name: n, size: 24, variant: active ? "active" : "default" }),
+          h("span", null, n));
+      }))
+    );
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(h(Gallery));
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--background-surface, #fff); font-family: var(--font-sans, system-ui, sans-serif); color: var(--text-body-base); }
+  .grid { display: grid; gap: 32px 24px; align-items: start; }
+  .cap { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--text-body-subdued); margin-bottom: 8px; }
+  .grid { grid-template-columns: repeat(3, 1fr); } .stack { display: grid; gap: 12px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement;
+  var A = Anvil;
+  function cell(caption, el) { return h("div", null, h("div", { className: "cap" }, caption), el); }
+  var S = A.SelectionCard;
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "grid" },
+    cell("Radio (pick one)", h("div", { className: "stack", role: "radiogroup", "aria-label": "Visit type" },
+      h(S, { name: "visit", title: "Video visit", description: "See a provider from home, usually within 15 minutes", defaultChecked: true }),
+      h(S, { name: "visit", title: "Phone visit", description: "Talk to a provider without video" }),
+      h(S, { name: "visit", title: "Message a provider", description: "Get a written reply within 24 hours" }))),
+    cell("Checkbox (pick any)", h("div", { className: "stack" },
+      h(S, { type: "checkbox", title: "Weekly weigh-in reminder", description: "Every Monday at 8 am", defaultChecked: true }),
+      h(S, { type: "checkbox", title: "Injection day reminder", description: "The morning of your dose" }),
+      h(S, { type: "checkbox", title: "Refill reminder", description: "Five days before you run out", state: "hover" }))),
+    cell("States", h("div", { className: "stack" },
+      h(S, { name: "s1", title: "Focus", description: "Description", state: "focus" }),
+      h(S, { name: "s2", title: "Error", description: "Description", error: true, message: "Choose a visit type" }),
+      h(S, { name: "s3", title: "Disabled", description: "Description", disabled: true, defaultChecked: true }),
+      h(S, { name: "s4", title: "View only", description: "Description", readOnly: true })))
+  ));
+</script>
+</body>
+</html>

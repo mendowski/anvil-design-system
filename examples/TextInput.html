@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--background-surface, #fff); font-family: var(--font-sans, system-ui, sans-serif); color: var(--text-body-base); }
+  .grid { display: grid; gap: 32px 24px; align-items: start; }
+  .cap { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--text-body-subdued); margin-bottom: 8px; }
+  .grid { grid-template-columns: repeat(3, 1fr); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement;
+  var A = Anvil;
+  function cell(caption, el) { return h("div", null, h("div", { className: "cap" }, caption), el); }
+  var T = A.TextInput;
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "grid" },
+    cell("Default", h(T, { label: "Input label", helper: "Helper text", placeholder: "Placeholder text" })),
+    cell("Hover", h(T, { label: "Input label", helper: "Helper text", defaultValue: "Filled text", state: "hover" })),
+    cell("Focus", h(T, { label: "Input label", helper: "Helper text", defaultValue: "Filled text", state: "focus" })),
+    cell("Warning", h(T, { label: "Weight", helper: "In pounds", defaultValue: "412", unit: "lbs", status: "warning", message: "That's higher than we expected. Check the number." })),
+    cell("Error", h(T, { label: "Email", helper: "We'll send your visit summary here", status: "error", message: "Email is required" })),
+    cell("Unit before", h(T, { label: "Copay", unit: "$", unitPosition: "before", defaultValue: "25.00", inputMode: "decimal" })),
+    cell("Icon", h(T, { label: "Search providers", icon: "search", placeholder: "Name or specialty" })),
+    cell("Disabled", h(T, { label: "Member ID", helper: "Printed on your card", defaultValue: "TDH-4421", disabled: true })),
+    cell("View only", h(T, { label: "Date of birth", defaultValue: "04/12/1986", readOnly: true }))
+  ));
+</script>
+</body>
+</html>
