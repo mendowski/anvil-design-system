@@ -33,8 +33,8 @@ The header reacts to its own width. Under 768px it switches to the mobile layout
 
 ## Logo
 
-- Pass your logo as `logo` (an `<img>` or SVG). Without one, the header shows a text wordmark.
-- The Figma file's logo artwork isn't part of this export.
+- By default the header shows the Teladoc Health logo (`Anvil.Logo`) at 40px tall, linking to `href` with the accessible name "Teladoc Health home". Change the name with `label`.
+- To use a different logo, pass it as `logo` (an `<img>`, an SVG or another component).
 
 ## Accessibility
 

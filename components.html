@@ -24,7 +24,7 @@
 <main>
 <p class="eyebrow">Components</p><h1 class="page-title">Components</h1>
 <p class="lede">Live React components built from the Anvil Figma component sets. Every example below is running code, so switch the theme at the top to see each one in Core UI and PLI, light and dark.</p>
-<nav class="jump" aria-label="Components"><a href="#Button">Button</a><a href="#TextInput">Text Input</a><a href="#PasswordInput">Password Input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection Card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#GlobalHeader">Global Header</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
+<nav class="jump" aria-label="Components"><a href="#Button">Button</a><a href="#TextInput">Text Input</a><a href="#PasswordInput">Password Input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection Card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#GlobalHeader">Global Header</a><a href="#Logo">Logo</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
 <section class="comp" id="Button">
   <div class="comp-head"><h2 class="sec">Button</h2><span class="comp-meta"><code>Anvil.Button</code><a class="pg-link" href="playground.html#Button">Try it in the playground</a></span></div>
   <p class="lede">Buttons start actions, in three levels of emphasis: primary, secondary and tertiary, each with a destructive version.</p>
@@ -459,14 +459,37 @@
 </ul>
 <h2>Logo</h2>
 <ul>
-<li>Pass your logo as <code>logo</code> (an <code>&lt;img&gt;</code> or SVG). Without one, the header shows a text wordmark.</li>
-<li>The Figma file's logo artwork isn't part of this export.</li>
+<li>By default the header shows the Teladoc Health logo (<code>Anvil.Logo</code>) at 40px tall, linking to <code>href</code> with the accessible name "Teladoc Health home". Change the name with <code>label</code>.</li>
+<li>To use a different logo, pass it as <code>logo</code> (an <code>&lt;img&gt;</code>, an SVG or another component).</li>
 </ul>
 <h2>Accessibility</h2>
 <ul>
 <li>It renders as <code>&lt;header&gt;</code>, and the main links are in a <code>&lt;nav&gt;</code> labelled "Main".</li>
 <li>Mobile icon buttons are 44px with labels.</li>
 <li>Hide Back or Close by passing <code>onBack={null}</code> or <code>onClose={null}</code>.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="Logo">
+  <div class="comp-head"><h2 class="sec">Logo</h2><span class="comp-meta"><code>Anvil.Logo</code><a class="pg-link" href="playground.html#Logo">Try it in the playground</a></span></div>
+  <p class="lede">The Teladoc Health logo, from the Anvil &quot;Logos and marks&quot; page in Figma.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Logo.html" title="Logo examples" height="200" loading="lazy"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>The Teladoc Health logo, from the Anvil "Logos and marks" page in Figma. Use it in headers, footers and sign-in screens.</p>
+<h2>Usage</h2>
+<pre><code class="language-jsx">&lt;Logo /&gt;                      // 40px tall, accessible name &quot;Teladoc Health&quot;
+&lt;Logo height={32} /&gt;
+&lt;a href=&quot;/&quot; aria-label=&quot;Teladoc Health home&quot;&gt;&lt;Logo decorative /&gt;&lt;/a&gt;
+</code></pre>
+<ul>
+<li><strong>Size:</strong> set <code>height</code>; the width follows the artwork's 193:64 proportions. Use 40px in the desktop header and at least 24px anywhere else.</li>
+<li><strong>Color:</strong> the logo isn't recolored by hand. The wordmark uses <code>logo-type-plum</code> and HEALTH plus the "o" ring use <code>logo-type-aqua</code>, so it's full color in light themes and white in dark themes.</li>
+<li><strong>Clear space:</strong> keep at least the height of the "o" ring empty on every side.</li>
+<li><strong>Accessibility:</strong> the logo has the accessible name "Teladoc Health". Inside a link that already has a label, pass <code>decorative</code> so it isn't read twice.</li>
+<li><strong>In GlobalHeader:</strong> the header shows this logo by default.</li>
+</ul>
+<h2>Differences from Figma</h2>
+<ul>
+<li>Only the Default layout is here. The Care by, Powered by and Pavers layouts weren't exported as artwork.</li>
+<li>The light and dark mode SVGs are in Assets under Logos.</li>
 </ul></div></details>
 </section>
 <section class="comp" id="Illustration">

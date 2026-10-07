@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; font-family: var(--font-sans, system-ui, sans-serif); }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end; }
+  .tile { padding: 24px 28px; border-radius: 12px; display: flex; flex-direction: column; gap: 12px; }
+  .cap { font-size: 12px; line-height: 16px; color: var(--text-body-subdued); }
+  .light { background: var(--background-surface); border: 1px solid var(--stroke-subdued); }
+  .dark { background: #120d26; }
+  .dark .cap { color: #cfcbe0; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement;
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "row" },
+    h("div", { className: "tile light" }, h(Anvil.Logo, { height: 64 }), h("span", { className: "cap" }, "height 64, current theme")),
+    h("div", { className: "tile light" }, h(Anvil.Logo, null), h("span", { className: "cap" }, "height 40 (header)")),
+    h("div", { className: "tile light" }, h(Anvil.Logo, { height: 24 }), h("span", { className: "cap" }, "height 24 (minimum)")),
+    h("div", { className: "tile dark", "data-theme": "core-dark" }, h(Anvil.Logo, { height: 40 }), h("span", { className: "cap" }, "Core UI Dark"))
+  ));
+</script>
+</body>
+</html>

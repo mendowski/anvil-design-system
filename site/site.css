@@ -90,6 +90,7 @@ details.guide th, details.guide td { border-bottom: 1px solid var(--stroke-subdu
 .pg-tabs button { font: inherit; font-size: 14px; background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 0; color: var(--text-body-subdued); cursor: pointer; }
 .pg-tabs button[aria-selected="true"] { color: var(--text-body-base); border-bottom-color: var(--brand-interactive-primary-base); font-weight: 500; }
 .pg-canvas { flex: 1; overflow: auto; border-radius: 16px; padding: 32px 16px; background-color: var(--background-base); background-image: radial-gradient(var(--stroke-subdued) 1px, transparent 1px); background-size: 16px 16px; border: 1px solid var(--stroke-subdued); display: flex; justify-content: center; align-items: flex-start; min-height: 360px; }
+.pg-canvas--wide { justify-content: flex-start; }
 .pg-frame { max-width: 100%; background: var(--background-surface); border-radius: 12px; padding: 32px 24px; box-shadow: 0 1px 2px rgba(0,0,0,.06); transition: width .2s; display: flex; justify-content: center; }
 .pg-frame__inner { width: 100%; display: flex; justify-content: center; }
 .pg-frame__inner > * { flex: 0 1 auto; }

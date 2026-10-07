@@ -183,10 +183,12 @@
       }
     },
     GlobalHeader: {
-      blurb: "The global header for signed-in pages, focused tasks and multi-step flows.",
+      blurb: "The global header for signed-in pages, focused tasks and multi-step flows. The desktop layout is wide, so the canvas scrolls sideways.",
+      canvas: { minWidth: function (a) { return a.layout === "desktop" ? 1080 : undefined; } },
       controls: {
         type: sel("Type", ["default", "focused", "progress"], "default"),
-        layout: sel("Layout", ["auto", "desktop", "mobile"], "auto"),
+        logoHeight: num("Logo height", 40, 24, 64, 4, { when: function (a) { return a.type !== "progress"; } }),
+        layout: sel("Layout", ["auto", "desktop", "mobile"], "desktop"),
         nav: text("Nav links (comma separated)", "Visits, Health log, Learning", { when: function (a) { return a.type === "default"; } }),
         current: num("Current nav link", 1, 0, 6, 1, { when: function (a) { return a.type === "default"; } }),
         cta: text("Button label", "Get care", { when: function (a) { return a.type === "default"; } }),
@@ -197,7 +199,7 @@
       },
       props: function (a) {
         var list = function (s) { return s.split(",").map(function (x) { return x.trim(); }).filter(Boolean); };
-        var p = { type: a.type !== "default" ? a.type : undefined, layout: a.layout !== "auto" ? a.layout : undefined };
+        var p = { type: a.type !== "default" ? a.type : undefined, layout: a.layout !== "auto" ? a.layout : undefined, logoHeight: a.logoHeight !== 40 ? a.logoHeight : undefined };
         if (a.type === "default") {
           p.nav = list(a.nav).map(function (l, i) { return { label: l, href: "#", current: i === a.current - 1 }; });
           p.utilities = [{ label: "Profile", icon: "profile", href: "#" }, { label: "Messages", icon: "mail", badge: 2, href: "#" }];
@@ -210,6 +212,15 @@
         }
         return p;
       }
+    },
+    Logo: {
+      blurb: "The Teladoc Health logo. It turns white in dark themes; try the Theme menu at the top.",
+      controls: {
+        height: num("Height", 64, 24, 160, 4),
+        title: text("Accessible name", "Teladoc Health"),
+        decorative: bool("Decorative (inside a labelled link)", false)
+      },
+      props: function (a) { return { height: a.height !== 40 ? a.height : undefined, title: a.title !== "Teladoc Health" && !a.decorative ? a.title : undefined, decorative: a.decorative || undefined }; }
     },
     Illustration: {
       blurb: "Spot and hero illustrations in their frames.",
@@ -324,7 +335,9 @@
     var code = story.code ? story.code(args) : jsx(name, props);
     var widths = { full: "100%", "768": "768px", "375": "375px" };
     var canvasStyle = { width: widths[width] };
-    var inner = { maxWidth: story.canvas && story.canvas.maxWidth && width === "full" ? story.canvas.maxWidth : undefined };
+    var inner = { maxWidth: story.canvas && story.canvas.maxWidth && width === "full" ? story.canvas.maxWidth : undefined,
+      minWidth: story.canvas && story.canvas.minWidth ? story.canvas.minWidth(args) : undefined };
+    if (inner.minWidth) canvasStyle = { width: "auto", maxWidth: "none" };
 
     function setArg(k, v) { setArgs(function (o) { var n = Object.assign({}, o); n[k] = v; return n; }); }
     function copy() {
@@ -347,7 +360,7 @@
           h("button", { role: "tab", type: "button", "aria-selected": tab === "canvas", onClick: function () { setTab("canvas"); } }, "Canvas"),
           h("button", { role: "tab", type: "button", "aria-selected": tab === "code", onClick: function () { setTab("code"); } }, "Code")),
         tab === "canvas"
-          ? h("div", { className: "pg-canvas" }, h("div", { className: "pg-frame", style: canvasStyle },
+          ? h("div", { className: inner.minWidth ? "pg-canvas pg-canvas--wide" : "pg-canvas" }, h("div", { className: "pg-frame", style: canvasStyle },
               h("div", { className: "pg-frame__inner", style: inner },
                 h(A[name], Object.assign({ key: story.key ? story.key(args) : "k" }, props)))))
           : h("div", { className: "pg-code" }, h("button", { type: "button", className: "pg-copy", onClick: copy }, copied ? "Copied" : "Copy"), h("pre", null, h("code", null, code)))),

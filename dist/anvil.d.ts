@@ -203,8 +203,10 @@ export declare function Card(props: CardProps): React.ReactElement;
 export interface NavItemProps { label: string; href?: string; onClick?: () => void; icon?: IconName; badge?: number | boolean; current?: boolean; state?: "hover" | "focus"; }
 export interface GlobalHeaderProps {
   type?: "default" | "focused" | "progress";
-  /** Your logo element. Defaults to a text wordmark. */
+  /** Your logo element. Defaults to the Teladoc Health logo (Anvil.Logo). */
   logo?: React.ReactNode;
+  /** Accessible name of the logo link. Default "Teladoc Health home". */
+  label?: string;
   nav?: NavItemProps[];
   /** Icon + label links on the right, such as Profile and Messages. */
   utilities?: NavItemProps[];
@@ -270,3 +272,16 @@ export declare namespace Illustration {
   const names: { spot: string[]; hero: string[] };
   function url(type: "spot" | "hero", name: string): string | undefined;
 }
+
+export interface LogoProps {
+  /** Height in px; width follows the 193:64 artwork. Default 40. */
+  height?: number;
+  /** Accessible name. Default "Teladoc Health". */
+  title?: string;
+  /** Hide from screen readers, such as inside a link that already has a label. */
+  decorative?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}
+/** The Teladoc Health logo. Its colors follow the logo-type tokens, so it turns white in dark themes. */
+export declare function Logo(props: LogoProps): React.ReactElement;

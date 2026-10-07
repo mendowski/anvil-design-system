@@ -687,3 +687,8 @@
 .anvil-illo--hero.anvil-illo--round { border-radius: var(--radius-150); }
 .anvil-illo__img, .anvil-illo > svg { display: block; width: 100%; height: 100%; object-fit: contain; }
 .anvil-illo__placeholder { display: inline-flex; color: var(--brand-primary-1); opacity: .55; }
+
+/* Logo: fills follow the logo-type tokens, so the logo turns white in dark themes */
+.anvil-logo { display: block; flex: none; }
+.anvil-logo__type { fill: var(--logo-type-plum); }
+.anvil-logo__accent { fill: var(--logo-type-aqua); }
