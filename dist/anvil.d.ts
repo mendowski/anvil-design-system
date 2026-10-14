@@ -274,9 +274,11 @@ export declare namespace Illustration {
 }
 
 export interface LogoProps {
-  /** Height in px; width follows the 193:64 artwork. Default 40. */
+  /** "default", "care-by", "powered-by" or "pavers". Default "default". */
+  layout?: "default" | "care-by" | "powered-by" | "pavers";
+  /** Height in px; width follows the artwork. Default 40. */
   height?: number;
-  /** Accessible name. Default "Teladoc Health". */
+  /** Accessible name. Defaults to the layout's wording, such as "Care by Teladoc Health". */
   title?: string;
   /** Hide from screen readers, such as inside a link that already has a label. */
   decorative?: boolean;
@@ -365,3 +367,16 @@ export interface NavListProps {
   style?: React.CSSProperties;
 }
 export declare function NavList(props: NavListProps): React.ReactElement;
+
+export interface ConnectorProps {
+  /** Width and height in px. Default 64. */
+  size?: number;
+  /** Force the light or dark artwork. By default it follows the page theme. */
+  mode?: "light" | "dark";
+  /** Accessible name. Without it the mark is decorative. */
+  title?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}
+/** The Teladoc Health connector brand mark. */
+export declare function Connector(props: ConnectorProps): React.ReactElement;

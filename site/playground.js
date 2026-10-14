@@ -293,11 +293,21 @@
     Logo: {
       blurb: "The Teladoc Health logo. It turns white in dark themes; try the Theme menu at the top.",
       controls: {
+        layout: sel("Layout", ["default", "care-by", "powered-by", "pavers"], "default"),
         height: num("Height", 64, 24, 160, 4),
         title: text("Accessible name", "Teladoc Health"),
         decorative: bool("Decorative (inside a labelled link)", false)
       },
-      props: function (a) { return { height: a.height !== 40 ? a.height : undefined, title: a.title !== "Teladoc Health" && !a.decorative ? a.title : undefined, decorative: a.decorative || undefined }; }
+      props: function (a) { return { layout: a.layout !== "default" ? a.layout : undefined, height: a.height !== 40 ? a.height : undefined, title: a.title !== "Teladoc Health" && !a.decorative ? a.title : undefined, decorative: a.decorative || undefined }; }
+    },
+    Connector: {
+      blurb: "The Teladoc Health connector mark. It switches to its dark artwork in dark themes, or force one with Mode.",
+      controls: {
+        size: num("Size", 64, 16, 192, 8),
+        mode: sel("Mode", ["auto", "light", "dark"], "auto"),
+        title: text("Accessible name (empty = decorative)", "")
+      },
+      props: function (a) { return { size: a.size !== 64 ? a.size : undefined, mode: a.mode !== "auto" ? a.mode : undefined, title: a.title || undefined }; }
     },
     Illustration: {
       blurb: "Spot and hero illustrations in their frames.",

@@ -783,3 +783,23 @@ a.anvil-pnav:active :is(.anvil-pnav__label, .anvil-pnav__eyebrow, .anvil-pnav__d
 .anvil-pnav--disabled .anvil-pnav__arrow { color: var(--icon-disabled); }
 .anvil-pnav--disabled .anvil-pnav__spot { filter: grayscale(1); opacity: .6; }
 @media (max-width: 599px) { .anvil-pnav-list { gap: var(--space-100); } }
+
+/* Logo layouts: pavers in the Pavers layout follow the logo-paver tokens */
+.anvil-logo__paver-plum { fill: var(--logo-paver-plum); }
+.anvil-logo__paver-aqua { fill: var(--logo-paver-aqua); }
+.anvil-logo__paver-berry { fill: var(--logo-paver-berry); }
+.anvil-logo__paver-green { fill: var(--logo-paver-green); }
+.anvil-logo__paver-purple { fill: var(--logo-paver-purple); }
+/* Connector: light and dark artwork differ in shape, so the theme picks one */
+.anvil-connector { display: block; flex: none; }
+.anvil-connector__aqua { fill: var(--logo-connector-aqua); }
+.anvil-connector__plum { fill: var(--logo-connector-plum); }
+.anvil-connector__dark { display: none; }
+.anvil-connector__dark .anvil-connector__aqua { fill: var(--aqua-385, #00b5e2); }
+.anvil-connector__dark .anvil-connector__plum { fill: var(--purple-155, #6c4df4); }
+[data-theme="core-dark"] .anvil-connector:not(.anvil-connector--light) .anvil-connector__light,
+[data-theme="pli-dark"] .anvil-connector:not(.anvil-connector--light) .anvil-connector__light,
+.anvil-connector--dark .anvil-connector__light { display: none; }
+[data-theme="core-dark"] .anvil-connector:not(.anvil-connector--light) .anvil-connector__dark,
+[data-theme="pli-dark"] .anvil-connector:not(.anvil-connector--light) .anvil-connector__dark,
+.anvil-connector--dark .anvil-connector__dark { display: inline; }

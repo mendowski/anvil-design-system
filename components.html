@@ -24,7 +24,7 @@
 <main>
 <p class="eyebrow">Components</p><h1 class="page-title">Components</h1>
 <p class="lede">Live React components built from the Anvil Figma component sets. Every example below is running code, so switch the theme at the top to see each one in Core UI and PLI, light and dark.</p>
-<nav class="jump" aria-label="Components"><a href="#Button">Button</a><a href="#TextInput">Text input</a><a href="#PasswordInput">Password input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#NavList">Prominent nav list</a><a href="#GlobalHeader">Global header</a><a href="#Logo">Logo</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
+<nav class="jump" aria-label="Components"><a href="#Button">Button</a><a href="#TextInput">Text input</a><a href="#PasswordInput">Password input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#NavList">Prominent nav list</a><a href="#GlobalHeader">Global header</a><a href="#Logo">Logo</a><a href="#Connector">Connector</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
 <section class="comp" id="Button">
   <div class="comp-head"><h2 class="sec">Button</h2><span class="comp-meta"><code>Anvil.Button</code><a class="pg-link" href="playground.html#Button">Try it in the playground</a></span></div>
   <p class="lede">Buttons start actions, in three levels of emphasis: primary, secondary and tertiary, each with a destructive version.</p>
@@ -631,11 +631,12 @@
 <section class="comp" id="Logo">
   <div class="comp-head"><h2 class="sec">Logo</h2><span class="comp-meta"><code>Anvil.Logo</code><a class="pg-link" href="playground.html#Logo">Try it in the playground</a></span></div>
   <p class="lede">The Teladoc Health logo, from the Anvil &quot;Logos and marks&quot; page in Figma.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Logo.html" title="Logo examples" height="200" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Logo.html" title="Logo examples" height="380" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>The Teladoc Health logo, from the Anvil "Logos and marks" page in Figma. Use it in headers, footers and sign-in screens.</p>
 <h2>Usage</h2>
 <pre><code class="language-jsx">&lt;Logo /&gt;                      // 40px tall, accessible name &quot;Teladoc Health&quot;
 &lt;Logo height={32} /&gt;
+&lt;Logo layout=&quot;care-by&quot; /&gt;
 &lt;a href=&quot;/&quot; aria-label=&quot;Teladoc Health home&quot;&gt;&lt;Logo decorative /&gt;&lt;/a&gt;
 </code></pre>
 <ul>
@@ -645,10 +646,66 @@
 <li><strong>Accessibility:</strong> the logo has the accessible name "Teladoc Health". Inside a link that already has a label, pass <code>decorative</code> so it isn't read twice.</li>
 <li><strong>In GlobalHeader:</strong> the header shows this logo by default.</li>
 </ul>
+<h2>Layouts</h2>
+<table>
+<thead>
+<tr>
+<th><code>layout</code></th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>default</code></td>
+<td>The Teladoc Health logo on its own.</td>
+</tr>
+<tr>
+<td><code>care-by</code></td>
+<td>"Care by Teladoc Health", for partner and co-branded experiences where Teladoc Health provides the care.</td>
+</tr>
+<tr>
+<td><code>powered-by</code></td>
+<td>"Powered by Teladoc Health", where a partner's product runs on Teladoc Health.</td>
+</tr>
+<tr>
+<td><code>pavers</code></td>
+<td>The logo with the paver mark, for brand moments such as covers and splash screens.</td>
+</tr>
+</tbody>
+</table>
+<p>The accessible name follows the layout, such as "Care by Teladoc Health". In the Pavers layout the pavers use the <code>logo-paver-*</code> tokens; the plum paver turns white in dark themes.</p>
 <h2>Differences from Figma</h2>
 <ul>
-<li>Only the Default layout is here. The Care by, Powered by and Pavers layouts weren't exported as artwork.</li>
-<li>The light and dark mode SVGs are in Assets under Logos.</li>
+<li>Figma swaps light and dark through a hidden utility component; here the colors come from tokens, so every layout follows the page theme.</li>
+<li>The light and dark mode SVGs for every layout are in Assets under Logos.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="Connector">
+  <div class="comp-head"><h2 class="sec">Connector</h2><span class="comp-meta"><code>Anvil.Connector</code><a class="pg-link" href="playground.html#Connector">Try it in the playground</a></span></div>
+  <p class="lede">The Connector is a key Teladoc Health brand element, from the Figma &quot;Teladoc-Health-connector&quot; on the Logos and marks page.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Connector.html" title="Connector examples" height="220" loading="lazy"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>The Connector is a key Teladoc Health brand element, from the Figma "Teladoc-Health-connector" on the Logos and marks page. It can pair with the paver system, but use it purposefully.</p>
+<h2>When to use it</h2>
+<ul>
+<li><strong>To direct attention:</strong> a subtle element that leads the eye to a message.</li>
+<li><strong>As a watermark:</strong> a quiet brand reinforcement repeated across a multi-slide social post or a video.</li>
+<li><strong>To introduce app elements,</strong> such as the icon on a push notification.</li>
+</ul>
+<p>Don't use it as a logo replacement, a bullet, or decoration on every screen.</p>
+<h2>Usage</h2>
+<pre><code class="language-jsx">&lt;Connector /&gt;                 // 64px, decorative
+&lt;Connector size={32} /&gt;
+&lt;Connector title=&quot;Teladoc Health&quot; /&gt;   // when it stands alone and carries meaning
+</code></pre>
+<ul>
+<li><strong>Size:</strong> <code>size</code> sets the width and height; the mark is square. 64px is the Figma default.</li>
+<li><strong>Color and theme:</strong> the halves use <code>logo-connector-plum</code> and <code>logo-connector-aqua</code>. In dark themes the plum half turns <code>#6C4DF4</code>, and the dark artwork is drawn slightly differently (slimmer halves), so the component switches shape as well as color. Force one with <code>mode="light"</code> or <code>mode="dark"</code>.</li>
+<li><strong>Accessibility:</strong> it's decorative by default and hidden from screen readers. Pass <code>title</code> when the mark alone identifies the brand.</li>
+</ul>
+<h2>Differences from Figma</h2>
+<ul>
+<li>Figma swaps light and dark through a hidden utility component; here the component reads the page theme.</li>
+<li>The light and dark SVGs are in Assets under Logos.</li>
 </ul></div></details>
 </section>
 <section class="comp" id="Illustration">
@@ -704,9 +761,9 @@
 </section>
 <section class="comp" id="Icon">
   <div class="comp-head"><h2 class="sec">Icon</h2><span class="comp-meta"><code>Anvil.Icon</code><a class="pg-link" href="playground.html#Icon">Try it in the playground</a></span></div>
-  <p class="lede">Icons are the 172 glyphs from the Anvil Figma Icons page.</p>
+  <p class="lede">Icons are the 174 glyphs from the Anvil Figma Icons page.</p>
   <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Icon.html" title="Icon examples" height="1180" loading="lazy" style="min-width:960px"></iframe></div>
-  <details class="guide"><summary>Guidelines and props</summary><div><p>Icons are the 172 glyphs from the Anvil Figma Icons page. They're drawn on a 16px grid and follow the surrounding text color.</p>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Icons are the 174 glyphs from the Anvil Figma Icons page. They're drawn on a 16px grid and follow the surrounding text color.</p>
 <h2>Using icons</h2>
 <ul>
 <li>Render one with <code>&lt;Icon name="calendar" /&gt;</code>. <code>Icon.names</code> lists every name.</li>
