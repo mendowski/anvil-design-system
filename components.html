@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="site/site.css">
 <script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
-<body>
+<body class="cp-page">
 
 <header class="site-top">
   <a class="site-brand" href="index.html">Anvil</a>
@@ -21,10 +21,12 @@
   <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
 </header>
 
-<main>
+<main><div class="cp">
+<nav class="cp-side" aria-label="Components"><p class="eyebrow">Components</p><a href="#Button">Button</a><a href="#TextInput">Text input</a><a href="#PasswordInput">Password input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#NavList">Prominent nav list</a><a href="#GlobalHeader">Global header</a><a href="#Logo">Logo</a><a href="#Connector">Connector</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
+<div class="cp-body">
 <p class="eyebrow">Components</p><h1 class="page-title">Components</h1>
 <p class="lede">Live React components built from the Anvil Figma component sets. Every example below is running code, so switch the theme at the top to see each one in Core UI and PLI, light and dark.</p>
-<nav class="jump" aria-label="Components"><a href="#Button">Button</a><a href="#TextInput">Text input</a><a href="#PasswordInput">Password input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#NavList">Prominent nav list</a><a href="#GlobalHeader">Global header</a><a href="#Logo">Logo</a><a href="#Connector">Connector</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
+<nav class="jump" aria-label="Components (compact)"><a href="#Button">Button</a><a href="#TextInput">Text input</a><a href="#PasswordInput">Password input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#NavList">Prominent nav list</a><a href="#GlobalHeader">Global header</a><a href="#Logo">Logo</a><a href="#Connector">Connector</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
 <section class="comp" id="Button">
   <div class="comp-head"><h2 class="sec">Button</h2><span class="comp-meta"><code>Anvil.Button</code><a class="pg-link" href="playground.html#Button">Try it in the playground</a></span></div>
   <p class="lede">Buttons start actions, in three levels of emphasis: primary, secondary and tertiary, each with a destructive version.</p>
@@ -790,7 +792,20 @@
 <li><strong>Status:</strong> alert, alert-triangle, error, info, check, check-circle</li>
 </ul></div></details>
 </section>
-</main>
+</div></div></main>
+<script>
+(function () {
+  var links = [].slice.call(document.querySelectorAll('.cp-side a'));
+  var secs = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+  function spy() {
+    var cur = 0;
+    secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < 140) cur = i; });
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) cur = secs.length - 1;
+    links.forEach(function (a, i) { if (i === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+  }
+  window.addEventListener('scroll', spy, { passive: true }); window.addEventListener('resize', spy); spy();
+})();
+</script>
 <footer class="site-foot">Anvil (formerly Pulse) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
 <script src="site/site.js"></script>
 </body>
