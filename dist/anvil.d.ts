@@ -28,7 +28,7 @@ export declare const Button: React.ForwardRefExoticComponent<ButtonProps & React
 export declare function PlusIcon(): React.ReactElement;
 
 /** Every icon exported from the Anvil Figma Icons page. */
-export type IconName = "home" | "ellipsis" | "menu" | "arrow-left" | "arrow-right" | "arrow-down" | "arrow-up" | "search" | "reload" | "refresh" | "external-link" | "unlock" | "lock" | "close" | "close-circle" | "check" | "check-circle" | "alert" | "error" | "info" | "bullet" | "bookmark" | "link" | "unlink" | "plus" | "plus-circle" | "minus" | "remove" | "filter" | "logs" | "trash" | "edit" | "calendar" | "calendar-plus" | "attachment" | "camera" | "photo" | "copy" | "blood-sugar" | "blood-pressure" | "behavioral-health" | "weight" | "food" | "steps" | "library" | "heart-pulse" | "doctor-bag" | "stethoscope" | "checklist" | "no-smoking" | "coronavirus" | "wheelchair" | "medical-info" | "medicine" | "stop" | "primary-care" | "health-info" | "profile" | "group" | "language" | "device" | "programs" | "supplies" | "authorization" | "lab" | "reminder" | "mute" | "sign-out" | "apple-watch" | "show-password" | "hide-password" | "credit-card" | "emergency-contact" | "past-visits" | "insurance" | "family" | "settings" | "volume-more" | "volume-less" | "volume-off" | "airplane" | "brightness-low" | "brightness-medium" | "brightness-high" | "hearing-impaired" | "wifi" | "chart" | "download" | "upload" | "document" | "share" | "sort" | "star" | "thumb-up" | "thumb-down" | "meal" | "mood-joy" | "mood-happy" | "mood-neutral" | "mood-unhappy" | "mood-terrible" | "sun" | "moon" | "umbrella" | "plant" | "gauge-low" | "gauge" | "gauge-high" | "chat" | "help" | "phone" | "map-signs" | "location-pin" | "mail" | "paper-airplane" | "video" | "video-off" | "microphone" | "microphone-off" | "printer" | "clock" | "media" | "skip-15-backward" | "skip-15-forward" | "sleep" | "activity" | "power" | "cloud-disconnected" | "control-solution" | "alert-triangle" | "resilience" | "empowerment" | "training" | "care" | "spending" | "saving" | "caret-down" | "data-up" | "data-down" | "alert-lightbulb" | "glucose" | "body-composition" | "tag" | "card-empty" | "card-visa" | "card-mastercard" | "card-american-express" | "card-unknown" | "card-cvc" | "arrow-swap" | "health-insights" | "headset" | "camera-ai" | "flash" | "flash-off" | "flash-auto" | "barcode" | "filter-sort" | "my-location" | "directions" | "calendar-warning" | "line-arrow-down" | "line-arrow-up" | "line-arrow-right" | "line-arrow-left" | "send" | "ai-sparkle" | "pin" | "expand" | "collapse" | "pin-slash" | "ai-sparkles";
+export type IconName = "home" | "ellipsis" | "menu" | "arrow-left" | "arrow-right" | "arrow-down" | "arrow-up" | "search" | "reload" | "refresh" | "external-link" | "unlock" | "lock" | "close" | "close-circle" | "check" | "check-circle" | "alert" | "error" | "info" | "bullet" | "bookmark" | "link" | "unlink" | "plus" | "plus-circle" | "minus" | "remove" | "filter" | "logs" | "trash" | "edit" | "calendar" | "calendar-plus" | "attachment" | "camera" | "photo" | "copy" | "blood-sugar" | "blood-pressure" | "behavioral-health" | "weight" | "food" | "steps" | "library" | "heart-pulse" | "doctor-bag" | "stethoscope" | "checklist" | "no-smoking" | "coronavirus" | "wheelchair" | "medical-info" | "medicine" | "stop" | "primary-care" | "health-info" | "profile" | "group" | "language" | "device" | "programs" | "supplies" | "authorization" | "lab" | "reminder" | "mute" | "sign-out" | "apple-watch" | "show-password" | "hide-password" | "credit-card" | "emergency-contact" | "past-visits" | "insurance" | "family" | "settings" | "volume-more" | "volume-less" | "volume-off" | "airplane" | "brightness-low" | "brightness-medium" | "brightness-high" | "hearing-impaired" | "wifi" | "chart" | "download" | "upload" | "document" | "share" | "sort" | "star" | "thumb-up" | "thumb-down" | "meal" | "mood-joy" | "mood-happy" | "mood-neutral" | "mood-unhappy" | "mood-terrible" | "sun" | "moon" | "umbrella" | "plant" | "gauge-low" | "gauge" | "gauge-high" | "chat" | "help" | "phone" | "map-signs" | "location-pin" | "mail" | "paper-airplane" | "video" | "video-off" | "microphone" | "microphone-off" | "printer" | "clock" | "media" | "skip-15-backward" | "skip-15-forward" | "sleep" | "activity" | "power" | "cloud-disconnected" | "control-solution" | "alert-triangle" | "resilience" | "empowerment" | "training" | "care" | "spending" | "saving" | "caret-down" | "data-up" | "data-down" | "alert-lightbulb" | "glucose" | "body-composition" | "tag" | "card-empty" | "card-visa" | "card-mastercard" | "card-american-express" | "card-unknown" | "card-cvc" | "arrow-swap" | "health-insights" | "headset" | "camera-ai" | "flash" | "flash-off" | "flash-auto" | "barcode" | "filter-sort" | "my-location" | "directions" | "calendar-warning" | "line-arrow-down" | "line-arrow-up" | "line-arrow-right" | "line-arrow-left" | "send" | "ai-sparkle" | "pin" | "expand" | "collapse" | "pin-slash" | "ai-sparkles" | "injection" | "thermometer";
 
 export interface IconProps {
   /** Which icon. */
@@ -285,3 +285,83 @@ export interface LogoProps {
 }
 /** The Teladoc Health logo. Its colors follow the logo-type tokens, so it turns white in dark themes. */
 export declare function Logo(props: LogoProps): React.ReactElement;
+
+export interface VisitAction { label: string; href?: string; onClick?: () => void; }
+export interface VisitCardProps {
+  /** Default "upcoming". */
+  type?: "upcoming" | "today" | "past" | "custom";
+  /** Upcoming and Today only: left bar, no date block, time pill. */
+  prominent?: boolean;
+  /** Eyebrow text. Defaults: the time, "Today"/"Tomorrow" when prominent, "Custom label" for custom. */
+  label?: string;
+  month?: string;
+  day?: string;
+  /** Shown on past visits. */
+  year?: string;
+  time?: string;
+  /** The provider, such as "Dr. Ana Rivera, MD". */
+  header: React.ReactNode;
+  /** The care type. */
+  description?: React.ReactNode;
+  /** Visit type icon. Default "video"; null hides it. */
+  icon?: IconName | null;
+  /** Accessible name for the icon, such as "Video visit". */
+  iconLabel?: string;
+  canceled?: boolean;
+  canceledLabel?: string;
+  /** Small tertiary buttons: two at most, three for custom. */
+  actions?: VisitAction[];
+  /** Prominent cards: "prominent" makes the first action a full-width primary button. */
+  footerStyle?: "default" | "prominent";
+  /** Makes the whole card a link, with an arrow. */
+  href?: string;
+  onClick?: () => void;
+  /** Shows the arrow without a link. */
+  arrow?: boolean;
+  headingAs?: "h2" | "h3" | "h4";
+  as?: "article" | "li" | "div";
+  className?: string;
+  style?: React.CSSProperties;
+}
+export declare function VisitCard(props: VisitCardProps): React.ReactElement;
+
+export interface NavListItemProps {
+  label: React.ReactNode;
+  eyebrow?: React.ReactNode;
+  description?: React.ReactNode;
+  metadata?: React.ReactNode;
+  /** Custom content in place of description. */
+  children?: React.ReactNode;
+  /** Default "none", or "icon"/"spot" when icon/spot is set. */
+  graphic?: "none" | "icon" | "spot";
+  /** Icon in the 32px circle. Default "settings". */
+  icon?: IconName;
+  /** Spot illustration name, such as "celebration". */
+  spot?: string;
+  spotSrc?: string;
+  spotBackground?: SpotBackground;
+  /** "label" (default): graphic beside all the text. "full-width": graphic beside the label only. */
+  alignment?: "label" | "full-width";
+  status?: "completed" | "postponed";
+  disabled?: boolean;
+  /** Right arrow for items that go to another page. */
+  arrow?: boolean;
+  href?: string;
+  onClick?: () => void;
+  /** Forces a visual state for documentation. */
+  state?: "hover" | "focus" | "pressed";
+  className?: string;
+  style?: React.CSSProperties;
+}
+export declare function NavListItem(props: NavListItemProps): React.ReactElement;
+export interface NavListProps {
+  items?: NavListItemProps[];
+  /** "stack" (default) or "grid". */
+  layout?: "stack" | "grid";
+  /** Accessible name for the list. */
+  label?: string;
+  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}
+export declare function NavList(props: NavListProps): React.ReactElement;

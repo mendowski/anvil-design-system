@@ -15,7 +15,7 @@ Anvil (formerly Pulse) is the design system that brought Teladoc Health, Livongo
 | `dist/anvil.css` | Component styles |
 | `dist/anvil.d.ts` | Component props, for reference |
 | `fonts/` | Reckless Neue Bold and Effra Italic. Lexend Deca loads from Google Fonts |
-| `assets/icons/` | 339 SVG icons (default and `-active` versions) |
+| `assets/icons/` | 343 SVG icons (default and `-active` versions) |
 | `assets/illustrations/` | 76 spot and 68 hero illustrations as SVG |
 | `examples/` | One live example page per component |
 | `docs/` | Guidelines for each component and asset group |

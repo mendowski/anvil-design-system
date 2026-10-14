@@ -213,6 +213,83 @@
         return p;
       }
     },
+    VisitCard: {
+      blurb: "Visit card shows one scheduled visit with up to three actions. Prominent highlights the next visit.",
+      canvas: { maxWidth: 400 },
+      controls: {
+        type: sel("Type", ["upcoming", "today", "past", "custom"], "upcoming"),
+        prominent: bool("Prominent", false, { when: function (a) { return a.type === "upcoming" || a.type === "today"; } }),
+        label: text("Eyebrow label", "", { when: function (a) { return a.type === "custom" || a.prominent; }, note: "Empty uses the default" }),
+        header: text("Provider", "Dr. Ana Rivera, MD"),
+        description: text("Care type", "Weight management"),
+        month: text("Month", "Apr", { when: function (a) { return !a.prominent && a.type !== "custom"; } }),
+        day: text("Day", "30", { when: function (a) { return !a.prominent && a.type !== "custom"; } }),
+        year: text("Year", "2024", { when: function (a) { return a.type === "past"; } }),
+        time: text("Time", "11:00 AM"),
+        icon: icon("Visit icon", "video", { allowNone: true }),
+        canceled: bool("Canceled", false, { when: function (a) { return !a.prominent; } }),
+        linked: bool("Links to details (arrow)", false, { when: function (a) { return !a.prominent; } }),
+        action1: text("Action 1", "Join visit"),
+        action2: text("Action 2", "Reschedule"),
+        action3: text("Action 3", "Cancel", { when: function (a) { return a.type === "custom"; } }),
+        footerStyle: sel("Footer style", ["default", "prominent"], "default", { when: function (a) { return a.prominent; } })
+      },
+      props: function (a) {
+        var prom = a.prominent && (a.type === "upcoming" || a.type === "today");
+        var acts = [a.action1, a.action2, a.type === "custom" ? a.action3 : ""].filter(Boolean).map(function (l) { return { label: l }; });
+        return { type: a.type !== "upcoming" ? a.type : undefined, prominent: prom || undefined,
+          label: (a.type === "custom" || prom) && a.label ? a.label : undefined,
+          header: a.header, description: a.description || undefined,
+          month: !prom && a.type !== "custom" ? a.month : undefined, day: !prom && a.type !== "custom" ? a.day : undefined,
+          year: a.type === "past" ? a.year : undefined, time: a.time || undefined,
+          icon: a.icon === "none" ? null : a.icon !== "video" ? a.icon : undefined,
+          canceled: !prom && a.canceled || undefined, href: !prom && a.linked ? "#" : undefined,
+          actions: acts.length ? acts : undefined, footerStyle: prom && a.footerStyle !== "default" ? a.footerStyle : undefined };
+      }
+    },
+    NavList: {
+      blurb: "Prominent nav list items link to key destinations, such as programs and next steps.",
+      canvas: { maxWidth: 420 },
+      controls: {
+        label: text("Label", "Log your weight"),
+        eyebrow: text("Eyebrow", ""),
+        description: text("Description", "Weekly check-in"),
+        metadata: text("Metadata", "Takes 1 minute"),
+        graphic: sel("Graphic", ["none", "icon", "spot"], "icon"),
+        icon: icon("Icon", "weight", { when: function (a) { return a.graphic === "icon"; } }),
+        spot: illo("Spot illustration", "celebration", "spot", { when: function (a) { return a.graphic === "spot"; } }),
+        alignment: sel("Graphic and content alignment", ["label", "full-width"], "label", { when: function (a) { return a.graphic !== "none"; } }),
+        status: sel("Status", ["none", "completed", "postponed"], "none"),
+        arrow: bool("Arrow indicator", true),
+        disabled: bool("Disabled", false),
+        state: sel("Force state", ["none", "hover", "focus", "pressed"], "none"),
+        count: num("Items in the list", 1, 1, 4)
+      },
+      props: function (a) {
+        var item = { href: a.disabled ? undefined : "#", label: a.label, eyebrow: a.eyebrow || undefined, description: a.description || undefined,
+          metadata: a.metadata || undefined, graphic: a.graphic !== "none" ? a.graphic : undefined,
+          icon: a.graphic === "icon" ? a.icon : undefined, spot: a.graphic === "spot" ? a.spot : undefined,
+          alignment: a.graphic !== "none" && a.alignment !== "label" ? a.alignment : undefined, status: none(a.status),
+          arrow: a.arrow || undefined, disabled: a.disabled || undefined, state: none(a.state) };
+        var items = [item];
+        var more = [["Refill your prescription", "medicine", "Due in 3 days"], ["Book a follow-up", "calendar", "Recommended"], ["Message your care team", "chat", "Replies within a day"]];
+        for (var i = 1; i < a.count; i++) items.push({ href: "#", label: more[i - 1][0], graphic: a.graphic !== "none" ? "icon" : undefined, icon: more[i - 1][1], description: more[i - 1][2], arrow: a.arrow || undefined });
+        return { items: items };
+      },
+      code: function (a) {
+        var p = ['label: "' + a.label + '"'];
+        if (a.eyebrow) p.push('eyebrow: "' + a.eyebrow + '"');
+        if (a.description) p.push('description: "' + a.description + '"');
+        if (a.metadata) p.push('metadata: "' + a.metadata + '"');
+        if (a.graphic === "icon") p.push('graphic: "icon", icon: "' + a.icon + '"');
+        if (a.graphic === "spot") p.push('graphic: "spot", spot: "' + a.spot + '"');
+        if (a.graphic !== "none" && a.alignment !== "label") p.push('alignment: "' + a.alignment + '"');
+        if (a.status !== "none") p.push('status: "' + a.status + '"');
+        if (a.arrow) p.push("arrow: true");
+        if (a.disabled) p.push("disabled: true"); else p.push('href: "/next"');
+        return "<NavList items={[\n  { " + p.join(", ") + " }\n]} />";
+      }
+    },
     Logo: {
       blurb: "The Teladoc Health logo. It turns white in dark themes; try the Theme menu at the top.",
       controls: {
@@ -268,6 +345,8 @@
   // ---------- UI
   function defaults(story) { var a = {}; Object.keys(story.controls).forEach(function (k) { a[k] = story.controls[k].def; }); return a; }
   var names = Object.keys(STORIES);
+  var GROUPS = window.ANVIL_GROUPS || [["Components", names]];
+  var LABELS = window.ANVIL_LABELS || {};
   function fromHash() { var n = location.hash.slice(1); return STORIES[n] ? n : "Button"; }
 
   function Field(props) {
@@ -347,11 +426,13 @@
 
     return h("div", { className: "pg" },
       h("nav", { className: "pg-list", "aria-label": "Components" },
-        h("p", { className: "eyebrow" }, "Components"),
-        names.map(function (n) { return h("a", { key: n, href: "#" + n, "aria-current": n === name ? "page" : undefined }, n.replace(/(?!^)([A-Z])/g, " $1")); })),
+        GROUPS.map(function (g) {
+          return h(React.Fragment, { key: g[0] }, h("p", { className: "eyebrow" }, g[0]),
+            g[1].filter(function (n) { return STORIES[n]; }).map(function (n) { return h("a", { key: n, href: "#" + n, "aria-current": n === name ? "page" : undefined }, LABELS[n] || n); }));
+        })),
       h("section", { className: "pg-stage", "aria-label": "Preview" },
         h("div", { className: "pg-stage__bar" },
-          h("div", null, h("h1", { className: "pg-title" }, name.replace(/(?!^)([A-Z])/g, " $1")), h("p", { className: "pg-blurb" }, story.blurb)),
+          h("div", null, h("h1", { className: "pg-title" }, LABELS[name] || name), h("p", { className: "pg-blurb" }, story.blurb)),
           h("div", { className: "pg-seg", role: "group", "aria-label": "Canvas width" },
             [["full", "Fluid"], ["768", "Tablet"], ["375", "Mobile"]].map(function (w) {
               return h("button", { key: w[0], type: "button", "aria-pressed": width === w[0], onClick: function () { setWidth(w[0]); } }, w[1]);

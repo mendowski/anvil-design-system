@@ -24,7 +24,7 @@
 <main>
 <p class="eyebrow">Components</p><h1 class="page-title">Components</h1>
 <p class="lede">Live React components built from the Anvil Figma component sets. Every example below is running code, so switch the theme at the top to see each one in Core UI and PLI, light and dark.</p>
-<nav class="jump" aria-label="Components"><a href="#Button">Button</a><a href="#TextInput">Text Input</a><a href="#PasswordInput">Password Input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection Card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#GlobalHeader">Global Header</a><a href="#Logo">Logo</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
+<nav class="jump" aria-label="Components"><a href="#Button">Button</a><a href="#TextInput">Text input</a><a href="#PasswordInput">Password input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#NavList">Prominent nav list</a><a href="#GlobalHeader">Global header</a><a href="#Logo">Logo</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
 <section class="comp" id="Button">
   <div class="comp-head"><h2 class="sec">Button</h2><span class="comp-meta"><code>Anvil.Button</code><a class="pg-link" href="playground.html#Button">Try it in the playground</a></span></div>
   <p class="lede">Buttons start actions, in three levels of emphasis: primary, secondary and tertiary, each with a destructive version.</p>
@@ -99,9 +99,9 @@
 </ul></div></details>
 </section>
 <section class="comp" id="TextInput">
-  <div class="comp-head"><h2 class="sec">Text Input</h2><span class="comp-meta"><code>Anvil.TextInput</code><a class="pg-link" href="playground.html#TextInput">Try it in the playground</a></span></div>
+  <div class="comp-head"><h2 class="sec">Text input</h2><span class="comp-meta"><code>Anvil.TextInput</code><a class="pg-link" href="playground.html#TextInput">Try it in the playground</a></span></div>
   <p class="lede">Text input lets people write or edit a single line of text, with an optional unit, icon and status message.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/TextInput.html" title="Text Input examples" height="620" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/TextInput.html" title="Text input examples" height="620" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Text input lets people write or edit a single line of text, with an optional unit, icon and status message.</p>
 <h2>When to use</h2>
 <ul>
@@ -164,9 +164,9 @@
 </ul></div></details>
 </section>
 <section class="comp" id="PasswordInput">
-  <div class="comp-head"><h2 class="sec">Password Input</h2><span class="comp-meta"><code>Anvil.PasswordInput</code><a class="pg-link" href="playground.html#PasswordInput">Try it in the playground</a></span></div>
+  <div class="comp-head"><h2 class="sec">Password input</h2><span class="comp-meta"><code>Anvil.PasswordInput</code><a class="pg-link" href="playground.html#PasswordInput">Try it in the playground</a></span></div>
   <p class="lede">Password input is for entering or creating a password, with a Show/Hide toggle and, when creating, live strength and requirement feedback.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/PasswordInput.html" title="Password Input examples" height="700" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/PasswordInput.html" title="Password input examples" height="700" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Password input is for entering or creating a password, with a Show/Hide toggle and, when creating, live strength and requirement feedback.</p>
 <h2>Modes</h2>
 <ul>
@@ -257,9 +257,9 @@
 </ul></div></details>
 </section>
 <section class="comp" id="SelectionCard">
-  <div class="comp-head"><h2 class="sec">Selection Card</h2><span class="comp-meta"><code>Anvil.SelectionCard</code><a class="pg-link" href="playground.html#SelectionCard">Try it in the playground</a></span></div>
+  <div class="comp-head"><h2 class="sec">Selection card</h2><span class="comp-meta"><code>Anvil.SelectionCard</code><a class="pg-link" href="playground.html#SelectionCard">Try it in the playground</a></span></div>
   <p class="lede">Selection card is a radio or checkbox option that needs more than a one-line label, such as a visit type with a short description.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/SelectionCard.html" title="Selection Card examples" height="560" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/SelectionCard.html" title="Selection card examples" height="560" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Selection card is a radio or checkbox option that needs more than a one-line label, such as a visit type with a short description.</p>
 <h2>Usage</h2>
 <ul>
@@ -407,10 +407,169 @@
 <li>Images need <code>alt</code> text unless they're decorative.</li>
 </ul></div></details>
 </section>
+<section class="comp" id="VisitCard">
+  <div class="comp-head"><h2 class="sec">Visit card</h2><span class="comp-meta"><code>Anvil.VisitCard</code><a class="pg-link" href="playground.html#VisitCard">Try it in the playground</a></span></div>
+  <p class="lede">Visit card shows one scheduled visit: the date and time, the provider and the care type, with up to three actions.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/VisitCard.html" title="Visit card examples" height="560" loading="lazy" style="min-width:820px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Visit card shows one scheduled visit: the date and time, the provider and the care type, with up to three actions. It's built from the Figma "Visit-card-v2" set, which is marked as under development for Anvil 5.7.</p>
+<h2>Types</h2>
+<table>
+<thead>
+<tr>
+<th><code>type</code></th>
+<th>Use it for</th>
+<th>Looks like</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>upcoming</code> (default)</td>
+<td>A visit later than today.</td>
+<td>Date block in <code>brand-human-care-background-subdued</code>, time in the eyebrow.</td>
+</tr>
+<tr>
+<td><code>today</code></td>
+<td>A visit happening today.</td>
+<td>Same as upcoming, or the prominent style below.</td>
+</tr>
+<tr>
+<td><code>past</code></td>
+<td>A visit that already happened.</td>
+<td>Date block in <code>visit-card-background-disabled</code> with the year, and a gray eyebrow.</td>
+</tr>
+<tr>
+<td><code>custom</code></td>
+<td>Any other status, such as Requested.</td>
+<td>No date block. The eyebrow shows <code>label</code>. Up to three actions.</td>
+</tr>
+</tbody>
+</table>
+<h2>Prominent</h2>
+<p><code>prominent</code> highlights the next visit for Upcoming and Today. It drops the date block, adds a 6px <code>brand-human-care-stroke</code> bar on the left, and moves the time into a pill on the right. The eyebrow reads "Today" or "Tomorrow" by default; change it with <code>label</code>, such as "Thursday".</p>
+<ul>
+<li><code>footerStyle="prominent"</code> turns the first action into a full-width primary button, for when joining is the main task. The second action stays tertiary underneath.</li>
+<li>Show only one prominent card per screen.</li>
+</ul>
+<h2>Content</h2>
+<ul>
+<li><code>header</code>: the provider, such as "Dr. Ana Rivera, MD". <code>description</code>: the care type.</li>
+<li><code>month</code>, <code>day</code>, <code>year</code> (year shows on past visits), <code>time</code>.</li>
+<li><code>icon</code>: the visit type, such as <code>video</code> (default) or <code>phone</code>. Pass <code>iconLabel</code> ("Video visit") so screen readers hear it. <code>icon={null}</code> hides it.</li>
+<li><code>canceled</code>: adds "Canceled" in <code>text-status-critical</code> under the care type.</li>
+<li><code>actions</code>: <code>[{ label, href?, onClick? }]</code> as small tertiary buttons. Two at most, or three for custom.</li>
+</ul>
+<h2>Linking</h2>
+<p>Pass <code>href</code> to make the whole card a link to the visit details. An arrow appears on the right, the hit area covers the card, and the actions stay separately clickable above it. <code>arrow</code> shows the arrow without a link.</p>
+<h2>Accessibility</h2>
+<ul>
+<li>It renders as <code>&lt;article&gt;</code> with the provider as an <code>&lt;h3&gt;</code>. Change the level with <code>headingAs</code>.</li>
+<li>Don't rely on the left bar or date color alone: the eyebrow text says Today, Tomorrow or the status.</li>
+</ul>
+<h2>Differences from Figma</h2>
+<ul>
+<li>The Figma "Tomorrow" eyebrow is fixed text; here it's the default for a prominent upcoming card and can be changed.</li>
+<li>The card stretches to its container; Figma shows it at 358px.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="NavList">
+  <div class="comp-head"><h2 class="sec">Prominent nav list</h2><span class="comp-meta"><code>Anvil.NavList</code><a class="pg-link" href="playground.html#NavList">Try it in the playground</a></span></div>
+  <p class="lede">Prominent nav list is a stack or grid of large, tappable links to the most important destinations, such as programs, services and next steps.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/NavList.html" title="Prominent nav list examples" height="760" loading="lazy" style="min-width:1120px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Prominent nav list is a stack or grid of large, tappable links to the most important destinations, such as programs, services and next steps. Each item is a <code>NavListItem</code>, from the Figma "Prominent-nav-list-item" set.</p>
+<h2>Usage</h2>
+<pre><code class="language-jsx">&lt;NavList label=&quot;Next steps&quot; items={[
+  { href: &quot;/log&quot;, graphic: &quot;icon&quot;, icon: &quot;weight&quot;, label: &quot;Log your weight&quot;, description: &quot;Weekly check-in&quot;, arrow: true },
+  { href: &quot;/refill&quot;, graphic: &quot;icon&quot;, icon: &quot;medicine&quot;, label: &quot;Refill your prescription&quot;, status: &quot;completed&quot; },
+]} /&gt;
+</code></pre>
+<ul>
+<li>Use it for a handful of key destinations. For long or secondary lists, use a subdued list instead.</li>
+<li>Items sit <code>space-between-prominent-nav-list</code> apart (12px on desktop, 8px on mobile). <code>layout="grid"</code> puts them in columns of at least 300px.</li>
+</ul>
+<h2>Item content</h2>
+<ul>
+<li><code>label</code> (required), plus optional <code>eyebrow</code>, <code>description</code> and <code>metadata</code>. Pass <code>children</code> to replace the description with custom content.</li>
+<li><code>arrow</code> shows a right arrow, for items that go to another page.</li>
+</ul>
+<h2>Graphic</h2>
+<table>
+<thead>
+<tr>
+<th><code>graphic</code></th>
+<th>Looks like</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code></td>
+<td>Text only.</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td>A 32px circle in <code>navigation-list-item-background-graphic-icon-default</code> with a white filled <code>icon</code>.</td>
+</tr>
+<tr>
+<td><code>spot</code></td>
+<td>A 64px round spot illustration, picked by <code>spot</code> (an Anvil illustration name).</td>
+</tr>
+</tbody>
+</table>
+<p><code>alignment="full-width"</code> puts the graphic beside the label only, and lets the description and metadata use the full width underneath.</p>
+<h2>States</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Look</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default</td>
+<td><code>navigation-background-surface</code>, <code>stroke-base</code> border.</td>
+</tr>
+<tr>
+<td>Hover</td>
+<td><code>navigation-background-hover</code> fill, text in <code>navigation-text-hover</code>.</td>
+</tr>
+<tr>
+<td>Focus</td>
+<td>Hover plus <code>focus-ring</code>.</td>
+</tr>
+<tr>
+<td>Pressed</td>
+<td><code>navigation-list-item-background-prominent-pressed</code>, text in <code>navigation-text-pressed</code>, darker icon circle.</td>
+</tr>
+<tr>
+<td>Completed (<code>status="completed"</code>)</td>
+<td><code>background-neutral</code> fill, a green check in the graphic.</td>
+</tr>
+<tr>
+<td>Postponed (<code>status="postponed"</code>)</td>
+<td><code>background-neutral</code> fill, a gray reload icon in the graphic.</td>
+</tr>
+<tr>
+<td>Disabled (<code>disabled</code>)</td>
+<td>Text in <code>navigation-text-disabled</code>, gray graphic, not clickable.</td>
+</tr>
+</tbody>
+</table>
+<p><code>state</code> forces hover, focus or pressed for documentation.</p>
+<h2>Accessibility</h2>
+<ul>
+<li>With <code>href</code> an item is a link; with <code>onClick</code> it's a button. The list is a <code>&lt;ul&gt;</code>; give it a <code>label</code> when the page has more than one.</li>
+<li>Completed and postponed are shown by icon and color, so say it in the text too, such as metadata "Completed Oct 2".</li>
+</ul>
+<h2>Differences from Figma</h2>
+<ul>
+<li>Figma's "Custom content" slot is <code>children</code>.</li>
+<li>Disabled spot illustrations are grayed out with a filter instead of separate artwork.</li>
+</ul></div></details>
+</section>
 <section class="comp" id="GlobalHeader">
-  <div class="comp-head"><h2 class="sec">Global Header</h2><span class="comp-meta"><code>Anvil.GlobalHeader</code><a class="pg-link" href="playground.html#GlobalHeader">Try it in the playground</a></span></div>
+  <div class="comp-head"><h2 class="sec">Global header</h2><span class="comp-meta"><code>Anvil.GlobalHeader</code><a class="pg-link" href="playground.html#GlobalHeader">Try it in the playground</a></span></div>
   <p class="lede">Global header is the top bar of every screen: main navigation in the app, a focused header for single tasks, and a progress tracker for multi-step flows.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/GlobalHeader.html" title="Global Header examples" height="500" loading="lazy" style="min-width:1180px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/GlobalHeader.html" title="Global header examples" height="500" loading="lazy" style="min-width:1180px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Global header is the top bar of every screen: main navigation in the app, a focused header for single tasks, and a progress tracker for multi-step flows.</p>
 <h2>Types</h2>
 <ul>

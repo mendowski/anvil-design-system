@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--background-base); font-family: var(--font-sans, system-ui, sans-serif); }
+  .grid { display: grid; grid-template-columns: repeat(3, 340px); gap: 28px 24px; align-items: start; }
+  .cap { font-size: 12px; line-height: 16px; color: var(--text-body-subdued); margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement;
+  var I = Anvil.NavListItem;
+  var t = { label: "Log your weight", description: "Weekly check-in", metadata: "Takes 1 minute", arrow: true };
+  function cell(cap, el) { return h("div", null, h("div", { className: "cap" }, cap), el); }
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "grid" },
+    cell("List with graphic icons", h(Anvil.NavList, { label: "Next steps", items: [
+      Object.assign({}, t, { href: "#", graphic: "icon", icon: "weight" }),
+      { href: "#", graphic: "icon", icon: "medicine", label: "Refill your prescription", description: "Due in 3 days", arrow: true },
+      { href: "#", graphic: "icon", icon: "calendar", label: "Book a follow-up", metadata: "Recommended", arrow: true }] })),
+    cell("Spot graphic", h(I, { href: "#", graphic: "spot", spot: "celebration", eyebrow: "Program", label: "Weight management", description: "4 weeks in a row", metadata: "Keep it up", arrow: true })),
+    cell("Spot graphic, full width", h(I, { href: "#", graphic: "spot", spot: "doctor-1", alignment: "full-width", label: "Meet your care team", description: "Your doctor, coach and pharmacist in one place.", arrow: true })),
+    cell("Hover", h(I, Object.assign({}, t, { graphic: "icon", icon: "weight", state: "hover" }))),
+    cell("Focus", h(I, Object.assign({}, t, { graphic: "icon", icon: "weight", state: "focus" }))),
+    cell("Pressed", h(I, Object.assign({}, t, { graphic: "icon", icon: "weight", state: "pressed" }))),
+    cell("Completed", h(I, Object.assign({}, t, { graphic: "icon", status: "completed" }))),
+    cell("Postponed", h(I, Object.assign({}, t, { graphic: "icon", status: "postponed" }))),
+    cell("Disabled", h(I, Object.assign({}, t, { graphic: "icon", icon: "weight", disabled: true })))
+  ));
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # Icons
 
-Icons are the 172 glyphs from the Anvil Figma Icons page. They're drawn on a 16px grid. Each one is here as an SVG file: `name.svg` is the default (outline) style and `name-active.svg` the filled style.
+Icons are the 174 glyphs from the Anvil Figma Icons page. They're drawn on a 16px grid. Each one is here as an SVG file: `name.svg` is the default (outline) style and `name-active.svg` the filled style.
 
 ## Using icons in code
 
@@ -22,7 +22,7 @@ Most icons have two variants. Use `default` (outline) normally, and `active` (fi
 
 ## Categories
 
-- **Health:** blood-sugar, blood-pressure, glucose, weight, steps, heart-pulse, medicine, stethoscope, lab, behavioral-health, primary-care, body-composition, sleep
+- **Health:** blood-sugar, blood-pressure, glucose, weight, steps, heart-pulse, medicine, injection, thermometer, stethoscope, lab, behavioral-health, primary-care, body-composition, sleep
 - **Care and visits:** calendar, past-visits, video, phone, chat, headset, doctor-bag, insurance, emergency-contact
 - **Mood:** mood-joy, mood-happy, mood-neutral, mood-unhappy, mood-terrible
 - **Actions:** plus, edit, trash, copy, share, download, upload, search, filter, close

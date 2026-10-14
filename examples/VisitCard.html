@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--background-base); font-family: var(--font-sans, system-ui, sans-serif); }
+  .grid { display: grid; grid-template-columns: repeat(2, 358px); gap: 20px 32px; align-items: start; }
+  .cap { font-size: 12px; line-height: 16px; color: var(--text-body-subdued); margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement;
+  var V = Anvil.VisitCard;
+  var base = { month: "Apr", day: "30", year: "2024", time: "11:00 AM", header: "Dr. Ana Rivera, MD", description: "Weight management" };
+  var two = [{ label: "Join visit" }, { label: "Reschedule" }];
+  function cell(cap, props) { return h("div", null, h("div", { className: "cap" }, cap), h(V, Object.assign({}, base, props))); }
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "grid" },
+    cell("Upcoming", { type: "upcoming", actions: [{ label: "Details" }, { label: "Reschedule" }] }),
+    cell("Today, prominent", { type: "today", prominent: true, actions: [{ label: "Join visit" }] }),
+    cell("Past (shows the year)", { type: "past", actions: [{ label: "Visit summary" }, { label: "Book again" }] }),
+    cell("Upcoming, prominent", { type: "upcoming", prominent: true, actions: two }),
+    cell("Upcoming, canceled", { type: "upcoming", canceled: true, actions: [{ label: "Book again" }] }),
+    cell("Today, prominent footer", { type: "today", prominent: true, footerStyle: "prominent", actions: [{ label: "Join visit" }, { label: "Can't make it?" }] }),
+    cell("Custom label", { type: "custom", label: "Requested", actions: [{ label: "Details" }, { label: "Edit" }, { label: "Cancel" }] }),
+    cell("Linked, with arrow", { type: "upcoming", href: "#", icon: "phone", time: "2:30 PM", description: "Primary care" })
+  ));
+</script>
+</body>
+</html>
