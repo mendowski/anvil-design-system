@@ -333,6 +333,9 @@
   --gradient-background-subdued-0-percent: var(--aqua-954);
   --gradient-background-subdued-50-percent: var(--purple-928);
   --gradient-background-subdued-100-percent: var(--berry-912);
+  /* GLP-1 tracker */
+  --glp1-tracker-default: #53a951;
+  --glp1-tracker-shot: #d71d7a;
   --neutral-1000: #ffffff;
   --neutral-982: #fdfdfd;
   --neutral-939: #f4f4f5;
