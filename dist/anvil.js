@@ -650,22 +650,30 @@
 
   function GlobalHeader(p) {
     var type = p.type || "default";
-    var nav = p.nav || [];
-    var utils = p.utilities || [];
+    var loggedIn = p.loggedIn !== false;
+    var native = p.platform === "native";
+    var scrolled = !!p.scrolled;
+    var nav = loggedIn ? p.nav || [] : [];
+    var utils = loggedIn ? p.utilities || [] : [];
     var steps = p.steps || [];
     var current = p.currentStep || 0;
     var progress = p.progress !== undefined ? p.progress : steps.length ? (current + 1) / steps.length : p.totalSteps ? (current + 1) / p.totalSteps : 0;
     var total = steps.length || p.totalSteps || 0;
+    var percentText = Math.round(progress * 100) + "% completed";
+    var percentage = p.valueType === "percentage";
     var closeLabel = p.closeLabel || (type === "progress" ? "Exit" : "Close");
+    // Logged-out flows have no Close or Exit; native apps have no language menu.
+    var showLanguage = !!p.language && !native;
+    var showClose = loggedIn && p.onClose !== null && !(type === "focused" && showLanguage && !p.onClose);
     var bar = h("div", { className: "anvil-gh__progress", role: "progressbar", "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": Math.round(progress * 100), "aria-label": "Progress" },
       h("span", { style: { width: progress * 100 + "%" } }));
 
     var tertiary = function (label, icon, side, onClick) {
       return h(Button, { variant: "tertiary", icon: side, iconName: icon, onClick: onClick, className: "anvil-gh__text-btn" }, label);
     };
-    var language = p.language && tertiary(p.language, "language", "left", p.onLanguage);
-    var country = p.country && tertiary(p.country, "location-pin", "left", p.onCountry);
-    var cta = p.cta && h(Button, { variant: "primary", href: p.cta.href, onClick: p.cta.onClick, className: "anvil-gh__cta" }, p.cta.label);
+    var language = showLanguage && tertiary(p.language, "language", "left", p.onLanguage);
+    var country = !loggedIn && p.country && tertiary(p.country, "location-pin", "left", p.onCountry);
+    var cta = loggedIn && p.cta && h(Button, { variant: "primary", href: p.cta.href, onClick: p.cta.onClick, className: "anvil-gh__cta" }, p.cta.label);
 
     // Desktop
     var desktop;
@@ -680,43 +688,54 @@
       desktop = h("div", { className: "anvil-gh__row anvil-gh__row--focused" },
         h("div", null, p.onBack !== null && tertiary(p.backLabel || "Back", "arrow-left", "left", p.onBack)),
         h(GhLogo, p),
-        h("div", { className: "anvil-gh__end" }, p.language && !p.onClose ? language : p.onClose !== null && tertiary(closeLabel, "close", "right", p.onClose)));
+        h("div", { className: "anvil-gh__end" }, showClose ? tertiary(closeLabel, "close", "right", p.onClose) : language));
     } else {
       desktop = h("div", { className: "anvil-gh__row anvil-gh__row--progress" },
         p.onBack !== null && tertiary(p.backLabel || "Back", "arrow-left", "left", p.onBack),
         h("div", { className: "anvil-gh__steps" },
-          h("ol", { className: "anvil-gh__step-labels" }, steps.map(function (s, i) {
-            return h("li", { key: i, className: i === current ? "is-current" : undefined, "aria-current": i === current ? "step" : undefined }, s);
-          })),
+          percentage
+            ? h("div", { className: "anvil-gh__step-value" }, h("span", { className: "is-current" }, steps[current] || p.stepLabel), h("span", null, percentText))
+            : h("ol", { className: "anvil-gh__step-labels" }, steps.map(function (s, i) {
+                return h("li", { key: i, className: i === current ? "is-current" : undefined, "aria-current": i === current ? "step" : undefined }, s);
+              })),
           bar),
-        p.onClose !== null && tertiary(closeLabel, "close", "right", p.onClose));
+        showClose && tertiary(closeLabel, "close", "right", p.onClose));
     }
 
     // Mobile
     var mobile;
-    if (type === "default") {
+    if (type === "default" && !loggedIn) {
+      mobile = h("div", { className: "anvil-gh__m anvil-gh__m--default anvil-gh__m--logged-out" },
+        h(GhLogo, Object.assign({}, p, { logoHeight: p.mobileLogoHeight || (scrolled ? 28 : 32) })),
+        h("div", { className: "anvil-gh__m-right" }, country, language));
+    } else if (type === "default") {
       mobile = h("div", { className: "anvil-gh__m anvil-gh__m--default" },
-        h("div", { className: "anvil-gh__m-left" }, utils.map(function (n, i) { return h(IconButton, Object.assign({ key: i }, n)); })),
+        h("div", { className: "anvil-gh__m-left" }, utils.map(function (n, i) {
+          return h(IconButton, Object.assign({ key: i }, n, scrolled && n.badge ? { badge: true } : null));
+        })),
         h("div", { className: "anvil-gh__m-right" },
-          p.language && h(IconButton, { icon: "language", label: "Language: " + p.language, onClick: p.onLanguage }),
+          showLanguage && h(IconButton, { icon: "language", label: "Language: " + p.language, onClick: p.onLanguage, className: "anvil-icon-btn--brand" }),
           cta));
     } else {
+      var count = total > 0 && (percentage ? percentText : "Step " + (current + 1) + " of " + total);
       var title = type === "progress"
         ? h("div", { className: "anvil-gh__m-title" },
-            (steps[current] || p.stepLabel) && h("div", { className: "anvil-gh__m-step" }, steps[current] || p.stepLabel),
-            total > 0 && h("div", { className: "anvil-gh__m-count" }, "Step " + (current + 1) + " of " + total))
+            !scrolled && (steps[current] || p.stepLabel) && h("div", { className: "anvil-gh__m-step" }, steps[current] || p.stepLabel),
+            count && h("div", { className: "anvil-gh__m-count" }, count))
         : h("div", { className: "anvil-gh__m-title" }, h("div", { className: "anvil-gh__m-step" }, p.title));
+      var end = showClose
+        ? h(IconButton, { icon: "close", label: closeLabel, onClick: p.onClose, className: "anvil-icon-btn--brand" })
+        : type === "focused" && showLanguage
+          ? h(IconButton, { icon: "language", label: "Language: " + p.language, onClick: p.onLanguage, className: "anvil-icon-btn--brand" })
+          : h("span", { className: "anvil-gh__m-spacer" });
       mobile = h("div", { className: "anvil-gh__m anvil-gh__m--task" },
         h("div", { className: "anvil-gh__m-row" },
           p.onBack !== null ? h(IconButton, { icon: "arrow-left", label: p.backLabel || "Back", onClick: p.onBack, className: "anvil-icon-btn--brand" }) : h("span", { className: "anvil-gh__m-spacer" }),
-          title,
-          p.onClose !== null && !(p.language && !p.onClose)
-            ? h(IconButton, { icon: "close", label: closeLabel, onClick: p.onClose, className: "anvil-icon-btn--brand" })
-            : p.language ? h(IconButton, { icon: "language", label: "Language: " + p.language, onClick: p.onLanguage, className: "anvil-icon-btn--brand" }) : h("span", { className: "anvil-gh__m-spacer" })),
+          title, end),
         type === "progress" && bar);
     }
 
-    return h("header", { className: cx("anvil-gh", "anvil-gh--" + type, p.layout && "anvil-gh--" + p.layout, p.className), style: p.style },
+    return h("header", { className: cx("anvil-gh", "anvil-gh--" + type, p.layout && "anvil-gh--" + p.layout, scrolled && "anvil-gh--scrolled", !loggedIn && "anvil-gh--logged-out", p.className), style: p.style },
       h("div", { className: "anvil-gh__desktop" }, desktop),
       h("div", { className: "anvil-gh__mobile" }, mobile));
   }

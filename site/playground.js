@@ -183,31 +183,40 @@
       }
     },
     GlobalHeader: {
-      blurb: "The global header for signed-in pages, focused tasks and multi-step flows. The desktop layout is wide, so the canvas scrolls sideways.",
+      blurb: "The top bar for every screen: default, focused task and progress tracker, signed in or out, web or native. Use Tablet or Mobile to see the mobile layout, and Scrolled for its compact version.",
       canvas: { minWidth: function (a) { return a.layout === "desktop" ? 1080 : undefined; } },
       controls: {
         type: sel("Type", ["default", "focused", "progress"], "default"),
+        platform: sel("Platform", ["web", "native"], "web"),
+        loggedIn: bool("Signed in", true),
+        scrolled: bool("Scrolled (mobile)", false),
         logoHeight: num("Logo height", 40, 24, 64, 4, { when: function (a) { return a.type !== "progress"; } }),
         layout: sel("Layout", ["auto", "desktop", "mobile"], "desktop"),
-        nav: text("Nav links (comma separated)", "Visits, Health log, Learning", { when: function (a) { return a.type === "default"; } }),
-        current: num("Current nav link", 1, 0, 6, 1, { when: function (a) { return a.type === "default"; } }),
-        cta: text("Button label", "Get care", { when: function (a) { return a.type === "default"; } }),
-        language: text("Language", "English", { when: function (a) { return a.type === "default"; } }),
+        nav: text("Nav links (comma separated)", "Visits, Health log, Learning", { when: function (a) { return a.type === "default" && a.loggedIn; } }),
+        current: num("Current nav link", 1, 0, 6, 1, { when: function (a) { return a.type === "default" && a.loggedIn; } }),
+        cta: text("Button label", "Get care", { when: function (a) { return a.type === "default" && a.loggedIn; } }),
+        language: text("Language", "English", { when: function (a) { return a.platform === "web" && (a.type === "default" || (a.type === "focused" && !a.loggedIn)); } }),
+        country: text("Country", "USA", { when: function (a) { return a.type === "default" && !a.loggedIn; } }),
+        valueType: sel("Progress value", ["steps", "percentage"], "steps", { when: function (a) { return a.type === "progress"; } }),
         title: text("Mobile title", "Book a visit", { when: function (a) { return a.type === "focused"; } }),
         steps: text("Steps (comma separated)", "Your health, Medications, Insurance, Review", { when: function (a) { return a.type === "progress"; } }),
         currentStep: num("Current step", 2, 1, 8, 1, { when: function (a) { return a.type === "progress"; } })
       },
       props: function (a) {
         var list = function (s) { return s.split(",").map(function (x) { return x.trim(); }).filter(Boolean); };
-        var p = { type: a.type !== "default" ? a.type : undefined, layout: a.layout !== "auto" ? a.layout : undefined, logoHeight: a.logoHeight !== 40 ? a.logoHeight : undefined };
+        var p = { type: a.type !== "default" ? a.type : undefined, platform: a.platform !== "web" ? a.platform : undefined, loggedIn: a.loggedIn ? undefined : false, scrolled: a.scrolled || undefined, layout: a.layout !== "auto" ? a.layout : undefined, logoHeight: a.logoHeight !== 40 ? a.logoHeight : undefined };
         if (a.type === "default") {
-          p.nav = list(a.nav).map(function (l, i) { return { label: l, href: "#", current: i === a.current - 1 }; });
-          p.utilities = [{ label: "Profile", icon: "profile", href: "#" }, { label: "Messages", icon: "mail", badge: 2, href: "#" }];
-          p.language = a.language || undefined;
-          p.cta = a.cta ? { label: a.cta } : undefined;
+          if (a.loggedIn) {
+            p.nav = list(a.nav).map(function (l, i) { return { label: l, href: "#", current: i === a.current - 1 }; });
+            p.utilities = [{ label: "Profile", icon: "profile", href: "#" }, { label: "Messages", icon: "mail", badge: 2, href: "#" }];
+            p.cta = a.cta ? { label: a.cta } : undefined;
+          }
+          p.language = a.platform === "web" && a.language ? a.language : undefined;
+          p.country = !a.loggedIn && a.country ? a.country : undefined;
         } else {
-          p.onBack = noop; p.onClose = noop;
-          if (a.type === "focused") p.title = a.title;
+          p.onBack = noop; if (a.loggedIn) p.onClose = noop;
+          if (a.type === "focused") { p.title = a.title; if (!a.loggedIn && a.platform === "web") p.language = a.language || undefined; }
+          if (a.type === "progress" && a.valueType !== "steps") p.valueType = a.valueType;
           if (a.type === "progress") { p.steps = list(a.steps); p.currentStep = Math.min(a.currentStep, p.steps.length) - 1; }
         }
         return p;
@@ -425,7 +434,7 @@
     var widths = { full: "100%", "768": "768px", "375": "375px" };
     var canvasStyle = { width: widths[width] };
     var inner = { maxWidth: story.canvas && story.canvas.maxWidth && width === "full" ? story.canvas.maxWidth : undefined,
-      minWidth: story.canvas && story.canvas.minWidth ? story.canvas.minWidth(args) : undefined };
+      minWidth: story.canvas && story.canvas.minWidth && width === "full" ? story.canvas.minWidth(args) : undefined };
     if (inner.minWidth) canvasStyle = { width: "auto", maxWidth: "none" };
 
     function setArg(k, v) { setArgs(function (o) { var n = Object.assign({}, o); n[k] = v; return n; }); }
@@ -445,7 +454,7 @@
           h("div", null, h("h1", { className: "pg-title" }, LABELS[name] || name), h("p", { className: "pg-blurb" }, story.blurb)),
           h("div", { className: "pg-seg", role: "group", "aria-label": "Canvas width" },
             [["full", "Fluid"], ["768", "Tablet"], ["375", "Mobile"]].map(function (w) {
-              return h("button", { key: w[0], type: "button", "aria-pressed": width === w[0], onClick: function () { setWidth(w[0]); } }, w[1]);
+              return h("button", { key: w[0], type: "button", "aria-pressed": width === w[0], onClick: function () { setWidth(w[0]); if (story.controls.layout && story.controls.layout.options.indexOf("auto") >= 0) setArg("layout", w[0] === "full" ? story.controls.layout.def : "auto"); } }, w[1]);
             }))),
         h("div", { className: "pg-tabs", role: "tablist" },
           h("button", { role: "tab", type: "button", "aria-selected": tab === "canvas", onClick: function () { setTab("canvas"); } }, "Canvas"),

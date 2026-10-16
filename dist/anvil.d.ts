@@ -203,6 +203,16 @@ export declare function Card(props: CardProps): React.ReactElement;
 export interface NavItemProps { label: string; href?: string; onClick?: () => void; icon?: IconName; badge?: number | boolean; current?: boolean; state?: "hover" | "focus"; }
 export interface GlobalHeaderProps {
   type?: "default" | "focused" | "progress";
+  /** Signed-in state. Signed out shows the logo with country and language, and hides Close/Exit. Default true. */
+  loggedIn?: boolean;
+  /** "native" (iOS/Android app) drops the language menu. Default "web". */
+  platform?: "web" | "native";
+  /** Compact mobile header after the page scrolls: smaller controls, count badges become dots, progress shows only "Step N of N". */
+  scrolled?: boolean;
+  /** Progress tracker value: step labels ("steps", default) or "NN% completed" ("percentage"). */
+  valueType?: "steps" | "percentage";
+  /** Logo height in the signed-out mobile header. Default 32 (28 scrolled). */
+  mobileLogoHeight?: number;
   /** Your logo element. Defaults to the Teladoc Health logo (Anvil.Logo). */
   logo?: React.ReactNode;
   /** Accessible name of the logo link. Default "Teladoc Health home". */

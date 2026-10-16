@@ -668,6 +668,19 @@
 .anvil-gh__m-count { font-size: 14px; line-height: 20px; }
 .anvil-gh__m-spacer { width: 44px; flex: none; }
 .anvil-gh__m .anvil-gh__progress { border-radius: 0; }
+.anvil-gh__step-value { display: flex; justify-content: space-between; gap: var(--space-200); font-size: 16px; line-height: 20px; color: var(--text-body-subdued); }
+.anvil-gh__step-value .is-current { font-weight: 600; color: var(--text-body-base); }
+.anvil-gh__m--logged-out .anvil-gh__m-right { gap: var(--space-150); }
+.anvil-gh__m--logged-out .anvil-gh__text-btn { padding-left: 0; padding-right: 0; }
+/* Scrolled: the mobile header compacts once the page scrolls */
+.anvil-gh--scrolled .anvil-gh__m--default { height: 48px; }
+.anvil-gh--scrolled .anvil-gh__m-row { height: 44px; }
+.anvil-gh--scrolled .anvil-gh__m .anvil-icon-btn { width: 36px; height: 36px; }
+.anvil-gh--scrolled .anvil-gh__m .anvil-icon-btn .anvil-icon { width: 14px; height: 14px; }
+.anvil-gh--scrolled .anvil-gh__m .anvil-gh__cta { --button-min-height: 32px; --button-vertical-padding: 6px; --button-horizontal-padding: 16px; font-size: 14px; }
+.anvil-gh--scrolled .anvil-gh__m-step { font-size: 14px; }
+.anvil-gh--scrolled .anvil-gh__m-count { font-size: 13px; line-height: 18px; }
+.anvil-gh--scrolled .anvil-gh__m .anvil-gh__text-btn { font-size: 14px; }
 
 @container (max-width: 767px) {
   .anvil-gh__desktop { display: none; }

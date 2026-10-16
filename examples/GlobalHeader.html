@@ -14,31 +14,52 @@
 
 <meta charset="utf-8">
 <style>
-  body { margin: 0; padding: 24px; background: var(--background-surface, #fff); font-family: var(--font-sans, system-ui, sans-serif); color: var(--text-body-base); }
-  .grid { display: grid; gap: 32px 24px; align-items: start; }
-  .cap { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--text-body-subdued); margin-bottom: 8px; }
-  body { background: var(--background-neutral); } .grid { grid-template-columns: 1fr; gap: 20px; } .row { display: grid; grid-template-columns: repeat(3, 358px); gap: 20px; }
+  body { margin: 0; padding: 24px; background: var(--background-neutral); font-family: var(--font-sans, system-ui, sans-serif); color: var(--text-body-base); }
+  h2 { font-size: 14px; line-height: 20px; font-weight: 600; margin: 0 0 12px; }
+  .sec + .sec { margin-top: 32px; }
+  .m { display: grid; grid-template-columns: 150px 358px 358px; gap: 12px 20px; align-items: center; }
+  .d { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .cap, .col { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--text-body-subdued); }
+  .col { font-weight: 600; }
+  .d .cap { margin-bottom: -4px; }
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script>
   var h = React.createElement;
-  var A = Anvil;
-  function cell(caption, el) { return h("div", null, h("div", { className: "cap" }, caption), el); }
-  var G = A.GlobalHeader;
+  var G = Anvil.GlobalHeader;
   var noop = function () {};
   var nav = [{ label: "Visits", href: "#", current: true }, { label: "Health log", href: "#" }, { label: "Learning", href: "#" }];
   var utils = [{ label: "Profile", icon: "profile", href: "#" }, { label: "Messages", icon: "mail", badge: 2, href: "#" }];
   var steps = ["Your health", "Medications", "Insurance", "Review"];
-  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "grid" },
-    cell("Default (desktop)", h(G, { layout: "desktop", nav: nav, utilities: utils, language: "English", cta: { label: "Get care" } })),
-    cell("Focused task (desktop)", h(G, { layout: "desktop", type: "focused", onBack: noop, onClose: noop })),
-    cell("Progress tracker (desktop)", h(G, { layout: "desktop", type: "progress", steps: steps, currentStep: 1, onBack: noop, onClose: noop })),
-    h("div", { className: "row" },
-      cell("Default (mobile)", h(G, { layout: "mobile", utilities: utils, language: "English", cta: { label: "Get care" } })),
-      cell("Focused task (mobile)", h(G, { layout: "mobile", type: "focused", title: "Book a visit", onBack: noop, onClose: noop })),
-      cell("Progress tracker (mobile)", h(G, { layout: "mobile", type: "progress", steps: steps, currentStep: 1, onBack: noop, onClose: noop })))
+  var base = { utilities: utils, language: "English", country: "USA", cta: { label: "Get care" }, title: "Page title", steps: steps, currentStep: 1, onBack: noop, onClose: noop };
+  function mobileRows(platform, loggedIn, types) {
+    return types.map(function (t) {
+      var props = Object.assign({}, base, { layout: "mobile", platform: platform, loggedIn: loggedIn, type: t });
+      return [
+        h("div", { className: "cap", key: t + "c" }, (loggedIn ? "Signed in · " : "Signed out · ") + { default: "Default", focused: "Focused task", progress: "Progress tracker" }[t]),
+        h(G, Object.assign({ key: t + "a" }, props)),
+        h(G, Object.assign({ key: t + "b", scrolled: true }, props))
+      ];
+    });
+  }
+  function head() { return [h("span", { key: "x" }), h("div", { className: "col", key: "y" }, "Default"), h("div", { className: "col", key: "z" }, "Scrolled")]; }
+  function desk(cap, props) { return [h("div", { className: "cap", key: cap + "c" }, cap), h(G, Object.assign({ key: cap }, base, { layout: "desktop" }, props))]; }
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", null,
+    h("div", { className: "sec" }, h("h2", null, "Web, mobile"),
+      h("div", { className: "m" }, head(), mobileRows("web", true, ["default", "focused", "progress"]), mobileRows("web", false, ["default", "focused", "progress"]))),
+    h("div", { className: "sec" }, h("h2", null, "Native app"),
+      h("div", { className: "m" }, head(), mobileRows("native", true, ["default", "focused", "progress"]), mobileRows("native", false, ["focused", "progress"]))),
+    h("div", { className: "sec" }, h("h2", null, "Web, desktop"),
+      h("div", { className: "d" },
+        desk("Signed in · Default", { nav: nav }),
+        desk("Signed in · Focused task", { type: "focused" }),
+        desk("Signed in · Progress tracker", { type: "progress" }),
+        desk("Signed in · Progress tracker, percentage", { type: "progress", valueType: "percentage" }),
+        desk("Signed out · Default", { loggedIn: false, country: "Country" }),
+        desk("Signed out · Focused task", { loggedIn: false, type: "focused" }),
+        desk("Signed out · Progress tracker", { loggedIn: false, type: "progress" })))
   ));
 </script>
 </body>

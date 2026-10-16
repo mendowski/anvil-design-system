@@ -571,7 +571,7 @@
 <section class="comp" id="GlobalHeader">
   <div class="comp-head"><h2 class="sec">Global header</h2><span class="comp-meta"><code>Anvil.GlobalHeader</code><a class="pg-link" href="playground.html#GlobalHeader">Try it in the playground</a></span></div>
   <p class="lede">Global header is the top bar of every screen: main navigation in the app, a focused header for single tasks, and a progress tracker for multi-step flows.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/GlobalHeader.html" title="Global header examples" height="500" loading="lazy" style="min-width:1180px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/GlobalHeader.html" title="Global header examples" height="1820" loading="lazy" style="min-width:1180px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Global header is the top bar of every screen: main navigation in the app, a focused header for single tasks, and a progress tracker for multi-step flows.</p>
 <h2>Types</h2>
 <ul>
@@ -583,6 +583,53 @@
 <li>On mobile: the current step label and "Step N of N".</li>
 <li>Pass <code>progress</code> (0 to 1) to set the fill yourself.</li>
 </ul>
+<h2>Signed in or out, web or native</h2>
+<p>The Figma component has three properties besides type: <strong>Platform</strong> (Native, Web mobile, Web desktop), <strong>Logged in</strong> (Yes, No) and <strong>Scrolled</strong> (mobile only).</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Default</th>
+<th>Focused task</th>
+<th>Progress tracker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Signed in, web</td>
+<td>Desktop: logo, nav, utilities, language, CTA. Mobile: utility icons, language, CTA, <strong>no logo</strong></td>
+<td>Back, logo (mobile: page title), Close</td>
+<td>Back, steps, Exit</td>
+</tr>
+<tr>
+<td>Signed out, web</td>
+<td>Logo, country, language (mobile too: this is the only mobile header with the logo)</td>
+<td>Back, logo (mobile: page title), language</td>
+<td>Back, steps (no Exit)</td>
+</tr>
+<tr>
+<td>Signed in, native</td>
+<td>Utility icons, CTA (no language)</td>
+<td>Back, page title, Close</td>
+<td>Back, step label, Close</td>
+</tr>
+<tr>
+<td>Signed out, native</td>
+<td>none</td>
+<td>Back, page title</td>
+<td>Back, step label</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Set <code>loggedIn={false}</code> for signed-out pages. Nav, utilities and the CTA are hidden, <code>country</code> shows, and Close/Exit are removed.</li>
+<li>Set <code>platform="native"</code> for the iOS and Android apps. The language menu is removed.</li>
+<li>The logo appears on mobile only in the signed-out default header. Signed-in mobile headers use the space for utilities and the CTA.</li>
+</ul>
+<h2>Scrolled</h2>
+<p>On mobile, pass <code>scrolled</code> once the page scrolls (for example, after 8px). The header gets shorter, icons and the CTA get smaller, count badges turn into dots, and the progress tracker keeps only "Step N of N". Desktop has no scrolled version.</p>
+<h2>Progress value</h2>
+<p><code>valueType="percentage"</code> swaps the step text for "NN% completed": on desktop the current step label sits on the left and the percentage on the right, and on mobile the percentage replaces "Step N of N".</p>
 <h2>Responsive</h2>
 <p>The header reacts to its own width. Under 768px it switches to the mobile layout. <code>layout="desktop"</code> or <code>"mobile"</code> forces one.</p>
 <h2>Nav items</h2>
@@ -628,6 +675,7 @@
 <li>It renders as <code>&lt;header&gt;</code>, and the main links are in a <code>&lt;nav&gt;</code> labelled "Main".</li>
 <li>Mobile icon buttons are 44px with labels.</li>
 <li>Hide Back or Close by passing <code>onBack={null}</code> or <code>onClose={null}</code>.</li>
+<li>Not part of this component: the mobile tab bar (Figma "Global-footer") is a separate component.</li>
 </ul></div></details>
 </section>
 <section class="comp" id="Logo">
