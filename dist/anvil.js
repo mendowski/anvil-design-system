@@ -787,7 +787,7 @@
       "aria-current": p.current ? "page" : undefined,
       onClick: p.onClick,
     },
-      h("span", { className: "anvil-tab__icon" }, h(Icon, { name: p.icon || "home", size: 24, variant: p.current ? "active" : "default" }), h(Badge, { value: p.badge })),
+      h("span", { className: "anvil-tab__icon" }, h(Icon, { name: p.icon || "home", size: 20, variant: p.current ? "active" : "default" }), h(Badge, { value: p.badge })),
       h("span", { className: "anvil-tab__label" }, p.label, h("span", { className: "anvil-visually-hidden" }, badgeText(p.badge))));
   }
 

@@ -5,7 +5,7 @@ Global footer is the tab bar at the bottom of the app. It links to the main sect
 ## Anatomy
 
 - **Container:** a pill in `navigation-background-surface` with `radius-round` corners, `padding-050` (4px) inside and the `elevation` shadow.
-- **Tabs** (`items`): a 24px icon over a label in `utility-3/default` (12/12). Tabs share the width equally.
+- **Tabs** (`items`): a 20px icon over a label in `utility-3/default` (12/12). Tabs share the width equally.
 - **Current tab:** a `navigation-global-header-tap-bar-current` pill, a `navigation-text-current` label in `utility-3/strong` and the filled (active) icon.
 
 ## Tab states

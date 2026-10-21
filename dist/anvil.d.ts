@@ -257,7 +257,7 @@ export type HeroBackground = "purple-subdued" | "aqua-subdued" | "green-subdued"
 export interface TabItemProps {
   /** Short label under the icon, such as "Home" or "Messages". */
   label: string;
-  /** An Anvil icon, shown at 24px. The current tab uses the filled (active) version. Default "home". */
+  /** An Anvil icon, shown at 20px. The current tab uses the filled (active) version. Default "home". */
   icon?: IconName;
   href?: string;
   onClick?: () => void;

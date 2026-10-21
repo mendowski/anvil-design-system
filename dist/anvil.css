@@ -845,8 +845,8 @@ a.anvil-pnav:active :is(.anvil-pnav__label, .anvil-pnav__eyebrow, .anvil-pnav__d
 }
 .anvil-tab__icon { position: relative; display: inline-flex; color: var(--navigation-global-header-tap-bar-icons); }
 .anvil-tab__label { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.anvil-tab .anvil-badge { left: 14px; }
-.anvil-tab .anvil-badge--dot { left: 18px; top: -2px; }
+.anvil-tab .anvil-badge { left: 12px; }
+.anvil-tab .anvil-badge--dot { left: 15px; top: -2px; }
 .anvil-tab:hover, .anvil-tab[data-state="hover"] { background: var(--navigation-background-hover); color: var(--navigation-text-hover); }
 .anvil-tab:focus-visible, .anvil-tab[data-state="focus"] { background: var(--navigation-background-hover); color: var(--navigation-text-hover); box-shadow: var(--focus-ring); }
 .anvil-tab:active, .anvil-tab[data-state="pressed"] { background: var(--navigation-background-pressed); color: var(--navigation-text-pressed); box-shadow: none; }
