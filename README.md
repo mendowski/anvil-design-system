@@ -53,7 +53,7 @@ Set `data-theme` on `<html>` to `core-light` (the default), `core-dark`, `pli-li
 
 ## Components
 
-Button, TextInput, PasswordInput, Checkbox (with CheckboxGroup), SelectionCard, Slider, Card, GlobalHeader, Illustration and Icon. Each one's guidelines are in `docs/components/`.
+Button, TextInput, PasswordInput, Checkbox (with CheckboxGroup), SelectionCard, Slider, Card, GlobalHeader, GlobalFooter, Illustration and Icon. Each one's guidelines are in `docs/components/`.
 
 `Anvil.Illustration` loads its artwork from `assets/illustrations/`, found from where `anvil.js` is loaded. If you move `dist/` away from `assets/`, set `window.ANVIL_ASSET_BASE = "https://mendowski.github.io/anvil-design-system/assets/"` before loading `anvil.js`.
 

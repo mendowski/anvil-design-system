@@ -816,3 +816,45 @@ a.anvil-pnav:active :is(.anvil-pnav__label, .anvil-pnav__eyebrow, .anvil-pnav__d
 [data-theme="core-dark"] .anvil-connector:not(.anvil-connector--light) .anvil-connector__dark,
 [data-theme="pli-dark"] .anvil-connector:not(.anvil-connector--light) .anvil-connector__dark,
 .anvil-connector--dark .anvil-connector__dark { display: inline; }
+
+/* ---------- Global footer (tab bar) ---------- */
+.anvil-gf {
+  box-sizing: border-box;
+  display: flex; align-items: stretch; gap: var(--space-050);
+  width: 100%;
+  padding: var(--padding-050);
+  border-radius: var(--radius-round);
+  background: var(--navigation-background-surface);
+  box-shadow: var(--elevation);
+  font-family: var(--font-sans);
+}
+.anvil-tab {
+  box-sizing: border-box;
+  position: relative;
+  flex: 1 1 0; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-025);
+  min-height: 52px;
+  padding: var(--padding-100) var(--padding-050);
+  border: 0; border-radius: var(--radius-round);
+  background: transparent;
+  font: 400 14px/20px var(--font-sans);
+  color: var(--navigation-text-default);
+  text-decoration: none; cursor: pointer; outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.anvil-tab__icon { position: relative; display: inline-flex; color: var(--navigation-global-header-tap-bar-icons); }
+.anvil-tab__label { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.anvil-tab .anvil-badge { left: 14px; }
+.anvil-tab .anvil-badge--dot { left: 18px; top: -2px; }
+.anvil-tab:hover, .anvil-tab[data-state="hover"] { background: var(--navigation-background-hover); color: var(--navigation-text-hover); }
+.anvil-tab:focus-visible, .anvil-tab[data-state="focus"] { background: var(--navigation-background-hover); color: var(--navigation-text-hover); box-shadow: var(--focus-ring); }
+.anvil-tab:active, .anvil-tab[data-state="pressed"] { background: var(--navigation-background-pressed); color: var(--navigation-text-pressed); box-shadow: none; }
+.anvil-tab:active .anvil-tab__icon, .anvil-tab[data-state="pressed"] .anvil-tab__icon { color: var(--navigation-icon-pressed); }
+.anvil-tab:hover .anvil-tab__icon, .anvil-tab[data-state="hover"] .anvil-tab__icon, .anvil-tab:focus-visible .anvil-tab__icon, .anvil-tab[data-state="focus"] .anvil-tab__icon { color: inherit; }
+.anvil-tab.is-current { background: var(--navigation-global-header-tap-bar-current); color: var(--navigation-text-current); font-weight: 600; }
+.anvil-tab.is-current .anvil-tab__icon { color: var(--navigation-icon-current); }
+.anvil-tab.is-current:focus-visible, .anvil-tab.is-current[data-state="focus"] { box-shadow: var(--focus-ring); }
+/* Five or more tabs: smaller labels so they fit a 360px phone */
+.anvil-gf--compact .anvil-tab { font-size: 12px; line-height: 16px; padding-left: 2px; padding-right: 2px; }
+.anvil-gf--compact { gap: 0; }
+.anvil-gf--compact .anvil-tab__label { white-space: normal; overflow: visible; text-align: center; overflow-wrap: anywhere; }

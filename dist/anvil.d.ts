@@ -254,6 +254,32 @@ export declare function InlineMessage(props: { status?: "error" | "warning" | "s
 
 export type SpotBackground = "purple" | "purple-subdued" | "aqua" | "aqua-subdued" | "green" | "green-subdued" | "berry" | "berry-subdued" | "neutral-0" | "neutral-1" | "neutral-2" | "neutral-3" | "none";
 export type HeroBackground = "purple-subdued" | "aqua-subdued" | "green-subdued" | "berry-subdued" | "neutral-0" | "neutral-1" | "neutral-2" | "neutral-3" | "none";
+export interface TabItemProps {
+  /** Short label under the icon, such as "Home" or "Messages". */
+  label: string;
+  /** An Anvil icon, shown at 24px. The current tab uses the filled (active) version. Default "home". */
+  icon?: IconName;
+  href?: string;
+  onClick?: () => void;
+  /** The tab for the page people are on. Adds aria-current="page". */
+  current?: boolean;
+  /** A number shows a count; true shows a dot. */
+  badge?: number | boolean;
+  /** Forces a visual state for documentation and prototypes. */
+  state?: "hover" | "focus" | "pressed";
+}
+export interface GlobalFooterProps {
+  /** The tabs, usually 3 to 5. */
+  items: TabItemProps[];
+  /** Accessible name of the nav. Default "Main". */
+  label?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}
+/** The tab bar at the bottom of the app (Figma "Global-footer"), the same on every platform. */
+export declare function GlobalFooter(props: GlobalFooterProps): React.ReactElement;
+export declare function TabItem(props: TabItemProps): React.ReactElement;
+
 export interface IllustrationProps {
   /** spot = small square or circle (72px); hero = full-width 2:1 scene. Default "spot". */
   type?: "spot" | "hero";

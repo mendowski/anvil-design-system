@@ -222,6 +222,27 @@
         return p;
       }
     },
+    GlobalFooter: {
+      blurb: "The tab bar at the bottom of the app, the same on every platform. Hover, tab to or press a tab to see its states.",
+      canvas: { maxWidth: 420 },
+      controls: {
+        count: num("Tabs", 4, 3, 5, 1),
+        current: num("Current tab", 1, 1, 5, 1),
+        badge: sel("Messages badge", ["none", "count", "dot"], "none"),
+        state: sel("Force state on tab 2", ["none", "hover", "focus", "pressed"], "none")
+      },
+      props: function (a) {
+        var all = [["Home", "home"], ["Programs", "programs"], ["Health info", "health-info"], ["Messages", "chat"], ["Account", "profile"]];
+        var items = all.slice(0, a.count).map(function (t, i) {
+          var it = { label: t[0], icon: t[1], href: "#" };
+          if (i === Math.min(a.current, a.count) - 1) it.current = true;
+          if (t[0] === "Messages" && a.badge !== "none") it.badge = a.badge === "count" ? 2 : true;
+          if (i === 1 && a.state !== "none") it.state = a.state;
+          return it;
+        });
+        return { items: items };
+      }
+    },
     VisitCard: {
       blurb: "Visit card shows one scheduled visit with up to three actions. Prominent highlights the next visit.",
       canvas: { maxWidth: 400 },

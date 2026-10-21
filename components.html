@@ -22,11 +22,11 @@
 </header>
 
 <main><div class="cp">
-<nav class="cp-side" aria-label="Components"><p class="eyebrow">Components</p><a href="#Button">Button</a><a href="#TextInput">Text input</a><a href="#PasswordInput">Password input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#NavList">Prominent nav list</a><a href="#GlobalHeader">Global header</a><a href="#Logo">Logo</a><a href="#Connector">Connector</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
+<nav class="cp-side" aria-label="Components"><p class="eyebrow">Components</p><a href="#Button">Button</a><a href="#TextInput">Text input</a><a href="#PasswordInput">Password input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#NavList">Prominent nav list</a><a href="#GlobalHeader">Global header</a><a href="#GlobalFooter">Global footer</a><a href="#Logo">Logo</a><a href="#Connector">Connector</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
 <div class="cp-body">
 <p class="eyebrow">Components</p><h1 class="page-title">Components</h1>
 <p class="lede">Live React components built from the Anvil Figma component sets. Every example below is running code, so switch the theme at the top to see each one in Core UI and PLI, light and dark.</p>
-<nav class="jump" aria-label="Components (compact)"><a href="#Button">Button</a><a href="#TextInput">Text input</a><a href="#PasswordInput">Password input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#NavList">Prominent nav list</a><a href="#GlobalHeader">Global header</a><a href="#Logo">Logo</a><a href="#Connector">Connector</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
+<nav class="jump" aria-label="Components (compact)"><a href="#Button">Button</a><a href="#TextInput">Text input</a><a href="#PasswordInput">Password input</a><a href="#Checkbox">Checkbox</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#NavList">Prominent nav list</a><a href="#GlobalHeader">Global header</a><a href="#GlobalFooter">Global footer</a><a href="#Logo">Logo</a><a href="#Connector">Connector</a><a href="#Illustration">Illustration</a><a href="#Icon">Icon</a></nav>
 <section class="comp" id="Button">
   <div class="comp-head"><h2 class="sec">Button</h2><span class="comp-meta"><code>Anvil.Button</code><a class="pg-link" href="playground.html#Button">Try it in the playground</a></span></div>
   <p class="lede">Buttons start actions, in three levels of emphasis: primary, secondary and tertiary, each with a destructive version.</p>
@@ -675,9 +675,85 @@
 <li>It renders as <code>&lt;header&gt;</code>, and the main links are in a <code>&lt;nav&gt;</code> labelled "Main".</li>
 <li>Mobile icon buttons are 44px with labels.</li>
 <li>Hide Back or Close by passing <code>onBack={null}</code> or <code>onClose={null}</code>.</li>
-<li>Not part of this component: the mobile tab bar (Figma "Global-footer") is a separate component.</li>
+<li>Not part of this component: the tab bar at the bottom of the app is <a href="#GlobalFooter">Global footer</a>.</li>
 </ul></div></details>
 </section>
+<section class="comp" id="GlobalFooter">
+  <div class="comp-head"><h2 class="sec">Global footer</h2><span class="comp-meta"><code>Anvil.GlobalFooter</code><a class="pg-link" href="playground.html#GlobalFooter">Try it in the playground</a></span></div>
+  <p class="lede">Global footer is the tab bar at the bottom of the app. It links to the main sections, such as Home, Programs, Health info, Messages and Account, and looks the same on every platform. In Figma it's "Global-footer", built from ".Tap-nav-items".</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/GlobalFooter.html" title="Global footer examples" height="560" loading="lazy" style="min-width:800px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Global footer is the tab bar at the bottom of the app. It links to the main sections, such as Home, Programs, Health info, Messages and Account, and looks the same on every platform. In Figma it's "Global-footer", built from ".Tap-nav-items".</p>
+<h2>Usage</h2>
+<pre><code class="language-jsx">&lt;GlobalFooter items={[
+  { label: &quot;Home&quot;, icon: &quot;home&quot;, href: &quot;/&quot;, current: true },
+  { label: &quot;Programs&quot;, icon: &quot;programs&quot;, href: &quot;/programs&quot; },
+  { label: &quot;Health info&quot;, icon: &quot;health-info&quot;, href: &quot;/health&quot; },
+  { label: &quot;Messages&quot;, icon: &quot;chat&quot;, href: &quot;/messages&quot;, badge: 2 }
+]} /&gt;</code></pre>
+<p>Global footer is the tab bar at the bottom of the app. It links to the main sections, such as Home, Programs, Health info, Messages and Account, and looks the same on every platform. In Figma it's "Global-footer", built from ".Tap-nav-items".</p>
+<h2>Anatomy</h2>
+<ul>
+<li><strong>Container:</strong> a pill in <code>navigation-background-surface</code> with <code>radius-round</code> corners, <code>padding-050</code> (4px) inside and the <code>elevation</code> shadow.</li>
+<li><strong>Tabs</strong> (<code>items</code>): a 24px icon over a 14/20 label. Tabs share the width equally.</li>
+<li><strong>Current tab:</strong> a <code>navigation-global-header-tap-bar-current</code> pill, <code>navigation-text-current</code> semibold label and the filled (active) icon.</li>
+</ul>
+<h2>Tab states</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Look</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current</td>
+<td><code>navigation-global-header-tap-bar-current</code> fill, <code>navigation-text-current</code> semibold, filled icon in <code>navigation-icon-current</code>, <code>aria-current="page"</code>.</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>Transparent, <code>navigation-text-default</code>, outline icon in <code>navigation-global-header-tap-bar-icons</code>.</td>
+</tr>
+<tr>
+<td>Hover</td>
+<td><code>navigation-background-hover</code> fill, <code>navigation-text-hover</code> label and icon.</td>
+</tr>
+<tr>
+<td>Focus</td>
+<td>Hover plus <code>focus-ring</code>. Keyboard focus only.</td>
+</tr>
+<tr>
+<td>Pressed</td>
+<td><code>navigation-background-pressed</code> fill, <code>navigation-text-pressed</code> label, <code>navigation-icon-pressed</code> icon.</td>
+</tr>
+</tbody>
+</table>
+<p><code>state="hover"</code>, <code>"focus"</code> or <code>"pressed"</code> forces a state for docs and prototypes.</p>
+<h2>How many tabs</h2>
+<ul>
+<li>Use 3 to 5 tabs. Figma shows 4.</li>
+<li>With 5 tabs, labels drop to 12/16 and can wrap to two lines, so they fit a 360px phone.</li>
+<li>Keep labels to one or two short words. The icon helps people scan, but the label carries the meaning.</li>
+</ul>
+<h2>Badges</h2>
+<ul>
+<li><code>badge: 2</code> shows a count in <code>background-status-critical-base</code>, and <code>badge: true</code> shows an 8px dot, the same as in Global header.</li>
+<li>Screen readers hear the count as part of the label, such as "Messages, 2 new".</li>
+</ul>
+<h2>Placement</h2>
+<ul>
+<li>Pin it to the bottom of the screen, 16px from the sides and bottom, and above the device's safe area on phones.</li>
+<li>Add bottom padding to the page so the last content isn't hidden behind it.</li>
+<li>Use it with the signed-in Global header. Leave it out of focused tasks and progress trackers, where people should finish one thing without wandering off.</li>
+</ul>
+<h2>Accessibility</h2>
+<ul>
+<li>It renders as a <code>&lt;nav&gt;</code> labelled "Main". Change the name with <code>label</code>.</li>
+<li>Each tab is a link (<code>href</code>) or a button (<code>onClick</code>), at least 52px tall.</li>
+<li>Icons are decorative. The label is always visible, so tabs never rely on the icon alone.</li>
+</ul></div></details>
+</section>
+
 <section class="comp" id="Logo">
   <div class="comp-head"><h2 class="sec">Logo</h2><span class="comp-meta"><code>Anvil.Logo</code><a class="pg-link" href="playground.html#Logo">Try it in the playground</a></span></div>
   <p class="lede">The Teladoc Health logo, from the Anvil &quot;Logos and marks&quot; page in Figma.</p>

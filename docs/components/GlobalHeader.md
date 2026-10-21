@@ -64,4 +64,4 @@ The header reacts to its own width. Under 768px it switches to the mobile layout
 - It renders as `<header>`, and the main links are in a `<nav>` labelled "Main".
 - Mobile icon buttons are 44px with labels.
 - Hide Back or Close by passing `onBack={null}` or `onClose={null}`.
-- Not part of this component: the mobile tab bar (Figma "Global-footer") is a separate component.
+- Not part of this component: the tab bar at the bottom of the app is GlobalFooter (Figma "Global-footer").

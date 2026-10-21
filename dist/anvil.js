@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"Anvil","components":[{"name":"Button"},{"name":"TextInput"},{"name":"PasswordInput"},{"name":"Checkbox"},{"name":"SelectionCard"},{"name":"Slider"},{"name":"Card"},{"name":"VisitCard"},{"name":"NavList"},{"name":"GlobalHeader"},{"name":"Illustration"},{"name":"Logo"},{"name":"Connector"}]} */
+/* @ds-bundle: {"format":4,"namespace":"Anvil","components":[{"name":"Button"},{"name":"TextInput"},{"name":"PasswordInput"},{"name":"Checkbox"},{"name":"SelectionCard"},{"name":"Slider"},{"name":"Card"},{"name":"VisitCard"},{"name":"NavList"},{"name":"GlobalHeader"},{"name":"GlobalFooter"},{"name":"Illustration"},{"name":"Logo"},{"name":"Connector"}]} */
 (function () {
   var React = window.React;
   var h = React.createElement;
@@ -775,5 +775,30 @@
   Illustration.names = { spot: Object.keys(ILLO.spot), hero: Object.keys(ILLO.hero) };
   Illustration.url = function (type, name) { return (ILLO[type] || {})[name]; };
 
-  window.Anvil = { Button: Button, Logo: Logo, Connector: Connector, VisitCard: VisitCard, NavList: NavList, NavListItem: NavListItem, Icon: Icon, PlusIcon: PlusIcon, TextInput: TextInput, PasswordInput: PasswordInput, Checkbox: Checkbox, CheckboxGroup: CheckboxGroup, SelectionCard: SelectionCard, Slider: Slider, Card: Card, GlobalHeader: GlobalHeader, Illustration: Illustration, InlineMessage: InlineMessage, Badge: Badge, IconButton: IconButton, NavItem: NavItem };
+  // ---------- Global footer (Figma "Global-footer": the tab bar, all platforms) ----------
+
+  // One tab: icon over label. The current tab gets the tap-bar-current pill and the filled icon.
+  function TabItem(p) {
+    return h(p.href ? "a" : "button", {
+      type: p.href ? undefined : "button",
+      href: p.href,
+      className: cx("anvil-tab", p.current && "is-current"),
+      "data-state": p.state || undefined,
+      "aria-current": p.current ? "page" : undefined,
+      onClick: p.onClick,
+    },
+      h("span", { className: "anvil-tab__icon" }, h(Icon, { name: p.icon || "home", size: 24, variant: p.current ? "active" : "default" }), h(Badge, { value: p.badge })),
+      h("span", { className: "anvil-tab__label" }, p.label, h("span", { className: "anvil-visually-hidden" }, badgeText(p.badge))));
+  }
+
+  function GlobalFooter(p) {
+    var items = p.items || [];
+    return h("nav", {
+      className: cx("anvil-gf", items.length > 4 && "anvil-gf--compact", p.className),
+      "aria-label": p.label || "Main",
+      style: p.style,
+    }, items.map(function (it, i) { return h(TabItem, Object.assign({ key: it.label || i }, it)); }));
+  }
+
+  window.Anvil = { Button: Button, Logo: Logo, Connector: Connector, VisitCard: VisitCard, NavList: NavList, NavListItem: NavListItem, Icon: Icon, PlusIcon: PlusIcon, TextInput: TextInput, PasswordInput: PasswordInput, Checkbox: Checkbox, CheckboxGroup: CheckboxGroup, SelectionCard: SelectionCard, Slider: Slider, Card: Card, GlobalHeader: GlobalHeader, GlobalFooter: GlobalFooter, TabItem: TabItem, Illustration: Illustration, InlineMessage: InlineMessage, Badge: Badge, IconButton: IconButton, NavItem: NavItem };
 })();
