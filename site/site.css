@@ -157,3 +157,7 @@ details.guide th, details.guide td { border-bottom: 1px solid var(--stroke-subdu
   h1.page-title { font-size: 34px; line-height: 40px; }
   .typerow { grid-template-columns: 1fr; gap: 4px; }
 }
+
+/* data viz */
+.pg-frame__inner > .anvil-chart { flex: 1 1 auto; min-width: 0; }
+.pg-list .eyebrow ~ .eyebrow { margin-top: 16px; }

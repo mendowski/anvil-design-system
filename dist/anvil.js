@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"Anvil","components":[{"name":"Button"},{"name":"TextInput"},{"name":"PasswordInput"},{"name":"Checkbox"},{"name":"SelectionCard"},{"name":"Slider"},{"name":"Card"},{"name":"VisitCard"},{"name":"NavList"},{"name":"GlobalHeader"},{"name":"GlobalFooter"},{"name":"Illustration"},{"name":"Logo"},{"name":"Connector"}]} */
+/* @ds-bundle: {"format":4,"namespace":"Anvil","components":[{"name":"Button"},{"name":"TextInput"},{"name":"PasswordInput"},{"name":"Checkbox"},{"name":"SelectionCard"},{"name":"Slider"},{"name":"Card"},{"name":"VisitCard"},{"name":"NavList"},{"name":"GlobalHeader"},{"name":"GlobalFooter"},{"name":"Illustration"},{"name":"Logo"},{"name":"Connector"},{"name":"BarChart"},{"name":"LineChart"},{"name":"RadialChart"},{"name":"FloatingColumns"},{"name":"ChartTooltip"},{"name":"ChartLegend"},{"name":"ChartEmpty"}]} */
 (function () {
   var React = window.React;
   var h = React.createElement;
@@ -800,5 +800,618 @@
     }, items.map(function (it, i) { return h(TabItem, Object.assign({ key: it.label || i }, it)); }));
   }
 
-  window.Anvil = { Button: Button, Logo: Logo, Connector: Connector, VisitCard: VisitCard, NavList: NavList, NavListItem: NavListItem, Icon: Icon, PlusIcon: PlusIcon, TextInput: TextInput, PasswordInput: PasswordInput, Checkbox: Checkbox, CheckboxGroup: CheckboxGroup, SelectionCard: SelectionCard, Slider: Slider, Card: Card, GlobalHeader: GlobalHeader, GlobalFooter: GlobalFooter, TabItem: TabItem, Illustration: Illustration, InlineMessage: InlineMessage, Badge: Badge, IconButton: IconButton, NavItem: NavItem };
+  // ---------- Data visualization (Figma "Pulse 5: Data Visualization") ----------
+
+  // Default dataset order, as the Figma multi-dataset tooltips use it:
+  // data 2 (berry, circle), data 4 (green, square), data 1 (aqua, triangle), data 8 (yellow, inverted triangle).
+  var DV_ORDER = [2, 4, 1, 8];
+  var DV_SHAPES = ["circle", "square", "triangle", "inverted-triangle"];
+  var DV_TEXT = { 1: 1, 2: 1, 3: 1 }; // datasets with a data-text token
+
+  function dvVar(n, kind) {
+    if (n === "null") return "var(--data-viz-data-data-null-" + (kind === "hover" ? "base" : kind || "base") + ")";
+    if (kind === "data-text" && !DV_TEXT[n]) kind = "base";
+    return "var(--data-viz-data-data-" + n + "-" + (kind || "base") + ")";
+  }
+  function dvSeries(list) {
+    return (list || []).map(function (s, i) {
+      return Object.assign({}, s, { color: s.color || DV_ORDER[i % 4], shape: s.shape || DV_SHAPES[i % 4] });
+    });
+  }
+  function dvFormat(v, p) {
+    if (v === null || v === undefined || v === "") return "";
+    if (p && p.formatValue) return p.formatValue(v);
+    return typeof v === "number" ? (Math.round(v * 100) / 100).toLocaleString() : String(v);
+  }
+  function dvNice(max, want) {
+    want = want || 5;
+    if (!(max > 0)) return { max: want, step: 1 };
+    var raw = max / want, mag = Math.pow(10, Math.floor(Math.log10(raw))), steps = [1, 2, 2.5, 5, 10], step = mag;
+    for (var i = 0; i < steps.length; i++) { if (steps[i] * mag >= raw) { step = steps[i] * mag; break; } }
+    return { max: Math.ceil(max / step) * step, step: step };
+  }
+  function dvTicks(p, dataMax) {
+    var goalMax = Array.isArray(p.goal) ? Math.max.apply(null, p.goal) : p.goal || 0;
+    var n = dvNice(p.yMax || Math.max(dataMax, goalMax), p.yTicks || 5);
+    var max = p.yMax || n.max, step = p.yStep || n.step, out = [];
+    for (var v = 0; v <= max + step / 1000; v += step) out.push(Math.round(v * 1000) / 1000);
+    return { max: max, ticks: out };
+  }
+
+  // Measure our own width so charts fill whatever they sit in.
+  function useWidth(fallback) {
+    var ref = React.useRef(null);
+    var st = React.useState(fallback || 343), w = st[0], setW = st[1];
+    React.useLayoutEffect(function () {
+      var el = ref.current;
+      if (!el) return;
+      var set = function () { var n = Math.round(el.getBoundingClientRect().width); if (n > 0) setW(n); };
+      set();
+      if (typeof ResizeObserver === "undefined") return;
+      var ro = new ResizeObserver(set);
+      ro.observe(el);
+      return function () { ro.disconnect(); };
+    }, []);
+    return [ref, w];
+  }
+
+  // Data point shapes (Figma Chart-data-point / Chart-data-point-active).
+  function DataPointShape(p) {
+    var s = p.size || 8, r = s / 2, x = p.x || 0, y = p.y || 0, common = { className: p.className, style: p.style, fill: p.fill, stroke: p.stroke, strokeWidth: p.strokeWidth };
+    if (p.shape === "square") return h("rect", Object.assign({ x: x - r, y: y - r, width: s, height: s, rx: 1 }, common));
+    if (p.shape === "triangle") return h("path", Object.assign({ d: "M" + x + " " + (y - r) + "L" + (x + r) + " " + (y + r * 0.85) + "L" + (x - r) + " " + (y + r * 0.85) + "Z", strokeLinejoin: "round" }, common));
+    if (p.shape === "inverted-triangle") return h("path", Object.assign({ d: "M" + (x - r) + " " + (y - r * 0.85) + "L" + (x + r) + " " + (y - r * 0.85) + "L" + x + " " + (y + r) + "Z", strokeLinejoin: "round" }, common));
+    return h("circle", Object.assign({ cx: x, cy: y, r: r }, common));
+  }
+  function DataPoint(p) {
+    var s = p.size || 8, pad = 2;
+    var active = !!p.active;
+    return h("svg", { className: cx("anvil-data-point", p.className), width: s + pad * 2, height: s + pad * 2, viewBox: [-(s / 2 + pad), -(s / 2 + pad), s + pad * 2, s + pad * 2].join(" "), "aria-hidden": "true" },
+      h(DataPointShape, { shape: p.shape, size: active ? s - 1 : s, fill: active ? (p.background || "var(--icon-inverted)") : dvVar(p.color || 2), stroke: active ? dvVar(p.color || 2) : "none", strokeWidth: active ? 2 : 0 }));
+  }
+
+  // ---------- Chart title ----------
+  function ChartTitle(p) {
+    var As = p.as || "h3";
+    return h("div", { className: cx("anvil-chart-title", p.align === "center" && "anvil-chart-title--center", p.className), style: p.style },
+      h(As, { className: "anvil-chart-title__title", id: p.id }, p.title),
+      p.subtitle && h("p", { className: "anvil-chart-title__subtitle" }, p.subtitle));
+  }
+
+  // ---------- Legend ----------
+  function ChartLegend(p) {
+    var items = (p.items || []).map(function (it, i) { return Object.assign({ color: DV_ORDER[i % 4], shape: DV_SHAPES[i % 4] }, it); });
+    if (p.goal) items.push({ type: p.goal === "range" ? "goal-range" : "goal-line", label: p.goalLabel || "Goal" });
+    return h("ul", { className: cx("anvil-chart-legend", p.className), style: p.style, "aria-label": p.label || "Legend" },
+      items.map(function (it, i) {
+        var icon = it.type === "goal-line"
+          ? h("span", { className: "anvil-chart-legend__goal-line", "aria-hidden": "true" })
+          : it.type === "goal-range"
+            ? h("span", { className: "anvil-chart-legend__goal-range", "aria-hidden": "true" })
+            : h(DataPoint, { shape: it.shape, color: it.color, size: 8 });
+        return h("li", { key: i, className: "anvil-chart-legend__item" }, icon, h("span", null, it.label));
+      }));
+  }
+
+  // ---------- Summary (Figma Chart-summary-data) ----------
+  function ChartSummary(p) {
+    var v1 = h("span", { className: "anvil-chart-value" }, h("b", null, p.value), p.unit && h("span", null, p.unit));
+    var v2 = p.value2 !== undefined && h("span", { className: "anvil-chart-value" }, h("b", null, p.value2), p.unit2 && h("span", null, p.unit2));
+    return h("div", { className: cx("anvil-chart-summary", p.className), style: p.style },
+      h("div", { className: "anvil-chart-summary__values" }, v1, v2 && (p.range ? h("span", { className: "anvil-chart-summary__dash" }, "–") : null), v2),
+      p.label && h("div", { className: "anvil-chart-summary__label" }, p.label));
+  }
+
+  // ---------- Tooltips (Figma Chart-overlay-tooltip and Chart-inline-tooltip) ----------
+  function tooltipValues(p, inline) {
+    var vals = p.values || [];
+    var multi = vals.length > 2 || vals.some(function (v) { return v.label; }) && !p.range;
+    if (multi) {
+      return h(inline ? "div" : "ul", { className: inline ? "anvil-chart-tip__sets" : "anvil-chart-tip__rows" }, vals.map(function (v, i) {
+        var color = v.color || DV_ORDER[i % 4], shape = v.shape || DV_SHAPES[i % 4];
+        var val = h("span", { className: "anvil-chart-value" }, h("b", null, v.value), v.unit && h("span", null, v.unit));
+        return inline
+          ? h("div", { key: i, className: "anvil-chart-tip__set" }, val,
+              h("span", { className: "anvil-chart-tip__label" }, h(DataPoint, { shape: shape, color: color, size: 6, active: true, background: "var(--data-viz-tooltip-background-secondary)" }), v.label))
+          : h("li", { key: i }, h(DataPoint, { shape: shape, color: color, size: 6, active: true, background: "var(--data-viz-tooltip-background-primary)" }), val,
+              v.label && h("span", { className: "anvil-visually-hidden" }, " " + v.label));
+      }));
+    }
+    return h("div", { className: "anvil-chart-tip__values" }, vals.map(function (v, i) {
+      return h(React.Fragment, { key: i },
+        i > 0 && p.range && h("span", { className: "anvil-chart-tip__dash" }, "–"),
+        h("span", { className: "anvil-chart-value" }, h("b", null, v.value), v.unit && h("span", null, v.unit)));
+    }));
+  }
+  function ChartTooltip(p) {
+    if (p.variant === "inline") {
+      return h("div", { className: cx("anvil-chart-tip anvil-chart-tip--inline", p.className), style: p.style, role: p.role },
+        p.x !== undefined && h("div", { className: "anvil-chart-tip__x" }, p.x),
+        tooltipValues(p, true),
+        p.supplemental && h("div", { className: "anvil-chart-tip__extra" }, p.supplemental));
+    }
+    var beak = p.beak || "bottom", align = p.beakAlign || "center";
+    return h("div", { className: cx("anvil-chart-tip anvil-chart-tip--overlay", "anvil-chart-tip--beak-" + beak, "anvil-chart-tip--align-" + align, p.className), style: p.style, role: p.role },
+      p.x !== undefined && h("div", { className: "anvil-chart-tip__x" }, p.x),
+      tooltipValues(p, false),
+      p.supplemental && h("div", { className: "anvil-chart-tip__extra" }, p.supplemental),
+      beak !== "none" && h("span", { className: "anvil-chart-tip__beak", "aria-hidden": "true" }));
+  }
+
+  // ---------- Goal line (Figma Chart-goal-line) ----------
+  function GoalLabel(p) {
+    return h("span", { className: cx("anvil-chart-goal__label", p.className), style: p.style }, p.children || "Goal");
+  }
+
+  // ---------- Empty states (Figma Chart-empty-message over a ghost chart) ----------
+  function ChartEmptyMessage(p) {
+    var unavailable = p.status === "unavailable";
+    return h("div", { className: cx("anvil-chart-empty__message", p.className), style: p.style, role: "status" },
+      h("span", { className: "anvil-chart-empty__icon" }, h(Icon, { name: unavailable ? "cloud-disconnected" : "info", size: 16 })),
+      h("div", null,
+        h("div", { className: "anvil-chart-empty__title" }, p.title || (unavailable ? "Data unavailable" : "No data yet")),
+        p.description && h("div", { className: "anvil-chart-empty__desc" }, p.description)));
+  }
+  function GhostChart(p) {
+    var type = p.type || "bar";
+    if (type === "radial") {
+      return h("svg", { className: "anvil-chart-ghost", viewBox: "0 0 140 140", width: 140, height: 140, "aria-hidden": "true" },
+        h("circle", { cx: 70, cy: 70, r: 63, fill: "none", stroke: "var(--data-viz-data-data-null-subdued)", strokeWidth: 14 }));
+    }
+    var hs = [0.22, 1, 0.26, 0.62, 0.14, 0.56, 0.36];
+    var W = 343, H = 200;
+    if (type === "line") {
+      var pts = [0.7, 0.85, 0.75, 0.25, 0.18, 0.95, 0.6], step = (W - 16) / (pts.length - 1);
+      var d = pts.map(function (v, i) { return (i ? "L" : "M") + (8 + i * step) + " " + (H - 24 - v * (H - 60)); }).join("");
+      return h("svg", { className: "anvil-chart-ghost", viewBox: "0 0 " + W + " " + H, preserveAspectRatio: "none", "aria-hidden": "true" },
+        h("path", { d: d, fill: "none", stroke: "var(--data-viz-data-data-null-subdued)", strokeWidth: 2, vectorEffect: "non-scaling-stroke" }),
+        pts.map(function (v, i) { return h("circle", { key: i, cx: 8 + i * step, cy: H - 24 - v * (H - 60), r: 3.5, fill: "var(--data-viz-data-data-null-subdued)" }); }),
+        h("rect", { x: 0, y: H - 17, width: W, height: 1, fill: "var(--data-viz-axis-baseline)" }),
+        hs.map(function (v, i) { return h("rect", { key: "l" + i, x: 8 + i * (W - 16) / 7 + 4, y: H - 10, width: (W - 16) / 7 - 8, height: 10, rx: 4, fill: "var(--data-viz-data-data-null-subdued)" }); }));
+    }
+    var bw = (W - 8 - 6 * 8) / 7;
+    return h("svg", { className: "anvil-chart-ghost", viewBox: "0 0 " + W + " " + H, preserveAspectRatio: "none", "aria-hidden": "true" },
+      hs.map(function (v, i) { var bh = v * (H - 40); return h("rect", { key: i, x: 4 + i * (bw + 8), y: H - 17 - bh, width: bw, height: bh, rx: 4, fill: "var(--data-viz-data-data-null-subdued)" }); }),
+      h("rect", { x: 0, y: H - 17, width: W, height: 1, fill: "var(--data-viz-axis-baseline)" }),
+      hs.map(function (v, i) { return h("rect", { key: "l" + i, x: 4 + i * (bw + 8) + 4, y: H - 10, width: bw - 8, height: 10, rx: 4, fill: "var(--data-viz-data-data-null-subdued)" }); }));
+  }
+  function ChartEmpty(p) {
+    return h("div", { className: cx("anvil-chart-empty", "anvil-chart-empty--" + (p.chart || "bar"), p.className), style: p.style },
+      h(GhostChart, { type: p.chart }),
+      h(ChartEmptyMessage, { status: p.status, title: p.title, description: p.description }));
+  }
+
+  // ---------- Shared chart frame: title, summary/tooltip slot, plot, legend, data table ----------
+  function DataTable(p) {
+    return h("div", { className: "anvil-visually-hidden" }, h("table", null,
+      p.caption && h("caption", null, p.caption),
+      h("thead", null, h("tr", null, h("th", { scope: "col" }, p.xTitle || "Category"), p.columns.map(function (c, i) { return h("th", { key: i, scope: "col" }, c); }))),
+      h("tbody", null, p.rows.map(function (r, i) {
+        return h("tr", { key: i }, h("th", { scope: "row" }, r[0]), r.slice(1).map(function (c, j) { return h("td", { key: j }, c); }));
+      }))));
+  }
+
+  function ChartShell(p) {
+    var titleId = useId();
+    return h("figure", { className: cx("anvil-chart", p.kind && "anvil-chart--" + p.kind, p.className), style: p.style, "aria-labelledby": p.title ? titleId : undefined, "aria-label": p.title ? undefined : p.ariaLabel },
+      p.title && h(ChartTitle, { id: titleId, title: p.title, subtitle: p.subtitle, align: p.titleAlign, as: p.titleAs }),
+      p.top,
+      p.children,
+      p.legend);
+  }
+
+  // Plot geometry shared by the bar, floating-column and line charts.
+  function plotGeom(p, width, rows) {
+    var yLabelW = p.yAxis === "none" ? 0 : Math.max(8, p.yLabelWidth || 0) + 4;
+    var plotW = Math.max(40, width - yLabelW);
+    var plotH = p.height || 200;
+    var top = 6, xRows = rows || 1;
+    return { yLabelW: yLabelW, plotW: plotW, plotH: plotH, top: top, totalH: top + plotH + 4 + xRows * 14, left: p.yAxis === "left" ? yLabelW : 0 };
+  }
+
+  function Axes(p) {
+    var g = p.g, ys = p.scale, out = [];
+    var x0 = g.left, x1 = g.left + g.plotW;
+    if (p.gridY !== false) ys.ticks.forEach(function (t, i) {
+      if (i === 0) return;
+      var y = g.top + g.plotH - (t / ys.max) * g.plotH;
+      out.push(h("line", { key: "gy" + i, x1: x0, x2: x1, y1: y, y2: y, className: "anvil-chart__grid" }));
+    });
+    if (p.gridX && p.xs) p.xs.forEach(function (x, i) { out.push(h("line", { key: "gx" + i, x1: x, x2: x, y1: g.top, y2: g.top + g.plotH, className: "anvil-chart__grid" })); });
+    out.push(h("line", { key: "base", x1: x0, x2: x1, y1: g.top + g.plotH + 0.5, y2: g.top + g.plotH + 0.5, className: "anvil-chart__baseline" }));
+    if (p.yAxis !== "none") ys.ticks.forEach(function (t, i) {
+      var y = g.top + g.plotH - (t / ys.max) * g.plotH;
+      out.push(h("text", { key: "yl" + i, x: p.yAxis === "left" ? g.yLabelW - 4 : x1 + 4, y: y + 4, textAnchor: p.yAxis === "left" ? "end" : "start", className: "anvil-chart__axis-label" }, p.formatY ? p.formatY(t) : dvFormat(t)));
+    });
+    (p.labels || []).forEach(function (l, i) {
+      var x = p.xs[i];
+      var on = p.active === i;
+      out.push(h("text", { key: "xl" + i, x: x, y: g.top + g.plotH + 15, textAnchor: "middle", className: cx("anvil-chart__axis-label", on && "is-active") }, l));
+      if (p.labels2 && p.labels2[i] !== undefined) out.push(h("text", { key: "xl2" + i, x: x, y: g.top + g.plotH + 29, textAnchor: "middle", className: cx("anvil-chart__axis-label", on && "is-active") }, p.labels2[i]));
+    });
+    return h("g", null, out);
+  }
+
+  function GoalMarks(p) {
+    var g = p.g, ys = p.scale, goal = p.goal;
+    if (goal === undefined || goal === null || goal === false) return null;
+    var yOf = function (v) { return g.top + g.plotH - (v / ys.max) * g.plotH; };
+    var x0 = g.left, x1 = g.left + g.plotW;
+    if (Array.isArray(goal)) {
+      var a = yOf(Math.max(goal[0], goal[1])), b = yOf(Math.min(goal[0], goal[1]));
+      if (p.layer === "back") return h("rect", { x: x0, y: a, width: g.plotW, height: b - a, className: "anvil-chart-goal__range" });
+      return h("g", { className: "anvil-chart-goal" },
+        h("line", { x1: x0, x2: x1, y1: a, y2: a, className: "anvil-chart-goal__line" }),
+        h("line", { x1: x0, x2: x1, y1: b, y2: b, className: "anvil-chart-goal__line" }));
+    }
+    if (p.layer === "back") return null;
+    var y = yOf(goal);
+    return h("g", { className: "anvil-chart-goal" }, h("line", { x1: x0, x2: x1, y1: y, y2: y, className: "anvil-chart-goal__line" }));
+  }
+  function goalLabelStyle(p, g, ys) {
+    var goal = p.goal;
+    var v = Array.isArray(goal) ? (goal[0] + goal[1]) / 2 : goal;
+    var y = g.top + g.plotH - (v / ys.max) * g.plotH;
+    var side = p.goalPosition === "left" ? { left: 0 } : { right: 0 };
+    return Object.assign({ top: y }, side);
+  }
+
+  // Keyboard and pointer exploring: arrows move between columns, Escape clears.
+  function useExplore(n, initial) {
+    var st = React.useState(initial === undefined ? null : initial), active = st[0], setActive = st[1];
+    function onKeyDown(e) {
+      if (!n) return;
+      var k = e.key, cur = active === null ? -1 : active;
+      if (k === "ArrowRight" || k === "ArrowDown") { setActive(Math.min(n - 1, cur + 1)); e.preventDefault(); }
+      else if (k === "ArrowLeft" || k === "ArrowUp") { setActive(Math.max(0, cur < 0 ? 0 : cur - 1)); e.preventDefault(); }
+      else if (k === "Home") { setActive(0); e.preventDefault(); }
+      else if (k === "End") { setActive(n - 1); e.preventDefault(); }
+      else if (k === "Escape") setActive(null);
+    }
+    return { active: active, setActive: setActive, onKeyDown: onKeyDown, onFocus: function () { if (active === null) setActive(0); } };
+  }
+
+  function placeTip(x, width, tipW) {
+    var half = tipW / 2;
+    if (x - half < 0) return { left: Math.max(0, x - 18), align: "leading" };
+    if (x + half > width) return { left: Math.min(width - tipW, x - tipW + 18), align: "trailing" };
+    return { left: x - half, align: "center" };
+  }
+
+  // Measured overlay tooltip that stays inside the chart.
+  function OverlayTip(p) {
+    var ref = React.useRef(null);
+    var st = React.useState([120, 48]), size = st[0], setSize = st[1];
+    React.useLayoutEffect(function () {
+      var el = ref.current;
+      if (el && (el.offsetWidth !== size[0] || el.offsetHeight !== size[1])) setSize([el.offsetWidth, el.offsetHeight]);
+    });
+    var pos = placeTip(p.x, p.width, size[0]);
+    // Not enough room above the point: put the tooltip beside it, beak pointing at it (Figma left/right beaks).
+    var side = p.y - size[1] - 8 < 0;
+    if (side) {
+      var off = (p.offset || 4) + 10;
+      var right = p.x + off + size[0] <= p.width;
+      return h("div", { ref: ref, className: "anvil-chart__overlay-wrap is-side", style: { left: right ? p.x + off : p.x - off - size[0], top: Math.max(0, p.y - 4) } },
+        h(ChartTooltip, Object.assign({}, p.tip, { beak: right ? "left" : "right", beakAlign: "leading" })));
+    }
+    return h("div", { ref: ref, className: "anvil-chart__overlay-wrap", style: { left: pos.left, top: p.y } },
+      h(ChartTooltip, Object.assign({}, p.tip, { beak: "bottom", beakAlign: pos.align })));
+  }
+
+  function categoriesOf(p, n) {
+    var labels = [], labels2 = [];
+    for (var i = 0; i < n; i++) {
+      var d = (p.data || [])[i] || {}, c = (p.categories || [])[i];
+      var l = c !== undefined ? (typeof c === "object" ? c.label : c) : d.x !== undefined ? d.x : String(i + 1);
+      var l2 = c && typeof c === "object" ? c.sublabel : d.x2;
+      labels.push(l); labels2.push(l2);
+    }
+    return { labels: labels, labels2: labels2.some(function (v) { return v !== undefined && v !== null; }) ? labels2 : null };
+  }
+
+  // ---------- Bar chart (Figma Chart-bar and Bar-chart) ----------
+  function BarChart(p) {
+    var series = dvSeries(p.series || [{ label: p.seriesLabel || "Value", values: (p.data || []).map(function (d) { return typeof d === "object" ? d.value : d; }), color: p.color }]);
+    var n = Math.max.apply(null, series.map(function (s) { return s.values.length; }).concat([0]));
+    var dataMax = Math.max.apply(null, series.map(function (s) { return Math.max.apply(null, s.values.map(Number).filter(isFinite).concat([0])); }));
+    var mw = useWidth(343), ref = mw[0], width = mw[1];
+    var ex = useExplore(n, p.activeIndex);
+    var cats = categoriesOf(p, n);
+    var ys = dvTicks(p, dataMax);
+    var yLabelW = Math.max.apply(null, ys.ticks.map(function (t) { return String(p.formatY ? p.formatY(t) : dvFormat(t)).length * 7; }));
+    var yAxis = p.yAxis || "right";
+    var g = plotGeom({ yAxis: yAxis, yLabelWidth: yLabelW, height: p.height }, width, cats.labels2 ? 2 : 1);
+    var empty = !n || p.empty;
+    var legend = (p.legend !== false && (series.length > 1 || p.legend)) || (p.goal !== undefined && p.legend !== false && series.length > 1)
+      ? h(ChartLegend, { items: series.map(function (s) { return { label: s.label, color: s.color, shape: "circle" }; }), goal: p.goal !== undefined && p.goal !== null ? (Array.isArray(p.goal) ? "range" : "line") : false, goalLabel: p.goalLabel })
+      : null;
+    if (empty) {
+      return h(ChartShell, Object.assign({}, p, { kind: "bar", top: null, legend: null }),
+        h(ChartEmpty, Object.assign({ chart: "bar" }, p.empty || {})));
+    }
+    var inner = 4, gap = n >= 12 ? 4 : 8, groupGap = 2;
+    var band = (g.plotW - inner * 2 - gap * (n - 1)) / n;
+    var barW = (band - groupGap * (series.length - 1)) / series.length;
+    var xs = [], bars = [], hits = [];
+    var yOf = function (v) { return g.top + g.plotH - (Math.max(0, v) / ys.max) * g.plotH; };
+    for (var i = 0; i < n; i++) {
+      var bx = g.left + inner + i * (band + gap);
+      xs.push(bx + band / 2);
+      series.forEach(function (s, si) {
+        var v = Number(s.values[i]);
+        if (!isFinite(v) || v <= 0) return;
+        var y = yOf(v), hgt = g.top + g.plotH - y, x = bx + si * (barW + groupGap), r = Math.min(4, barW / 2, hgt);
+        var on = ex.active === i;
+        bars.push(h("path", {
+          key: si + "-" + i,
+          d: "M" + x + " " + (y + hgt) + "V" + (y + r) + "Q" + x + " " + y + " " + (x + r) + " " + y + "H" + (x + barW - r) + "Q" + (x + barW) + " " + y + " " + (x + barW) + " " + (y + r) + "V" + (y + hgt) + "Z",
+          fill: dvVar(s.color, on ? "hover" : "base"),
+          className: "anvil-chart__bar"
+        }));
+      });
+      hits.push(h("rect", { key: "hit" + i, x: bx - gap / 2, y: g.top, width: band + gap, height: g.plotH, fill: "transparent", onMouseEnter: (function (k) { return function () { ex.setActive(k); }; })(i), onClick: (function (k) { return function () { ex.setActive(k); }; })(i) }));
+    }
+    var tip = null;
+    if (ex.active !== null && ex.active !== undefined && p.tooltip !== false) {
+      var a = ex.active;
+      var top = Math.min.apply(null, series.map(function (s) { var v = Number(s.values[a]); return isFinite(v) ? yOf(v) : g.top + g.plotH; }));
+      var values = series.map(function (s) { return { value: dvFormat(s.values[a], p), unit: p.unit, label: series.length > 1 ? s.label : undefined, color: s.color, shape: "circle" }; });
+      tip = h(OverlayTip, { x: xs[a], y: top - 6, offset: band / 2, width: width, tip: { x: (p.tooltipLabels && p.tooltipLabels[a]) || cats.labels[a], values: values } });
+    }
+    var label = function (i) { return series.map(function (s) { return (series.length > 1 ? s.label + " " : "") + dvFormat(s.values[i], p) + (p.unit ? " " + p.unit : ""); }).join(", "); };
+    return h(ChartShell, Object.assign({}, p, { kind: "bar", legend: legend }),
+      h("div", {
+        ref: ref, className: "anvil-chart__plot", style: { height: g.totalH }, tabIndex: p.tooltip === false ? undefined : 0,
+        "aria-label": (p.title || "Chart") + ". Use the arrow keys to explore values.",
+        onKeyDown: ex.onKeyDown, onFocus: ex.onFocus, onMouseLeave: function () { if (p.activeIndex === undefined) ex.setActive(null); }, onBlur: function () { if (p.activeIndex === undefined) ex.setActive(null); }
+      },
+        h("svg", { width: width, height: g.totalH, "aria-hidden": "true", className: "anvil-chart__svg" },
+          h(Axes, { g: g, scale: ys, xs: xs, labels: cats.labels, labels2: cats.labels2, yAxis: yAxis, gridY: p.gridlines !== false, gridX: p.verticalGridlines, active: ex.active, formatY: p.formatY }),
+          h(GoalMarks, { g: g, scale: ys, goal: p.goal, layer: "back" }),
+          bars,
+          h(GoalMarks, { g: g, scale: ys, goal: p.goal }),
+          hits),
+        p.goal !== undefined && p.goal !== null && p.goalLabel !== false && h(GoalLabel, { style: goalLabelStyle(p, g, ys) }, p.goalLabel || "Goal"),
+        tip,
+        h("div", { className: "anvil-visually-hidden", "aria-live": "polite" }, ex.active !== null && ex.active !== undefined ? cats.labels[ex.active] + ": " + label(ex.active) : "")),
+      h(DataTable, { caption: p.title, xTitle: p.xTitle, columns: series.map(function (s) { return s.label + (p.unit ? " (" + p.unit + ")" : ""); }), rows: cats.labels.map(function (l, i) { return [l].concat(series.map(function (s) { return dvFormat(s.values[i], p); })); }) }));
+  }
+
+  // ---------- Segmented columns (floating columns with several ranges per column, such as sleep) ----------
+  // Each column has a light track (the window, such as the night) and one or more segments inside it.
+  function dvDuration(hours) {
+    var mins = Math.round(hours * 60), hh = Math.floor(mins / 60), mm = mins % 60;
+    var out = [];
+    if (hh) out.push({ value: hh, unit: hh === 1 ? "hr" : "hrs" });
+    if (mm || !hh) out.push({ value: mm, unit: "min" });
+    return out;
+  }
+  function SegmentedColumns(p) {
+    var data = p.data || [];
+    var n = data.length;
+    var color = p.color || 1;
+    var all = [];
+    data.forEach(function (d) { (d.segments || []).forEach(function (s) { all.push(s[0], s[1]); }); });
+    var track = p.track || (all.length ? [Math.min.apply(null, all), Math.max.apply(null, all)] : null);
+    var dataMax = Math.max.apply(null, all.concat(track ? [track[1]] : [0], [0]));
+    var mw = useWidth(343), ref = mw[0], width = mw[1];
+    var ex = useExplore(n, p.activeIndex);
+    var cats = categoriesOf(p, n);
+    var ys = dvTicks(p, dataMax);
+    var fy = p.formatY || function (t) { return dvFormat(t); };
+    var yLabelW = Math.max.apply(null, ys.ticks.map(function (t) { return String(fy(t)).length * 7; }));
+    var yAxis = p.yAxis || "right";
+    var g = plotGeom({ yAxis: yAxis, yLabelWidth: yLabelW, height: p.height }, width, cats.labels2 ? 2 : 1);
+    var mode = p.tooltip === undefined ? "inline" : p.tooltip;
+    if (!n || p.empty) return h(ChartShell, Object.assign({}, p, { kind: "floating" }), h(ChartEmpty, Object.assign({ chart: "bar" }, p.empty || {})));
+    var inner = 4, gap = n >= 12 ? 4 : 8;
+    var band = (g.plotW - inner * 2 - gap * (n - 1)) / n;
+    var yOf = function (v) { return g.top + g.plotH - (Math.max(0, v) / ys.max) * g.plotH; };
+    var total = function (d) { return (d.segments || []).reduce(function (s, r) { return s + Math.abs(r[1] - r[0]); }, 0); };
+    var valuesOf = function (d) {
+      var t = d.value !== undefined ? d.value : total(d);
+      if (p.valueFormat === "duration") return dvDuration(t);
+      return [{ value: dvFormat(t, p), unit: p.unit }];
+    };
+    var xs = [], cols = [], hits = [];
+    data.forEach(function (d, i) {
+      var bx = g.left + inner + i * (band + gap);
+      xs.push(bx + band / 2);
+      var on = ex.active === i;
+      if (track) {
+        var ty1 = yOf(Math.max(track[0], track[1])), ty2 = yOf(Math.min(track[0], track[1]));
+        cols.push(h("rect", { key: "t" + i, x: bx, y: ty1, width: band, height: ty2 - ty1, rx: 4, fill: "var(--data-viz-data-data-null-subdued)" }));
+      }
+      (d.segments || []).forEach(function (s, si) {
+        var y1 = yOf(Math.max(s[0], s[1])), y2 = yOf(Math.min(s[0], s[1])), hh = Math.max(4, y2 - y1);
+        cols.push(h("rect", { key: i + "-" + si, x: bx, y: y1, width: band, height: hh, rx: Math.min(4, hh / 2), fill: dvVar(color, on ? "hover" : "base"), className: "anvil-chart__bar" }));
+      });
+      hits.push(h("rect", { key: "hit" + i, x: bx - gap / 2, y: g.top, width: band + gap, height: g.plotH, fill: "transparent", onMouseEnter: function () { ex.setActive(i); }, onClick: function () { ex.setActive(i); } }));
+    });
+    var a = ex.active, has = a !== null && a !== undefined && mode !== false && data[a];
+    var xLabel = has ? ((p.tooltipLabels && p.tooltipLabels[a]) || cats.labels[a]) : null;
+    var noData = has && !(data[a].segments || []).length;
+    var tipProps = has ? { x: xLabel, values: noData ? [{ value: "No data" }] : valuesOf(data[a]), supplemental: noData ? undefined : (data[a].note || p.note) } : null;
+    var inlineTip = null, overlay = null, guide = null;
+    if (mode === "inline") {
+      guide = has && h("line", { x1: xs[a], x2: xs[a], y1: g.top - 10, y2: g.top + g.plotH, className: "anvil-chart__guide" });
+      inlineTip = h(InlineTrack, { x: has ? xs[a] : 0, width: width },
+        has ? h(ChartTooltip, Object.assign({ variant: "inline" }, tipProps)) : p.summary ? h(ChartSummary, p.summary) : null);
+    } else if (has) {
+      var segs = data[a].segments || [];
+      var top = segs.length ? Math.min.apply(null, segs.map(function (s) { return yOf(Math.max(s[0], s[1])); })) : (track ? yOf(Math.max(track[0], track[1])) : g.top + g.plotH);
+      overlay = h(OverlayTip, { x: xs[a], y: top - 6, offset: band / 2, width: width, tip: tipProps });
+    }
+    var spoken = function (i) { var d = data[i]; return (d.segments || []).length ? valuesOf(d).map(function (v) { return v.value + (v.unit ? " " + v.unit : ""); }).join(" ") + (d.note || p.note ? ", " + (d.note || p.note) : "") : "no data"; };
+    return h(ChartShell, Object.assign({}, p, { kind: "floating", top: inlineTip, legend: p.legend ? h(ChartLegend, { items: [{ label: p.seriesLabel || "Value", color: color, shape: "square" }] }) : null }),
+      h("div", {
+        ref: ref, className: "anvil-chart__plot", style: { height: g.totalH }, tabIndex: mode === false ? undefined : 0, "aria-label": (p.title || "Chart") + ". Use the arrow keys to explore values.",
+        onKeyDown: ex.onKeyDown, onFocus: ex.onFocus, onMouseLeave: function () { if (p.activeIndex === undefined) ex.setActive(null); }, onBlur: function () { if (p.activeIndex === undefined) ex.setActive(null); }
+      },
+        h("svg", { width: width, height: g.totalH, "aria-hidden": "true", className: "anvil-chart__svg", style: { overflow: "visible" } },
+          h(Axes, { g: g, scale: ys, xs: xs, labels: cats.labels, labels2: cats.labels2, yAxis: yAxis, gridY: p.gridlines !== false, gridX: p.verticalGridlines !== false, active: a, formatY: fy }),
+          guide, cols, hits),
+        overlay,
+        h("div", { className: "anvil-visually-hidden", "aria-live": "polite" }, has ? xLabel + ": " + spoken(a) : "")),
+      h(DataTable, { caption: p.title, xTitle: p.xTitle, columns: [p.seriesLabel || "Total"], rows: data.map(function (d, i) { return [cats.labels[i], spoken(i)]; }) }));
+  }
+
+  // ---------- Floating columns (Figma Floating-columns): ranges such as a daily low and high ----------
+  function FloatingColumns(p) {
+    if ((p.data || []).some(function (d) { return d && d.segments; })) return h(SegmentedColumns, p);
+    var data = p.data || [];
+    var n = data.length;
+    var color = p.color || 2;
+    var dataMax = Math.max.apply(null, data.map(function (d) { return Number(d.high) || 0; }).concat([0]));
+    var mw = useWidth(343), ref = mw[0], width = mw[1];
+    var ex = useExplore(n, p.activeIndex);
+    var cats = categoriesOf(p, n);
+    var ys = dvTicks(p, dataMax);
+    var yLabelW = Math.max.apply(null, ys.ticks.map(function (t) { return String(dvFormat(t)).length * 7; }));
+    var yAxis = p.yAxis || "right";
+    var g = plotGeom({ yAxis: yAxis, yLabelWidth: yLabelW, height: p.height }, width, cats.labels2 ? 2 : 1);
+    if (!n || p.empty) return h(ChartShell, Object.assign({}, p, { kind: "floating" }), h(ChartEmpty, Object.assign({ chart: "bar" }, p.empty || {})));
+    var thin = n > 12, inner = 4, gap = thin ? 4 : n >= 12 ? 4 : 8;
+    var band = (g.plotW - inner * 2 - gap * (n - 1)) / n;
+    var barW = thin ? Math.min(6, band) : band;
+    var yOf = function (v) { return g.top + g.plotH - (Math.max(0, v) / ys.max) * g.plotH; };
+    var xs = [], bars = [], hits = [];
+    data.forEach(function (d, i) {
+      var bx = g.left + inner + i * (band + gap), c = bx + band / 2;
+      xs.push(c);
+      var y1 = yOf(Math.max(d.low, d.high)), y2 = yOf(Math.min(d.low, d.high)), on = ex.active === i;
+      bars.push(h("rect", { key: i, x: c - barW / 2, y: y1, width: barW, height: Math.max(barW < 8 ? barW : 2, y2 - y1), rx: thin ? barW / 2 : Math.min(4, (y2 - y1) / 2), fill: dvVar(color, on ? "hover" : "base"), className: "anvil-chart__bar" }));
+      hits.push(h("rect", { key: "hit" + i, x: bx - gap / 2, y: g.top, width: band + gap, height: g.plotH, fill: "transparent", onMouseEnter: function () { ex.setActive(i); }, onClick: function () { ex.setActive(i); } }));
+    });
+    var tip = null;
+    if (ex.active !== null && ex.active !== undefined && p.tooltip !== false) {
+      var a = data[ex.active];
+      tip = h(OverlayTip, { x: xs[ex.active], y: yOf(Math.max(a.low, a.high)) - 6, offset: barW / 2, width: width, tip: { x: cats.labels[ex.active], range: true, values: [{ value: dvFormat(a.low, p), unit: p.unit }, { value: dvFormat(a.high, p), unit: p.unit }] } });
+    }
+    return h(ChartShell, Object.assign({}, p, { kind: "floating", legend: p.goal !== undefined && p.legend !== false ? h(ChartLegend, { items: [{ label: p.seriesLabel || "Range", color: color }], goal: Array.isArray(p.goal) ? "range" : "line", goalLabel: p.goalLabel }) : null }),
+      h("div", {
+        ref: ref, className: "anvil-chart__plot", style: { height: g.totalH }, tabIndex: 0, "aria-label": (p.title || "Chart") + ". Use the arrow keys to explore values.",
+        onKeyDown: ex.onKeyDown, onFocus: ex.onFocus, onMouseLeave: function () { if (p.activeIndex === undefined) ex.setActive(null); }, onBlur: function () { if (p.activeIndex === undefined) ex.setActive(null); }
+      },
+        h("svg", { width: width, height: g.totalH, "aria-hidden": "true", className: "anvil-chart__svg" },
+          h(Axes, { g: g, scale: ys, xs: xs, labels: thin ? cats.labels.map(function (l, i) { return n > 16 && i % 2 ? "" : l; }) : cats.labels, labels2: cats.labels2, yAxis: yAxis, gridY: p.gridlines !== false, active: ex.active }),
+          h(GoalMarks, { g: g, scale: ys, goal: p.goal, layer: "back" }), bars, h(GoalMarks, { g: g, scale: ys, goal: p.goal }), hits),
+        p.goal !== undefined && p.goal !== null && p.goalLabel !== false && h(GoalLabel, { style: goalLabelStyle(p, g, ys) }, p.goalLabel || "Goal"),
+        tip,
+        h("div", { className: "anvil-visually-hidden", "aria-live": "polite" }, ex.active !== null && ex.active !== undefined ? cats.labels[ex.active] + ": " + dvFormat(data[ex.active].low, p) + " to " + dvFormat(data[ex.active].high, p) + (p.unit ? " " + p.unit : "") : "")),
+      h(DataTable, { caption: p.title, xTitle: p.xTitle, columns: ["Low", "High"], rows: data.map(function (d, i) { return [cats.labels[i], dvFormat(d.low, p), dvFormat(d.high, p)]; }) }));
+  }
+
+  // ---------- Line chart (Figma Line-chart and Chart-element-line-segment) ----------
+  function linePath(pts, curved) {
+    var d = "";
+    pts.forEach(function (pt, i) {
+      if (!pt) return;
+      var prev = pts[i - 1];
+      if (!prev) { d += "M" + pt[0] + " " + pt[1]; return; }
+      if (curved) { var dx = (pt[0] - prev[0]) / 2; d += "C" + (prev[0] + dx) + " " + prev[1] + " " + (pt[0] - dx) + " " + pt[1] + " " + pt[0] + " " + pt[1]; }
+      else d += "L" + pt[0] + " " + pt[1];
+    });
+    return d;
+  }
+  function LineChart(p) {
+    var series = dvSeries(p.series || [{ label: p.seriesLabel || "Value", values: (p.data || []).map(function (d) { return typeof d === "object" ? d.value : d; }), color: p.color }]).slice(0, 4);
+    var n = Math.max.apply(null, series.map(function (s) { return s.values.length; }).concat([0]));
+    var dataMax = Math.max.apply(null, series.map(function (s) { return Math.max.apply(null, s.values.map(Number).filter(isFinite).concat([0])); }));
+    var mw = useWidth(343), ref = mw[0], width = mw[1];
+    var ex = useExplore(n, p.activeIndex);
+    var cats = categoriesOf(p, n);
+    var ys = dvTicks(p, dataMax);
+    var yLabelW = Math.max.apply(null, ys.ticks.map(function (t) { return String(p.formatY ? p.formatY(t) : dvFormat(t)).length * 7; }));
+    var yAxis = p.yAxis || "right";
+    var g = plotGeom({ yAxis: yAxis, yLabelWidth: yLabelW, height: p.height || 160 }, width, cats.labels2 ? 2 : 1);
+    var mode = p.tooltip === undefined ? "inline" : p.tooltip;
+    if (!n || p.empty) return h(ChartShell, Object.assign({}, p, { kind: "line" }), h(ChartEmpty, Object.assign({ chart: "line" }, p.empty || {})));
+    var inner = 4;
+    var step = n > 1 ? (g.plotW - inner * 2) / (n - 1) : 0;
+    var xs = []; for (var i = 0; i < n; i++) xs.push(g.left + inner + i * step);
+    var yOf = function (v) { return g.top + g.plotH - (v / ys.max) * g.plotH; };
+    var curved = p.curve === "curved";
+    var nodes = p.nodes !== false;
+    var lines = series.map(function (s, si) {
+      var pts = xs.map(function (x, i) { var v = Number(s.values[i]); return s.values[i] === null || !isFinite(v) ? null : [x, yOf(v)]; });
+      return h("g", { key: si },
+        h("path", { d: linePath(pts, curved), fill: "none", stroke: dvVar(s.color), className: "anvil-chart__line" }),
+        pts.map(function (pt, i) {
+          if (!pt) return null;
+          var on = ex.active === i;
+          if (on) return h(DataPointShape, { key: i, x: pt[0], y: pt[1], shape: s.shape, size: 8, fill: "var(--icon-inverted)", stroke: dvVar(s.color, "hover"), strokeWidth: 2 });
+          return nodes ? h(DataPointShape, { key: i, x: pt[0], y: pt[1], shape: s.shape, size: 7, fill: dvVar(s.color), stroke: "var(--background-base)", strokeWidth: 1, className: "anvil-chart__node" }) : null;
+        }));
+    });
+    var hits = xs.map(function (x, i) { return h("rect", { key: "hit" + i, x: x - step / 2, y: g.top, width: Math.max(step, 8), height: g.plotH, fill: "transparent", onMouseEnter: function () { ex.setActive(i); }, onClick: function () { ex.setActive(i); } }); });
+    var a = ex.active;
+    var has = a !== null && a !== undefined && mode !== false;
+    var values = has ? series.map(function (s) { return { value: dvFormat(s.values[a], p), unit: p.unit, label: series.length > 1 ? s.label : undefined, color: s.color, shape: s.shape }; }) : [];
+    var xLabel = has ? ((p.tooltipLabels && p.tooltipLabels[a]) || cats.labels[a]) : null;
+    var inlineTip = null, overlay = null, guide = null;
+    if (mode === "inline") {
+      guide = has && h("line", { x1: xs[a], x2: xs[a], y1: g.top - 10, y2: g.top + g.plotH, className: "anvil-chart__guide" });
+      inlineTip = h(InlineTrack, { x: has ? xs[a] : 0, width: width },
+        has ? h(ChartTooltip, { variant: "inline", x: xLabel, values: values })
+          : p.summary ? h(ChartSummary, p.summary) : null);
+    } else if (has) {
+      var top = Math.min.apply(null, series.map(function (s) { var v = Number(s.values[a]); return isFinite(v) ? yOf(v) : g.top + g.plotH; }));
+      overlay = h(OverlayTip, { x: xs[a], y: top - 8, offset: 4, width: width, tip: { x: xLabel, values: values } });
+    }
+    var legend = p.legend === false ? null : (series.length > 1 || p.legend || p.goal !== undefined)
+      ? h(ChartLegend, { items: series.map(function (s) { return { label: s.label, color: s.color, shape: s.shape }; }), goal: p.goal !== undefined && p.goal !== null ? (Array.isArray(p.goal) ? "range" : "line") : false, goalLabel: p.goalLabel })
+      : null;
+    return h(ChartShell, Object.assign({}, p, { kind: "line", top: inlineTip, legend: legend }),
+      h("div", {
+        ref: ref, className: "anvil-chart__plot", style: { height: g.totalH }, tabIndex: mode === false ? undefined : 0, "aria-label": (p.title || "Chart") + ". Use the arrow keys to explore values.",
+        onKeyDown: ex.onKeyDown, onFocus: ex.onFocus, onMouseLeave: function () { if (p.activeIndex === undefined) ex.setActive(null); }, onBlur: function () { if (p.activeIndex === undefined) ex.setActive(null); }
+      },
+        h("svg", { width: width, height: g.totalH, "aria-hidden": "true", className: "anvil-chart__svg", style: { overflow: "visible" } },
+          h(Axes, { g: g, scale: ys, xs: xs, labels: cats.labels, labels2: cats.labels2, yAxis: yAxis, gridY: p.gridlines !== false, gridX: p.verticalGridlines !== false, active: a, formatY: p.formatY }),
+          h(GoalMarks, { g: g, scale: ys, goal: p.goal, layer: "back" }),
+          h(GoalMarks, { g: g, scale: ys, goal: p.goal }),
+          guide, lines, hits),
+        p.goal !== undefined && p.goal !== null && p.goalLabel !== false && h(GoalLabel, { style: goalLabelStyle(p, g, ys) }, p.goalLabel || "Goal"),
+        overlay,
+        h("div", { className: "anvil-visually-hidden", "aria-live": "polite" }, has ? xLabel + ": " + values.map(function (v) { return (v.label ? v.label + " " : "") + v.value + (v.unit ? " " + v.unit : ""); }).join(", ") : "")),
+      h(DataTable, { caption: p.title, xTitle: p.xTitle, columns: series.map(function (s) { return s.label + (p.unit ? " (" + p.unit + ")" : ""); }), rows: cats.labels.map(function (l, i) { return [l].concat(series.map(function (s) { return dvFormat(s.values[i], p); })); }) }));
+  }
+  // The inline tooltip rides a track above the plot and follows the active point.
+  function InlineTrack(p) {
+    var ref = React.useRef(null);
+    var st = React.useState(0), tw = st[0], setTw = st[1];
+    React.useLayoutEffect(function () { if (ref.current && ref.current.firstChild) setTw(ref.current.firstChild.offsetWidth); });
+    var left = p.children && tw ? Math.max(0, Math.min(p.width - tw, p.x - 8)) : 0;
+    return h("div", { className: "anvil-chart__track" }, h("div", { ref: ref, className: "anvil-chart__track-inner", style: { transform: "translateX(" + left + "px)" } }, p.children));
+  }
+
+  // ---------- Radial chart (Figma Chart-radial): a donut showing progress toward a whole ----------
+  function RadialChart(p) {
+    var size = p.size || 140;
+    var pct = Math.max(0, Math.min(100, p.percent !== undefined ? p.percent : p.max ? (p.value / p.max) * 100 : 0));
+    var t = p.thickness || Math.round(size * 0.1);
+    var r = (size - t) / 2 - 2, c = size / 2;
+    var color = p.color || 2;
+    var ang = (pct / 100) * Math.PI * 2;
+    var ex = c + r * Math.sin(ang), ey = c - r * Math.cos(ang);
+    var arc = pct >= 100 ? null : "M" + c + " " + (c - r) + "A" + r + " " + r + " 0 " + (pct > 50 ? 1 : 0) + " 1 " + ex + " " + ey;
+    var display = p.display !== undefined ? p.display : p.value !== undefined ? dvFormat(p.value, p) : Math.round(pct) + "";
+    var label = p.ariaLabel || ((p.title ? p.title + ": " : "") + display + (p.unit ? " " + p.unit : "") + (p.value2 !== undefined ? ", " + p.value2 + (p.unit2 ? " " + p.unit2 : "") : "") + (p.percent !== undefined || p.max ? " (" + Math.round(pct) + "%)" : ""));
+    if (p.empty) return h("div", { className: cx("anvil-radial", p.className), style: Object.assign({ width: size }, p.style) }, h(ChartEmpty, Object.assign({ chart: "radial" }, p.empty)));
+    return h("div", { className: cx("anvil-radial", p.className), style: Object.assign({ width: size, height: size }, p.style), role: "img", "aria-label": label },
+      h("svg", { width: size, height: size, viewBox: "0 0 " + size + " " + size, "aria-hidden": "true" },
+        h("circle", { cx: c, cy: c, r: r, fill: "none", stroke: "var(--data-viz-axis-radial)", strokeWidth: t }),
+        pct >= 100
+          ? h("circle", { cx: c, cy: c, r: r, fill: "none", stroke: dvVar(color), strokeWidth: t })
+          : pct > 0 && h(React.Fragment, null,
+              h("path", { d: arc, fill: "none", stroke: "var(--data-viz-stroke-radial)", strokeWidth: t + 6, strokeLinecap: "round" }),
+              h("path", { d: arc, fill: "none", stroke: dvVar(color), strokeWidth: t, strokeLinecap: "round" }))),
+      p.showValue !== false && h("div", { className: "anvil-radial__center", "aria-hidden": "true" },
+        h("span", { className: "anvil-radial__value" }, h("b", { style: { color: dvVar(color, "data-text") } }, display), p.unit && h("span", null, p.unit)),
+        p.value2 !== undefined && h("span", { className: "anvil-radial__value" }, h("b", { style: { color: dvVar(color, "data-text") } }, p.value2), p.unit2 && h("span", null, p.unit2))));
+  }
+
+  window.Anvil = { BarChart: BarChart, LineChart: LineChart, RadialChart: RadialChart, FloatingColumns: FloatingColumns, ChartTooltip: ChartTooltip, ChartLegend: ChartLegend, ChartEmpty: ChartEmpty, ChartTitle: ChartTitle, ChartSummary: ChartSummary, DataPoint: DataPoint, Button: Button, Logo: Logo, Connector: Connector, VisitCard: VisitCard, NavList: NavList, NavListItem: NavListItem, Icon: Icon, PlusIcon: PlusIcon, TextInput: TextInput, PasswordInput: PasswordInput, Checkbox: Checkbox, CheckboxGroup: CheckboxGroup, SelectionCard: SelectionCard, Slider: Slider, Card: Card, GlobalHeader: GlobalHeader, GlobalFooter: GlobalFooter, TabItem: TabItem, Illustration: Illustration, InlineMessage: InlineMessage, Badge: Badge, IconButton: IconButton, NavItem: NavItem };
 })();

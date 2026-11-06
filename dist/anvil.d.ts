@@ -416,3 +416,179 @@ export interface ConnectorProps {
 }
 /** The Teladoc Health connector brand mark. */
 export declare function Connector(props: ConnectorProps): React.ReactElement;
+
+// ---------- Data visualization ----------
+
+/** A dataset color: 1–12 picks data-viz-data-data-N (base, hover, subdued), "null" the gray. */
+export type ChartColor = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | "null";
+export type ChartShape = "circle" | "square" | "triangle" | "inverted-triangle";
+export interface ChartSeries {
+  label: string;
+  values: (number | null)[];
+  /** Default: datasets 2, 4, 1, 8 in order. */
+  color?: ChartColor;
+  /** Line charts. Default: circle, square, triangle, inverted triangle in order. */
+  shape?: ChartShape;
+}
+export interface ChartCategory { label: string; sublabel?: string; }
+export interface ChartEmptyState {
+  /** "zero" (default, "No data yet") or "unavailable" ("Data unavailable"). */
+  status?: "zero" | "unavailable";
+  title?: string;
+  description?: string;
+}
+interface ChartBaseProps {
+  title?: React.ReactNode;
+  subtitle?: React.ReactNode;
+  titleAlign?: "left" | "center";
+  /** Heading level of the title. Default "h3". */
+  titleAs?: "h2" | "h3" | "h4";
+  /** X-axis labels, such as days. A second row goes in sublabel. */
+  categories?: (string | ChartCategory)[];
+  /** Tooltip x-values when they differ from the axis labels, such as full dates. */
+  tooltipLabels?: string[];
+  /** Unit shown after values, such as "lbs". */
+  unit?: string;
+  formatValue?: (value: number) => string;
+  formatY?: (tick: number) => string;
+  /** Top of the y-axis. Default: a round number above the data and goal. */
+  yMax?: number;
+  yStep?: number;
+  /** Y-axis labels on the "right" (default), "left", or "none". */
+  yAxis?: "right" | "left" | "none";
+  /** Plot height in px. Default 200 (160 for line charts). */
+  height?: number;
+  /** Horizontal gridlines. Default true. */
+  gridlines?: boolean;
+  /** A target value, or [low, high] for a goal range. */
+  goal?: number | [number, number];
+  /** The goal pill text, or false to hide it. Default "Goal". */
+  goalLabel?: string | false;
+  goalPosition?: "right" | "left";
+  /** Show the legend. Default: on with more than one dataset or a goal. */
+  legend?: boolean;
+  /** Shows a ghost chart with the empty message. Also shown when there is no data. */
+  empty?: ChartEmptyState;
+  /** Highlights a column and shows its tooltip, for documentation and prototypes. */
+  activeIndex?: number;
+  /** Accessible name when there is no title. */
+  ariaLabel?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}
+export interface BarChartProps extends ChartBaseProps {
+  /** One dataset: numbers, or { x, x2, value }. */
+  data?: (number | { x?: string; x2?: string; value: number })[];
+  /** Up to four datasets, side by side in each column. */
+  series?: ChartSeries[];
+  /** One-dataset color. Default 2 (berry). */
+  color?: ChartColor;
+  seriesLabel?: string;
+  verticalGridlines?: boolean;
+  /** false turns off the overlay tooltip. */
+  tooltip?: boolean;
+}
+/** Bar chart: compares values across categories, with an optional goal line or range. */
+export declare function BarChart(props: BarChartProps): React.ReactElement;
+
+export interface FloatingColumnsProps extends ChartBaseProps {
+  /** One range per column, such as a day's low and high. More than 12 columns become thin pills.
+   *  Segmented: give each column `segments` instead, such as the times someone was in bed. */
+  data?: ({ x?: string; x2?: string; low: number; high: number } | { x?: string; x2?: string; segments: [number, number][]; value?: number; note?: string })[];
+  /** Default 2 (berry) for ranges, 1 (aqua) for segments. */
+  color?: ChartColor;
+  seriesLabel?: string;
+  /** Ranges: true/false for the overlay tooltip. Segmented: "inline" (default), "overlay" or false. */
+  tooltip?: boolean | "inline" | "overlay";
+  /** Segmented: the light track behind every column, such as [bedtime window start, end]. Default: the data's range. */
+  track?: [number, number];
+  /** Segmented: "duration" shows hours as "3 hrs 45 min" in the tooltip. */
+  valueFormat?: "duration";
+  /** Segmented: a line under the value in the tooltip, such as "In bed". */
+  note?: string;
+  /** Segmented: shown in the inline tooltip's place until someone explores the chart. */
+  summary?: ChartSummaryProps;
+  verticalGridlines?: boolean;
+}
+/** Floating columns: a range per category, such as daily low and high heart rate. */
+export declare function FloatingColumns(props: FloatingColumnsProps): React.ReactElement;
+
+export interface LineChartProps extends ChartBaseProps {
+  data?: (number | null | { x?: string; value: number | null })[];
+  /** Up to four lines. */
+  series?: ChartSeries[];
+  color?: ChartColor;
+  seriesLabel?: string;
+  /** "linear" (default) or "curved". */
+  curve?: "linear" | "curved";
+  /** Show data points. Default true. */
+  nodes?: boolean;
+  /** Vertical gridlines. Default true. */
+  verticalGridlines?: boolean;
+  /** "inline" (default) above the plot, "overlay" over it, or false. */
+  tooltip?: "inline" | "overlay" | false;
+  /** Shown in the inline tooltip's place until someone explores the chart. */
+  summary?: ChartSummaryProps;
+}
+/** Line chart: trends over time, up to four lines. */
+export declare function LineChart(props: LineChartProps): React.ReactElement;
+
+export interface RadialChartProps {
+  /** 0–100. Or pass value and max. */
+  percent?: number;
+  value?: number | string;
+  max?: number;
+  /** Text in the middle. Defaults to value, or the percent. */
+  display?: string;
+  unit?: string;
+  value2?: string | number;
+  unit2?: string;
+  /** Default 2 (berry). */
+  color?: ChartColor;
+  /** Diameter in px. Default 140. */
+  size?: number;
+  thickness?: number;
+  showValue?: boolean;
+  title?: string;
+  ariaLabel?: string;
+  empty?: ChartEmptyState;
+  className?: string;
+  style?: React.CSSProperties;
+}
+/** Radial chart: a donut showing progress toward a whole. */
+export declare function RadialChart(props: RadialChartProps): React.ReactElement;
+
+export interface ChartTooltipValue { value: React.ReactNode; unit?: string; label?: string; color?: ChartColor; shape?: ChartShape; }
+export interface ChartTooltipProps {
+  /** "overlay" (default, dark, with a beak) or "inline" (light, above the chart). */
+  variant?: "overlay" | "inline";
+  /** The x-value, such as a date. */
+  x?: React.ReactNode;
+  /** One value, two (compound), a range, or up to four labeled datasets. */
+  values: ChartTooltipValue[];
+  /** Join two values with a dash. */
+  range?: boolean;
+  supplemental?: React.ReactNode;
+  beak?: "top" | "right" | "bottom" | "left" | "none";
+  beakAlign?: "center" | "leading" | "trailing";
+  className?: string;
+  style?: React.CSSProperties;
+}
+export declare function ChartTooltip(props: ChartTooltipProps): React.ReactElement;
+
+export interface ChartSummaryProps { value: React.ReactNode; unit?: string; value2?: React.ReactNode; unit2?: string; range?: boolean; label?: string; className?: string; style?: React.CSSProperties; }
+/** The chart summary shown above a line chart until it's explored: a total, average or range. */
+export declare function ChartSummary(props: ChartSummaryProps): React.ReactElement;
+
+export interface ChartLegendItem { label: string; color?: ChartColor; shape?: ChartShape; type?: "data" | "goal-line" | "goal-range"; }
+export interface ChartLegendProps { items: ChartLegendItem[]; goal?: "line" | "range" | false; goalLabel?: string; label?: string; className?: string; style?: React.CSSProperties; }
+export declare function ChartLegend(props: ChartLegendProps): React.ReactElement;
+
+export interface ChartTitleProps { title: React.ReactNode; subtitle?: React.ReactNode; align?: "left" | "center"; as?: "h2" | "h3" | "h4"; id?: string; className?: string; style?: React.CSSProperties; }
+export declare function ChartTitle(props: ChartTitleProps): React.ReactElement;
+
+export interface ChartEmptyProps extends ChartEmptyState { chart?: "bar" | "line" | "radial"; className?: string; style?: React.CSSProperties; }
+/** A ghost chart with a message, for zero data or data that couldn't load. */
+export declare function ChartEmpty(props: ChartEmptyProps): React.ReactElement;
+
+export declare function DataPoint(props: { shape?: ChartShape; color?: ChartColor; size?: number; active?: boolean }): React.ReactElement;

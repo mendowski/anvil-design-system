@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--background-base); font-family: var(--font-sans, system-ui, sans-serif); color: var(--text-body-base); }
+  .grid { display: grid; gap: 32px; align-items: start; }
+  .cap { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--text-body-subdued); margin-bottom: 12px; }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)) !important; }
+  .sets { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)) !important; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement, A = Anvil;
+  function cell(caption, el, w) { return h("div", { style: { width: w || "auto" } }, h("div", { className: "cap" }, caption), el); }
+  var days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "grid", style: { gridTemplateColumns: "375px 375px 1fr" } },
+    cell("One dataset, goal line, tooltip", h(A.BarChart, { title: "Weekly steps", subtitle: "Thousands of steps", categories: days, data: [4.2, 6.8, 5.1, 7.9, 3.2, 8.4, 6.1], unit: "k steps", goal: 6, activeIndex: 3 })),
+    cell("12 columns, two label rows", h(A.BarChart, { title: "Title", categories: "ABCDEFGHIJKL".split("").map(function (l, i) { return { label: String(i + 1), sublabel: l }; }), data: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], color: 1, yMax: 5 })),
+    cell("Several datasets and a goal range", h(A.BarChart, { title: "Doses by week", categories: ["W1", "W2", "W3", "W4", "W5"], series: [{ label: "On time", values: [3, 4, 2, 4, 3] }, { label: "Late", values: [1, 0, 2, 0, 1] }], goal: [3, 4], activeIndex: 2 })),
+    cell("Empty: zero data", h(A.BarChart, { title: "Weekly steps", data: [], empty: { description: "Connect a device to see your steps." } }))
+  ));
+</script>
+</body>
+</html>

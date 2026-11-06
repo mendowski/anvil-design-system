@@ -859,3 +859,110 @@ a.anvil-pnav:active :is(.anvil-pnav__label, .anvil-pnav__eyebrow, .anvil-pnav__d
 .anvil-gf--compact .anvil-tab { padding-left: 2px; padding-right: 2px; }
 .anvil-gf--compact { gap: 0; }
 .anvil-gf--compact .anvil-tab__label { white-space: normal; overflow: visible; text-align: center; overflow-wrap: anywhere; }
+
+/* ---------- Data visualization ---------- */
+
+.anvil-chart { margin: 0; display: flex; flex-direction: column; gap: var(--space-200); font-family: var(--font-sans); color: var(--text-body-base); min-width: 0; }
+.anvil-chart-title { display: flex; flex-direction: column; }
+.anvil-chart-title--center { text-align: center; }
+.anvil-chart-title__title { margin: 0; font-size: 18px; line-height: 24px; font-weight: 600; color: var(--text-body-base); }
+.anvil-chart-title__subtitle { margin: 0; font-size: 14px; line-height: 20px; color: var(--text-body-subdued); }
+
+.anvil-chart__plot { position: relative; width: 100%; outline: none; border-radius: 4px; }
+.anvil-chart__plot:focus-visible { box-shadow: var(--focus-ring); }
+.anvil-chart__svg { display: block; overflow: visible; font-family: var(--font-sans); }
+.anvil-chart__grid { stroke: var(--data-viz-axis-gridline); stroke-width: 1; shape-rendering: crispEdges; }
+.anvil-chart__baseline { stroke: var(--data-viz-axis-baseline); stroke-width: 1; shape-rendering: crispEdges; }
+.anvil-chart__axis-label { fill: var(--data-viz-label-axis-label); font-size: 12px; }
+.anvil-chart__axis-label.is-active { fill: var(--data-viz-label-axis-active); font-weight: 600; }
+.anvil-chart__bar { transition: fill .12s ease; }
+.anvil-chart__line { stroke-width: 1.5px; stroke-linejoin: round; stroke-linecap: round; }
+.anvil-chart__guide { stroke: var(--data-viz-tooltip-stroke); stroke-width: 1; }
+
+/* Goal (Chart-goal-line) */
+.anvil-chart-goal__line { stroke: var(--data-viz-goal-line); stroke-width: 1; stroke-dasharray: 2 4; }
+.anvil-chart-goal__range { fill: var(--data-viz-goal-range); }
+.anvil-chart-goal__label {
+  position: absolute; transform: translateY(-50%);
+  padding: 2px 4px; border-radius: 4px;
+  background: var(--background-status-success-base); color: var(--data-viz-goal-label);
+  box-shadow: 0 0 0 2px var(--background-base);
+  font-size: 10px; line-height: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .02em;
+  pointer-events: none;
+}
+
+/* Legend (Chart-legend and Chart-legend-item) */
+.anvil-chart-legend { display: flex; flex-wrap: wrap; gap: var(--space-100) var(--space-200); margin: 0; padding: 0; list-style: none; }
+.anvil-chart-legend__item { display: inline-flex; align-items: center; gap: var(--space-100); font-size: 12px; line-height: 12px; color: var(--data-viz-label-legend); }
+.anvil-chart-legend__item .anvil-data-point { margin: -2px; }
+.anvil-chart-legend__goal-line { width: 8px; border-top: 2.5px dashed var(--data-viz-goal-line); }
+.anvil-chart-legend__goal-range { width: 8px; height: 8px; box-sizing: border-box; background: var(--data-viz-goal-range); border-top: 1px dashed var(--stroke-status-success); border-bottom: 1px dashed var(--stroke-status-success); }
+.anvil-data-point { display: inline-block; flex: none; overflow: visible; }
+
+/* Values: NN unit */
+.anvil-chart-value { display: inline-flex; align-items: baseline; gap: var(--space-025); white-space: nowrap; }
+.anvil-chart-value b { font-weight: 600; font-size: 14px; line-height: 20px; }
+.anvil-chart-value span { font-size: 12px; line-height: 12px; }
+
+/* Summary (Chart-summary-data) */
+.anvil-chart-summary { color: var(--text-body-subdued); }
+.anvil-chart-summary__values { display: flex; align-items: baseline; gap: var(--space-050); flex-wrap: wrap; }
+.anvil-chart-summary .anvil-chart-value b { font-size: 18px; line-height: 24px; font-weight: 700; }
+.anvil-chart-summary .anvil-chart-value span { font-size: 14px; line-height: 20px; }
+.anvil-chart-summary__label { font-size: 12px; line-height: 12px; margin-top: 2px; }
+
+/* Tooltips */
+.anvil-chart-tip { box-sizing: border-box; width: max-content; max-width: 100%; border-radius: 4px; font-size: 14px; line-height: 20px; }
+.anvil-chart-tip--overlay { position: relative; display: inline-flex; flex-direction: column; max-width: 240px; padding: 4px 8px; background: var(--data-viz-tooltip-background-primary); color: var(--text-body-inverted); }
+.anvil-chart-tip--overlay .anvil-chart-value span { color: var(--text-body-inverted); }
+.anvil-chart-tip__values { display: flex; align-items: baseline; gap: var(--space-100); flex-wrap: wrap; }
+.anvil-chart-tip__dash { margin: 0 -4px; }
+.anvil-chart-tip__rows { margin: 2px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.anvil-chart-tip__rows li { display: flex; align-items: center; gap: var(--space-050); }
+.anvil-chart-tip__extra { font-size: 12px; line-height: 16px; opacity: .9; }
+.anvil-chart-tip__beak { position: absolute; width: 0; height: 0; border: 8px solid transparent; }
+.anvil-chart-tip--beak-bottom .anvil-chart-tip__beak { top: 100%; border-top-color: var(--data-viz-tooltip-background-primary); border-bottom: 0; }
+.anvil-chart-tip--beak-top .anvil-chart-tip__beak { bottom: 100%; border-bottom-color: var(--data-viz-tooltip-background-primary); border-top: 0; }
+.anvil-chart-tip--beak-left .anvil-chart-tip__beak { right: 100%; border-right-color: var(--data-viz-tooltip-background-primary); border-left: 0; }
+.anvil-chart-tip--beak-right .anvil-chart-tip__beak { left: 100%; border-left-color: var(--data-viz-tooltip-background-primary); border-right: 0; }
+.anvil-chart-tip--beak-bottom .anvil-chart-tip__beak, .anvil-chart-tip--beak-top .anvil-chart-tip__beak { left: calc(50% - 8px); }
+.anvil-chart-tip--beak-bottom.anvil-chart-tip--align-leading .anvil-chart-tip__beak, .anvil-chart-tip--beak-top.anvil-chart-tip--align-leading .anvil-chart-tip__beak { left: 10px; }
+.anvil-chart-tip--beak-bottom.anvil-chart-tip--align-trailing .anvil-chart-tip__beak, .anvil-chart-tip--beak-top.anvil-chart-tip--align-trailing .anvil-chart-tip__beak { left: auto; right: 10px; }
+.anvil-chart-tip--beak-left .anvil-chart-tip__beak, .anvil-chart-tip--beak-right .anvil-chart-tip__beak { top: calc(50% - 8px); }
+.anvil-chart-tip--beak-left.anvil-chart-tip--align-leading .anvil-chart-tip__beak, .anvil-chart-tip--beak-right.anvil-chart-tip--align-leading .anvil-chart-tip__beak { top: 6px; }
+.anvil-chart-tip--beak-left.anvil-chart-tip--align-trailing .anvil-chart-tip__beak, .anvil-chart-tip--beak-right.anvil-chart-tip--align-trailing .anvil-chart-tip__beak { top: auto; bottom: 6px; }
+.anvil-chart__overlay-wrap { position: absolute; z-index: 2; transform: translateY(-100%); margin-top: -8px; pointer-events: none; }
+.anvil-chart__overlay-wrap.is-side { transform: none; margin-top: 0; }
+.anvil-chart__overlay-wrap .anvil-chart-tip { white-space: nowrap; }
+
+.anvil-chart-tip--inline { display: inline-flex; flex-direction: column; gap: var(--space-050); padding: 8px; background: var(--data-viz-tooltip-background-secondary); color: var(--text-body-base); }
+.anvil-chart-tip--inline .anvil-chart-tip__x { font-size: 12px; line-height: 12px; color: var(--text-body-subdued); padding-bottom: 6px; border-bottom: 1px dashed var(--data-viz-tooltip-stroke); }
+.anvil-chart-tip--inline .anvil-chart-value span { color: var(--text-body-subdued); }
+.anvil-chart-tip__sets { display: flex; gap: var(--space-200); flex-wrap: wrap; }
+.anvil-chart-tip__set { display: flex; flex-direction: column; gap: 2px; }
+.anvil-chart-tip__label { display: inline-flex; align-items: center; gap: var(--space-050); font-size: 12px; line-height: 12px; color: var(--text-body-subdued); }
+.anvil-chart__track { min-height: 56px; display: flex; align-items: flex-end; }
+.anvil-chart__track-inner { transition: transform .12s ease; max-width: 100%; }
+
+/* Empty states */
+.anvil-chart-empty { position: relative; min-height: 200px; display: flex; align-items: center; }
+.anvil-chart-ghost { position: absolute; inset: 0; width: 100%; height: 100%; }
+.anvil-chart-empty--radial { width: 140px; height: 140px; min-height: 0; justify-content: center; }
+.anvil-chart-empty--radial .anvil-chart-empty__message { max-width: 132px; margin: 0; padding: 8px; }
+.anvil-chart-empty__message {
+  position: relative; box-sizing: border-box; display: flex; gap: var(--space-150); align-items: flex-start;
+  max-width: 300px; margin-left: var(--space-150); padding: var(--padding-200);
+  background: var(--background-base); border: 1px solid var(--stroke-base); border-radius: var(--radius-150);
+  box-shadow: var(--elevation);
+}
+.anvil-chart-empty__icon { display: inline-flex; align-items: center; height: 20px; color: var(--icon-subdued); }
+.anvil-chart-empty__title { font-size: 14px; line-height: 20px; font-weight: 600; color: var(--text-body-base); }
+.anvil-chart-empty__desc { font-size: 14px; line-height: 20px; color: var(--text-body-subdued); }
+
+/* Radial (Chart-radial) */
+.anvil-radial { position: relative; display: inline-flex; align-items: center; justify-content: center; flex: none; font-family: var(--font-sans); }
+.anvil-radial svg { position: absolute; inset: 0; transform: none; }
+.anvil-radial__center { position: relative; display: flex; flex-direction: column; align-items: center; padding: 0 4px; text-align: center; }
+.anvil-radial__value { display: inline-flex; align-items: baseline; gap: var(--space-025); }
+.anvil-radial__value b { font-size: 18px; line-height: 24px; font-weight: 700; }
+.anvil-radial__value span { font-size: 14px; line-height: 20px; color: var(--text-body-subdued); }

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--background-base); font-family: var(--font-sans, system-ui, sans-serif); color: var(--text-body-base); }
+  .grid { display: grid; gap: 32px; align-items: start; }
+  .cap { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--text-body-subdued); margin-bottom: 12px; }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)) !important; }
+  .sets { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)) !important; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement, A = Anvil;
+  function cell(caption, el, w) { return h("div", { style: { width: w || "auto" } }, h("div", { className: "cap" }, caption), el); }
+  var days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  var w = [182, 181.4, 181, 180.2, 179.8, 179.1, 178.6];
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "grid", style: { gridTemplateColumns: "375px 375px 1fr" } },
+    cell("Summary until explored", h(A.LineChart, { title: "Weight", unit: "lbs", categories: days, data: w, yMax: 200, yStep: 50, summary: { value: "179.8", unit: "lbs", label: "Average this week" } })),
+    cell("Curved, inline tooltip", h(A.LineChart, { title: "Blood glucose", seriesLabel: "Glucose", goalLabel: "Target", unit: "mg/dL", curve: "curved", categories: days, data: [110, 142, 98, 130, 125, 160, 118], goal: [80, 130], activeIndex: 2 })),
+    cell("Four datasets, overlay tooltip", h(A.LineChart, { title: "Title", tooltip: "overlay", categories: days, series: [{ label: "Label 1", values: [3, 4, 2, 5, 4, 3, 4] }, { label: "Label 2", values: [2, 3, 3, 2, 1, 2, 3] }, { label: "Label 3", values: [1, 2, 1, 1, 2, 4, 2] }, { label: "Label 4", values: [4, 1, 4, 3, 3, 1, 1] }], activeIndex: 4 })),
+    cell("Empty: data unavailable", h(A.LineChart, { title: "Blood glucose", data: [], empty: { status: "unavailable", description: "We could not load your readings." } }))
+  ));
+</script>
+</body>
+</html>

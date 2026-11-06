@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--background-base); font-family: var(--font-sans, system-ui, sans-serif); color: var(--text-body-base); }
+  .grid { display: grid; gap: 32px; align-items: start; }
+  .cap { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--text-body-subdued); margin-bottom: 12px; }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)) !important; }
+  .sets { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)) !important; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement, A = Anvil;
+  function cell(caption, el, w) { return h("div", { style: { width: w || "auto" } }, h("div", { className: "cap" }, caption), el); }
+  var days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  var pcts = [100, 90, 70, 50, 30, 10, 0];
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", null,
+    h("div", { className: "row" }, pcts.map(function (v) { return cell(v + "%", h(A.RadialChart, { percent: v, value: "NN", unit: "unit" })); })),
+    h("div", { className: "row", style: { marginTop: 24 } },
+      cell("Two values", h(A.RadialChart, { percent: 62, value: "5", unit: "of 8", value2: "62", unit2: "%", color: 1, size: 120 })),
+      cell("Datasets 4 and 6", h(A.RadialChart, { percent: 80, value: "8k", unit: "steps", color: 4, size: 100 })),
+      h(A.RadialChart, { percent: 45, value: "45", unit: "%", color: 6, size: 100, style: { marginTop: 28 } }))
+  ));
+</script>
+</body>
+</html>

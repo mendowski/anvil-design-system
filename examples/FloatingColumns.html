@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css">
+<link rel="stylesheet" href="../dist/anvil.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--background-base); font-family: var(--font-sans, system-ui, sans-serif); color: var(--text-body-base); }
+  .grid { display: grid; gap: 32px; align-items: start; }
+  .cap { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--text-body-subdued); margin-bottom: 12px; }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)) !important; }
+  .sets { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)) !important; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement, A = Anvil;
+  function cell(caption, el, w) { return h("div", { style: { width: w || "auto" } }, h("div", { className: "cap" }, caption), el); }
+  var days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  var sleepCats = [["Sun", "5"], ["Mon", "6"], ["Tue", "7"], ["Wed", "8"], ["Thu", "9"], ["Fri", "10"], ["Sat", "11"]].map(function (c) { return { label: c[0], sublabel: c[1] }; });
+  var dates = ["Feb 5, 2026", "Feb 6, 2026", "Feb 7, 2026", "Feb 8, 2026", "Feb 9, 2026", "Feb 10, 2026", "Feb 11, 2026"];
+  var nights = [[[2.4, 3.5], [3.7, 3.95], [4.25, 6]], [[2.4, 3.25], [3.45, 3.55], [3.75, 4], [4.25, 6.6]], [[3.5, 4.35], [4.65, 4.75], [5.3, 6.7]], [[2.4, 3.25], [3.45, 3.55], [3.75, 4], [4.25, 6.1]], [], [], []];
+  function clock(t) { var x = ((20 + t) % 24 + 24) % 24; return (x % 12 || 12) + (x < 12 ? " AM" : " PM"); }
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "grid", style: { gridTemplateColumns: "375px 375px 1fr" } },
+    cell("7 columns", h(A.FloatingColumns, { title: "Heart rate", unit: "bpm", yMax: 160, data: days.map(function (d, i) { return { x: d, low: 58 + (i % 3) * 4, high: 104 + (i * 7) % 30 }; }), activeIndex: 2 })),
+    cell("12 columns", h(A.FloatingColumns, { title: "Title", yMax: 3, data: Array.from({ length: 12 }, function (_, i) { return { x: String(i + 1), low: 0, high: i === 1 ? 1.9 : 1.25 }; }) })),
+    cell("Segmented: time in bed, hours", h(A.FloatingColumns, { categories: sleepCats, data: nights.map(function (s) { return { segments: s }; }), track: [2.2, 7.2], yMax: 8, yStep: 2, formatY: function (t) { return t === 0 ? "0 min" : t + " hr"; }, valueFormat: "duration", note: "In bed", tooltipLabels: dates, summary: { value: "4", unit: "hours", value2: "25", unit2: "minutes", label: "Average time in bed" } })),
+    cell("Segmented: time of day, explored", h(A.FloatingColumns, { categories: sleepCats, data: nights.map(function (s) { return { segments: s.map(function (r) { return [r[0] * 2.4, r[1] * 2.4]; }) }; }), track: [5, 17.5], yMax: 24, yStep: 8, formatY: clock, valueFormat: "duration", note: "In bed", tooltipLabels: dates, activeIndex: 0 })),
+    cell("24 columns become pills", h(A.FloatingColumns, { title: "Blood pressure", unit: "mmHg", yMax: 160, data: Array.from({ length: 24 }, function (_, i) { return { x: String(i + 1), low: 72 + (i * 5) % 14, high: 118 + (i * 7) % 22 }; }), activeIndex: 5 }), 520)
+  ));
+</script>
+</body>
+</html>

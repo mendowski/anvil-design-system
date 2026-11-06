@@ -362,8 +362,117 @@
         size: num("Size", 32, 12, 96, 4), color: sel("Color", ["inherit", "var(--icon-base)", "var(--brand-interactive-primary-base)", "var(--icon-status-success)", "var(--icon-status-critical)"], "inherit")
       },
       props: function (a) { return { name: a.name, variant: a.variant !== "default" ? a.variant : undefined, size: a.size, color: a.color !== "inherit" ? a.color : undefined }; }
+    },
+    BarChart: {
+      blurb: "Bar charts compare values across categories. Hover, tap or use the arrow keys on the chart to see each value.",
+      canvas: { maxWidth: 560 },
+      controls: {
+        title: text("Title", "Weekly steps"), subtitle: text("Subtitle", "Thousands of steps"),
+        labels: text("Labels (comma separated)", "Mon, Tue, Wed, Thu, Fri, Sat, Sun"),
+        values: text("Values (comma separated)", "4.2, 6.8, 5.1, 7.9, 3.2, 8.4, 6.1"),
+        values2: text("Second dataset (optional)", ""),
+        unit: text("Unit", "k steps"),
+        color: sel("Color", ["2", "1", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"], "2"),
+        goal: sel("Goal", ["line", "range", "none"], "line"),
+        goalValue: num("Goal value", 6, 0, 1000, 0.5, { when: function (a) { return a.goal !== "none"; } }),
+        yAxis: sel("Y axis", ["right", "left", "none"], "right"),
+        empty: sel("Data status", ["data", "zero", "unavailable"], "data")
+      },
+      props: function (a) {
+        var nums = function (s) { return s.split(",").map(function (x) { return x.trim(); }).filter(Boolean).map(Number); };
+        var cats = a.labels.split(",").map(function (x) { return x.trim(); }).filter(Boolean);
+        var p = { title: a.title || undefined, subtitle: a.subtitle || undefined, categories: cats, unit: a.unit || undefined, yAxis: a.yAxis !== "right" ? a.yAxis : undefined };
+        if (a.values2.trim()) p.series = [{ label: "Dataset 1", values: nums(a.values) }, { label: "Dataset 2", values: nums(a.values2) }];
+        else { p.data = nums(a.values); if (a.color !== "2") p.color = Number(a.color); }
+        if (a.goal === "line") p.goal = a.goalValue;
+        if (a.goal === "range") p.goal = [a.goalValue - 1, a.goalValue + 1];
+        if (a.empty !== "data") { p.data = []; p.series = undefined; p.empty = { status: a.empty, description: a.empty === "zero" ? "Connect a device to see your steps." : "Try again in a few minutes." }; }
+        return p;
+      }
+    },
+    LineChart: {
+      blurb: "Line charts show change over time, up to four lines. Explore the chart to move the inline tooltip.",
+      canvas: { maxWidth: 560 },
+      controls: {
+        title: text("Title", "Blood glucose"),
+        labels: text("Labels (comma separated)", "Mon, Tue, Wed, Thu, Fri, Sat, Sun"),
+        values: text("Line 1 values", "110, 142, 98, 130, 125, 160, 118"),
+        values2: text("Line 2 values (optional)", ""),
+        unit: text("Unit", "mg/dL"),
+        curve: sel("Line style", ["linear", "curved"], "linear"),
+        nodes: bool("Show data points", true),
+        tooltip: sel("Tooltip", ["inline", "overlay"], "inline"),
+        summary: text("Summary value (inline tooltip)", "126", { when: function (a) { return a.tooltip === "inline"; } }),
+        summaryLabel: text("Summary label", "Average", { when: function (a) { return a.tooltip === "inline"; } }),
+        goal: sel("Goal", ["none", "line", "range"], "range"),
+        goalLow: num("Goal (or low end)", 80, 0, 1000, 1, { when: function (a) { return a.goal !== "none"; } }),
+        goalHigh: num("High end", 130, 0, 1000, 1, { when: function (a) { return a.goal === "range"; } })
+      },
+      props: function (a) {
+        var nums = function (s) { return s.split(",").map(function (x) { return x.trim(); }).filter(Boolean).map(Number); };
+        var p = { title: a.title || undefined, categories: a.labels.split(",").map(function (x) { return x.trim(); }).filter(Boolean), unit: a.unit || undefined,
+          curve: a.curve !== "linear" ? a.curve : undefined, nodes: a.nodes ? undefined : false, tooltip: a.tooltip !== "inline" ? a.tooltip : undefined };
+        if (a.values2.trim()) p.series = [{ label: "Line 1", values: nums(a.values) }, { label: "Line 2", values: nums(a.values2) }];
+        else { p.data = nums(a.values); p.seriesLabel = a.title || undefined; }
+        if (a.tooltip === "inline" && a.summary) p.summary = { value: a.summary, unit: a.unit || undefined, label: a.summaryLabel || undefined };
+        if (a.goal === "line") p.goal = a.goalLow;
+        if (a.goal === "range") p.goal = [a.goalLow, a.goalHigh];
+        return p;
+      }
+    },
+    FloatingColumns: {
+      blurb: "Floating columns show a low-to-high range for each category, or several segments per column, such as sleep. More than 12 range columns become thin pills.",
+      canvas: { maxWidth: 560 },
+      controls: {
+        kind: sel("Type", ["ranges", "segmented"], "ranges"),
+        title: text("Title", "Heart rate", { when: function (a) { return a.kind === "ranges"; } }),
+        columns: num("Columns", 7, 1, 31, 1, { when: function (a) { return a.kind === "ranges"; } }),
+        low: num("Typical low", 60, 0, 300, 1, { when: function (a) { return a.kind === "ranges"; } }), high: num("Typical high", 120, 1, 400, 1, { when: function (a) { return a.kind === "ranges"; } }),
+        unit: text("Unit", "bpm", { when: function (a) { return a.kind === "ranges"; } }),
+        axis: sel("Y axis", ["hours", "time of day"], "hours", { when: function (a) { return a.kind === "segmented"; } }),
+        nights: num("Days with data", 4, 0, 7, 1, { when: function (a) { return a.kind === "segmented"; } }),
+        note: text("Tooltip note", "In bed", { when: function (a) { return a.kind === "segmented"; } }),
+        tip: sel("Tooltip", ["inline", "overlay"], "inline", { when: function (a) { return a.kind === "segmented"; } }),
+        color: sel("Color", ["2", "1", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"], "2", { when: function (a) { return a.kind === "ranges"; } }),
+        segColor: sel("Color", ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"], "1", { when: function (a) { return a.kind === "segmented"; } })
+      },
+      props: function (a) {
+        if (a.kind === "segmented") {
+          var base = [[[2.4, 3.5], [3.7, 3.95], [4.25, 6]], [[2.4, 3.25], [3.45, 3.55], [3.75, 4], [4.25, 6.6]], [[3.5, 4.35], [4.65, 4.75], [5.3, 6.7]], [[2.4, 3.25], [3.45, 3.55], [3.75, 4], [4.25, 6.1]], [[2.6, 4.1], [4.3, 6.3]], [[2.2, 5.9]], [[3, 4.4], [4.6, 7]]];
+          var tod = a.axis === "time of day", k = tod ? 2.4 : 1;
+          var clock = function (t) { var x = ((20 + t) % 24 + 24) % 24; return (x % 12 || 12) + (x < 12 ? " AM" : " PM"); };
+          var cats = [["Sun", "5"], ["Mon", "6"], ["Tue", "7"], ["Wed", "8"], ["Thu", "9"], ["Fri", "10"], ["Sat", "11"]].map(function (c) { return { label: c[0], sublabel: c[1] }; });
+          return { categories: cats, data: base.map(function (s, i) { return { segments: i < a.nights ? s.map(function (r) { return [r[0] * k, r[1] * k]; }) : [] }; }),
+            track: tod ? [5, 17.5] : [2.2, 7.2], yMax: tod ? 24 : 8, yStep: tod ? 8 : 2,
+            formatY: tod ? clock : function (t) { return t === 0 ? "0 min" : t + " hr"; },
+            valueFormat: "duration", note: a.note || undefined, tooltip: a.tip !== "inline" ? a.tip : undefined,
+            tooltipLabels: ["Feb 5, 2026", "Feb 6, 2026", "Feb 7, 2026", "Feb 8, 2026", "Feb 9, 2026", "Feb 10, 2026", "Feb 11, 2026"],
+            summary: { value: "4", unit: "hours", value2: "25", unit2: "minutes", label: "Average time in bed" },
+            color: a.segColor !== "1" ? Number(a.segColor) : undefined };
+        }
+        var days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+        var data = Array.from({ length: a.columns }, function (_, i) {
+          return { x: a.columns === 7 ? days[i] : String(i + 1), low: a.low + ((i * 7) % 9) - 4, high: a.high + ((i * 11) % 21) - 10 };
+        });
+        return { title: a.title || undefined, data: data, unit: a.unit || undefined, color: a.color !== "2" ? Number(a.color) : undefined };
+      }
+    },
+    RadialChart: {
+      blurb: "Radial charts show progress toward a whole.",
+      controls: {
+        percent: num("Percent complete", 70, 0, 100, 5),
+        value: text("Value", "7"), unit: text("Unit", "of 10"),
+        value2: text("Second value (optional)", ""), unit2: text("Second unit", ""),
+        color: sel("Color", ["2", "1", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"], "2"),
+        size: num("Size", 140, 64, 280, 4)
+      },
+      props: function (a) {
+        return { percent: a.percent, value: a.value || undefined, unit: a.unit || undefined, value2: a.value2 || undefined, unit2: a.value2 && a.unit2 ? a.unit2 : undefined,
+          color: a.color !== "2" ? Number(a.color) : undefined, size: a.size !== 140 ? a.size : undefined };
+      }
     }
   };
+
 
   // ---------- JSX code generator (default)
   function jsx(name, p) {

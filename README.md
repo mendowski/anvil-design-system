@@ -8,7 +8,7 @@ Anvil (formerly Pulse) is the design system that brought Teladoc Health, Livongo
 
 | File or folder | What it is |
 | --- | --- |
-| `index.html`, `components.html`, `colors.html`, `assets.html` | The design system site |
+| `index.html`, `components.html`, `datavis.html`, `colors.html`, `assets.html` | The design system site |
 | `tokens/tokens.json` | Every token: 333 color tokens in four themes plus 109 primitives, scale (space, form input, layout, spacing, radius), shadows and 30 text styles |
 | `tokens/anvil-tokens.css` | The same tokens as CSS custom properties, theme blocks, `@font-face` rules and a class per text style |
 | `dist/anvil.js` | The React components as one script. It sets `window.Anvil` |
@@ -50,6 +50,10 @@ Then render components:
 ## Themes
 
 Set `data-theme` on `<html>` to `core-light` (the default), `core-dark`, `pli-light` or `pli-dark`. Every color token switches with it.
+
+## Data viz
+
+BarChart, LineChart, FloatingColumns and RadialChart, with ChartTooltip, ChartSummary, ChartLegend, ChartTitle and ChartEmpty, rebuilt from the Pulse 5 Data Visualization Figma library. See `datavis.html` and `docs/components/`. Chart colors are the `data-viz-*` tokens.
 
 ## Components
 

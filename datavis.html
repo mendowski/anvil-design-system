@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anvil Data Visualization</title>
+<meta name="description" content="Anvil data visualization: bar, line, floating column and radial charts, tooltips, legends, empty states and data viz colors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css">
+<link rel="stylesheet" href="dist/anvil.css">
+<link rel="stylesheet" href="site/site.css">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body class="cp-page">
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Anvil</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="components.html">Components</a><a href="datavis.html" aria-current="page">Data viz</a><a href="playground.html">Playground</a><a href="colors.html">Colors</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+
+<main><div class="cp">
+<nav class="cp-side" aria-label="Data visualization"><p class="eyebrow">Data viz</p><a href="#DataVizColors">Colors</a><a href="#BarChart">Bar chart</a><a href="#LineChart">Line chart</a><a href="#FloatingColumns">Floating columns</a><a href="#RadialChart">Radial chart</a><a href="#ChartTooltip">Tooltips</a><a href="#ChartLegend">Legend</a><a href="#ChartEmpty">Empty states</a></nav>
+<div class="cp-body">
+<p class="eyebrow">Data visualization</p><h1 class="page-title">Data viz</h1>
+<p class="lede">Charts for health data, rebuilt from the Pulse 5 Data Visualization Figma library: bar, line, floating column and radial charts, with tooltips, legends, goals and empty states. They are live React components, so hover, tap or use the arrow keys to explore, and switch the theme at the top to see them in every theme.</p>
+<nav class="jump" aria-label="Data visualization (compact)"><a href="#DataVizColors">Colors</a><a href="#BarChart">Bar chart</a><a href="#LineChart">Line chart</a><a href="#FloatingColumns">Floating columns</a><a href="#RadialChart">Radial chart</a><a href="#ChartTooltip">Tooltips</a><a href="#ChartLegend">Legend</a><a href="#ChartEmpty">Empty states</a></nav>
+<section class="comp" id="DataVizColors">
+  <div class="comp-head"><h2 class="sec">Colors</h2><span class="comp-meta"><code>--data-viz-*</code></span></div>
+  <p class="lede">Data viz has its own color tokens: 12 dataset colors with base, hover and subdued values in every theme, a gray for missing data, and colors for axes, gridlines, goals and tooltips. Use datasets 2, 4, 1 and 8 in that order when a chart has several.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/DataVizColors.html" title="Colors examples" height="420" loading="lazy"></iframe></div>
+</section>
+<section class="comp" id="BarChart">
+  <div class="comp-head"><h2 class="sec">Bar chart</h2><span class="comp-meta"><code>Anvil.BarChart</code><a class="pg-link" href="playground.html#BarChart">Try it in the playground</a></span></div>
+  <p class="lede">Bar chart compares values across categories, such as steps per day or doses per week. Bars rise from the baseline, with an optional goal line or goal range. It comes from the Figma "Chart-bar" and "Bar-chart" components in Pulse 5: Data Visualization.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/BarChart.html" title="Bar chart examples" height="420" loading="lazy"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
+<ul>
+<li><strong>Title</strong> (optional): <code>title</code> at 18/24 semibold and <code>subtitle</code> at 14/20 in <code>text-body-subdued</code>.</li>
+<li><strong>Plot:</strong> bars in <code>data-viz-data-data-2-base</code> (berry) by default, with 4px top corners. Gridlines use <code>data-viz-axis-gridline</code> and the baseline <code>data-viz-axis-baseline</code>.</li>
+<li><strong>Axes:</strong> x labels under the baseline and y labels on the right, both 12px in <code>data-viz-label-axis-label</code>. Set <code>yAxis="left"</code> or <code>"none"</code> to move or hide the y labels. The active column's x label turns <code>data-viz-label-axis-active</code> and semibold.</li>
+<li><strong>Goal</strong> (optional): <code>goal={6}</code> draws a dashed <code>data-viz-goal-line</code> with a green "GOAL" pill on the right. <code>goal={[5, 7]}</code> draws a <code>data-viz-goal-range</code> band. Change the pill text with <code>goalLabel</code>, or move it with <code>goalPosition="left"</code>.</li>
+<li><strong>Tooltip:</strong> hover, tap or arrow-key to a column. The bar turns its dataset's <code>-hover</code> color and a dark overlay tooltip shows the x-value and value. When there isn't room above, the tooltip moves beside the bar.</li>
+<li><strong>Legend:</strong> shown with more than one dataset.</li>
+</ul>
+<h2>Data</h2>
+<ul>
+<li>One dataset: <code>data={[4.2, 6.8, 5.1]}</code> with <code>categories={["Mon", "Tue", "Wed"]}</code>. A second label row goes in <code>categories={[{ label: "1", sublabel: "A" }]}</code>.</li>
+<li>Up to four datasets: <code>series={[{ label: "Taken", values: [...] }, { label: "Missed", values: [...] }]}</code>. They sit side by side in each column, in datasets 2, 4, 1 and 8 (berry, green, aqua, yellow) unless you set <code>color</code>.</li>
+<li><code>unit</code> follows each value in the tooltip, such as "k steps".</li>
+<li>The y-axis rounds up to a clean number above the data and goal. Set <code>yMax</code> and <code>yStep</code> to fix it.</li>
+<li>12 columns or more use a 4px gap; fewer use 8px.</li>
+</ul>
+<h2>Empty states</h2>
+<p>With no data, or with <code>empty</code>, a ghost bar chart shows with a message: "No data yet" (<code>status: "zero"</code>) or "Data unavailable" (<code>status: "unavailable"</code>). Add a <code>description</code>. See ChartEmpty.</p>
+<h2>Accessibility</h2>
+<ul>
+<li>It renders as a <code>&lt;figure&gt;</code> named by its title, with a visually hidden table of every value for screen readers.</li>
+<li>The plot is one tab stop. Arrow keys, Home and End move between columns, Escape clears, and each change is announced.</li>
+<li>Don't rely on color alone: label datasets in the legend and keep the unit in the tooltip.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="LineChart">
+  <div class="comp-head"><h2 class="sec">Line chart</h2><span class="comp-meta"><code>Anvil.LineChart</code><a class="pg-link" href="playground.html#LineChart">Try it in the playground</a></span></div>
+  <p class="lede">Line chart shows trends and change over time for one to four datasets, such as weight or blood glucose by day. It comes from the Figma "Line-chart" component in Pulse 5: Data Visualization.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/LineChart.html" title="Line chart examples" height="420" loading="lazy"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
+<ul>
+<li><strong>Title</strong> (optional) at 18/24 semibold, with an optional <code>subtitle</code>.</li>
+<li><strong>Summary or inline tooltip:</strong> a track between the title and the plot. Until someone explores the chart it shows <code>summary</code>, such as <code>{ value: "126", unit: "mg/dL", label: "Average" }</code> (also a compound value, or a range with <code>range: true</code>). While exploring, the light inline tooltip (<code>data-viz-tooltip-background-secondary</code>) slides along the track to the active point with the x-value, a dashed divider and each value.</li>
+<li><strong>Plot:</strong> horizontal and vertical gridlines, the baseline, and y labels on the right. A thin guide line marks the active x position.</li>
+<li><strong>Lines:</strong> 1.5px lines in datasets 2, 4, 1 and 8 (berry, green, aqua, yellow). Each dataset has its own node shape, circle, square, triangle and inverted triangle, so lines can be told apart without color. Active nodes are hollow, with a 2px ring in the dataset's <code>-hover</code> color.</li>
+<li><strong>Goal</strong> (optional): a dashed goal line or a goal range band, as in BarChart.</li>
+<li><strong>Legend:</strong> shown with more than one line or a goal.</li>
+</ul>
+<h2>Options</h2>
+<ul>
+<li><code>curve="curved"</code> draws smooth curves; the default is straight segments.</li>
+<li><code>nodes={false}</code> hides the data points.</li>
+<li><code>tooltip="overlay"</code> uses the dark overlay tooltip over the plot instead of the inline one; <code>tooltip={false}</code> turns exploring off.</li>
+<li><code>null</code> values leave a gap in a line.</li>
+</ul>
+<h2>Accessibility</h2>
+<ul>
+<li>A <code>&lt;figure&gt;</code> named by its title, with a hidden data table.</li>
+<li>The plot is one tab stop. Arrow keys move between x positions and the values are announced.</li>
+<li>With several lines, the node shapes and legend carry meaning beyond color.</li>
+</ul></div></details>
+</section>
+<section class="comp" id="FloatingColumns">
+  <div class="comp-head"><h2 class="sec">Floating columns</h2><span class="comp-meta"><code>Anvil.FloatingColumns</code><a class="pg-link" href="playground.html#FloatingColumns">Try it in the playground</a></span></div>
+  <p class="lede">Floating columns show a range for each category, such as a day's lowest and highest heart rate. Each column floats between its <code>low</code> and <code>high</code> value instead of rising from the baseline. It comes from the Figma "Floating-columns" component in Pulse 5: Data Visualization.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/FloatingColumns.html" title="Floating columns examples" height="420" loading="lazy"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
+<ul>
+<li>Columns in <code>data-viz-data-data-2-base</code> by default (set <code>color</code> for another dataset), with rounded ends.</li>
+<li>Up to 12 columns fill their slot. More than 12 become 6px pills, as in the Figma 14- and 24-column versions, and every other x label is dropped past 16.</li>
+<li>The axes, gridlines, goal and empty states work as in BarChart.</li>
+<li>The tooltip shows the range: "64 bpm – 134 bpm".</li>
+</ul>
+<h2>Data</h2>
+<p><code>data={[{ x: "Mon", low: 60, high: 110 }, …]}</code> with an optional <code>unit</code>.</p>
+<h2>Segmented columns</h2>
+<p>For data that comes in pieces, such as sleep, give each column <code>segments</code> instead of <code>low</code> and <code>high</code>: <code>{ x: "Sun", segments: [[2.4, 3.5], [3.7, 3.95], [4.25, 6]] }</code>.</p>
+<ul>
+<li>Every column gets a light track in <code>data-viz-data-data-null-subdued</code> for the window being measured (<code>track</code>, such as <code>[2, 7]</code>), so days without data still show as empty tracks.</li>
+<li>Segments are <code>data-viz-data-data-1-base</code> (aqua) by default, with 4px corners. Short segments, such as a few minutes awake, stay at least 4px tall so they don't disappear.</li>
+<li>The y-axis can show hours (<code>formatY: t =&gt; t + " hr"</code>) or clock times (<code>formatY</code> that turns hours into "4 AM").</li>
+<li>The tooltip is inline by default, like the line chart: the date (<code>tooltipLabels</code>), the total and a <code>note</code> such as "In bed". <code>valueFormat="duration"</code> writes hours as "3 hrs 45 min". Until someone explores the chart, <code>summary</code> shows there, such as "4 hours 25 minutes, Average time in bed". <code>tooltip="overlay"</code> uses the dark tooltip instead.</li>
+<li>Vertical gridlines are on, and a guide line marks the active day.</li>
+</ul>
+<h2>Accessibility</h2>
+<p>Same as BarChart: a named <code>&lt;figure&gt;</code>, a hidden table with Low and High columns, and arrow-key exploring that reads "Mon: 60 to 110 bpm".</p></div></details>
+</section>
+<section class="comp" id="RadialChart">
+  <div class="comp-head"><h2 class="sec">Radial chart</h2><span class="comp-meta"><code>Anvil.RadialChart</code><a class="pg-link" href="playground.html#RadialChart">Try it in the playground</a></span></div>
+  <p class="lede">Radial chart is a donut that shows a part of a whole, such as 7 of 10 doses logged. It comes from the Figma "Chart-radial" component in Pulse 5: Data Visualization.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/RadialChart.html" title="Radial chart examples" height="420" loading="lazy"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
+<ul>
+<li><strong>Track:</strong> a full ring in <code>data-viz-axis-radial</code>.</li>
+<li><strong>Progress:</strong> an arc from 12 o'clock, clockwise, in <code>data-viz-data-data-2-base</code> by default, with round ends edged in <code>data-viz-stroke-radial</code> so the end stands out from the track. At 100% it's a full ring.</li>
+<li><strong>Value:</strong> in the middle, the value at 18/24 bold in the dataset's data-text color (datasets 1–3; others use their base color) and the <code>unit</code> at 14/20 in <code>text-body-subdued</code>. Add a second line with <code>value2</code> and <code>unit2</code>.</li>
+<li><strong>Size:</strong> 140px by default; the ring is 10% of the diameter. Set <code>size</code> and <code>thickness</code>.</li>
+</ul>
+<h2>Data</h2>
+<p><code>percent={70}</code>, or <code>value</code> and <code>max</code>. <code>display</code> overrides the middle text.</p>
+<h2>Accessibility</h2>
+<p>It renders as <code>role="img"</code> with a name such as "Doses this week: 7 of 10 (70%)". Pass <code>title</code> or <code>ariaLabel</code> for context.</p></div></details>
+</section>
+<section class="comp" id="ChartTooltip">
+  <div class="comp-head"><h2 class="sec">Tooltips</h2><span class="comp-meta"><code>Anvil.ChartTooltip</code></span></div>
+  <p class="lede">Chart tooltips show exact values for the point being explored. The charts render them for you; use <code>ChartTooltip</code> directly for custom charts. From the Figma "Chart-overlay-tooltip" and "Chart-inline-tooltip" ("Chart-tooltip" is deprecated).</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartTooltip.html" title="Tooltips examples" height="420" loading="lazy"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><h2>Variants</h2>
+<ul>
+<li><strong>Overlay</strong> (default): <code>data-viz-tooltip-background-primary</code> (dark) with white text, 4px corners and a 16×8 beak. <code>beak</code> sets the side (<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>) and <code>beakAlign</code> the position (<code>center</code>, <code>leading</code>, <code>trailing</code>). BarChart and FloatingColumns use it.</li>
+<li><strong>Inline</strong> (<code>variant="inline"</code>): <code>data-viz-tooltip-background-secondary</code> (light) with the x-value, a dashed divider in <code>data-viz-tooltip-stroke</code>, and the values. LineChart puts it on a track between the title and plot.</li>
+</ul>
+<h2>Values</h2>
+<ul>
+<li><strong>Single:</strong> <code>values={[{ value: "NN", unit: "unit" }]}</code>.</li>
+<li><strong>Compound:</strong> two values side by side.</li>
+<li><strong>Range:</strong> two values with <code>range</code>, joined by a dash.</li>
+<li><strong>Multiple datasets:</strong> up to four values with <code>label</code>s. Each gets the dataset's hollow data point (circle, square, triangle, inverted triangle).</li>
+<li>Values are 14/20 semibold and units 12/12. <code>supplemental</code> adds a line of extra text.</li>
+</ul>
+<h2>ChartSummary</h2>
+<p><code>ChartSummary</code> is the resting state of the inline track: the value at 18/24 bold, the unit at 14/20 and a 12px label, all in <code>text-body-subdued</code>. Use it for a total, average or range.</p></div></details>
+</section>
+<section class="comp" id="ChartLegend">
+  <div class="comp-head"><h2 class="sec">Legend</h2><span class="comp-meta"><code>Anvil.ChartLegend</code></span></div>
+  <p class="lede">Chart legend names the datasets in a chart. The charts add it when there's more than one dataset or a goal; use it directly for custom charts. From the Figma "Chart-legend" and "Chart-legend-item".</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartLegend.html" title="Legend examples" height="420" loading="lazy"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
+<ul>
+<li>Items wrap in a row with 16px between them. Labels are 12/12 in <code>data-viz-label-legend</code>, 8px from the icon.</li>
+<li><strong>Data:</strong> an 8px data point in the dataset's base color and shape.</li>
+<li><strong>Goal line:</strong> a short dashed <code>data-viz-goal-line</code>.</li>
+<li><strong>Goal range:</strong> an 8px square of <code>data-viz-goal-range</code> between dashed lines.</li>
+<li>Add the goal item with <code>goal="line"</code> or <code>goal="range"</code>.</li>
+</ul>
+<h2>Dataset colors</h2>
+<p>Data viz has 12 dataset colors, <code>data-viz-data-data-1</code> to <code>-12</code>, each with base, hover and subdued values in every theme, plus <code>data-viz-data-data-null</code> gray for missing data. Datasets 1–3 also have a <code>-data-text</code> color for values set in text.</p>
+<p>Use them in this order so charts look alike across the product:</p>
+<ol>
+<li>Data 2, berry, circle</li>
+<li>Data 4, green, square</li>
+<li>Data 1, aqua, triangle</li>
+<li>Data 8, yellow, inverted triangle</li>
+</ol>
+<p>Check contrast: graphics need 3:1 against the background and text 4.5:1. Pair color with shape and labels.</p></div></details>
+</section>
+<section class="comp" id="ChartEmpty">
+  <div class="comp-head"><h2 class="sec">Empty states</h2><span class="comp-meta"><code>Anvil.ChartEmpty</code></span></div>
+  <p class="lede">Chart empty states replace a chart that has nothing to show: a gray ghost chart with a message card over it. From the Figma "Chart-empty-message" and the ghost charts on the Empty states page.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartEmpty.html" title="Empty states examples" height="420" loading="lazy"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><h2>Statuses</h2>
+<ul>
+<li><strong>Zero data</strong> (<code>status="zero"</code>, default): "No data yet" with the info icon. Use it before someone has logged anything.</li>
+<li><strong>Data unavailable</strong> (<code>status="unavailable"</code>): "Data unavailable" with the cloud-disconnected icon. Use it when data couldn't load.</li>
+<li>Add a <code>description</code> that says what to do next, such as "Log your first reading to see your trend."</li>
+</ul>
+<h2>Anatomy</h2>
+<ul>
+<li><strong>Ghost chart</strong> (<code>chart</code>): <code>bar</code>, <code>line</code> or <code>radial</code>, drawn in <code>data-viz-data-data-null-subdued</code>.</li>
+<li><strong>Message:</strong> up to 300px wide on <code>background-base</code> with a <code>stroke-base</code> border, 12px corners and the elevation shadow. The title is 14/20 semibold and the description 14/20 in <code>text-body-subdued</code>.</li>
+</ul>
+<p>BarChart, LineChart and FloatingColumns show this automatically when they have no data, or when you pass <code>empty={{ status, title, description }}</code>.</p>
+<h2>Accessibility</h2>
+<p>The message is a <code>role="status"</code> region, so it's read when it appears. The ghost chart is hidden from screen readers.</p></div></details>
+</section>
+</div></div></main>
+<script>
+(function () {
+  var links = [].slice.call(document.querySelectorAll('.cp-side a'));
+  var secs = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+  function spy() {
+    var cur = 0;
+    secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < 140) cur = i; });
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) cur = secs.length - 1;
+    links.forEach(function (a, i) { if (i === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+  }
+  window.addEventListener('scroll', spy, { passive: true }); window.addEventListener('resize', spy); spy();
+})();
+</script>
+<footer class="site-foot">Anvil (formerly Pulse) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+<script src="site/site.js"></script>
+</body>
+</html>
