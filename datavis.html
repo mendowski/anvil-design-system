@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="tokens/anvil-tokens.css">
-<link rel="stylesheet" href="dist/anvil.css">
-<link rel="stylesheet" href="site/site.css">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261106c">
 <script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body class="cp-page">
@@ -31,12 +31,12 @@
 <section class="comp" id="DataVizColors">
   <div class="comp-head"><h2 class="sec">Colors</h2><span class="comp-meta"><code>--data-viz-*</code></span></div>
   <p class="lede">Data viz has its own color tokens: 12 dataset colors with base, hover and subdued values in every theme, a gray for missing data, and colors for axes, gridlines, goals and tooltips. Use datasets 2, 4, 1 and 8 in that order when a chart has several.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/DataVizColors.html" title="Colors examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/DataVizColors.html?v=20261106c" title="Colors examples" height="420" loading="lazy"></iframe></div>
 </section>
 <section class="comp" id="BarChart">
   <div class="comp-head"><h2 class="sec">Bar chart</h2><span class="comp-meta"><code>Anvil.BarChart</code><a class="pg-link" href="playground.html#BarChart">Try it in the playground</a></span></div>
   <p class="lede">Bar chart compares values across categories, such as steps per day or doses per week. Bars rise from the baseline, with an optional goal line or goal range. It comes from the Figma "Chart-bar" and "Bar-chart" components in Pulse 5: Data Visualization.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/BarChart.html" title="Bar chart examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/BarChart.html?v=20261106c" title="Bar chart examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
 <ul>
 <li><strong>Title</strong> (optional): <code>title</code> at 18/24 semibold and <code>subtitle</code> at 14/20 in <code>text-body-subdued</code>.</li>
@@ -66,7 +66,7 @@
 <section class="comp" id="LineChart">
   <div class="comp-head"><h2 class="sec">Line chart</h2><span class="comp-meta"><code>Anvil.LineChart</code><a class="pg-link" href="playground.html#LineChart">Try it in the playground</a></span></div>
   <p class="lede">Line chart shows trends and change over time for one to four datasets, such as weight or blood glucose by day. It comes from the Figma "Line-chart" component in Pulse 5: Data Visualization.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/LineChart.html" title="Line chart examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/LineChart.html?v=20261106c" title="Line chart examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
 <ul>
 <li><strong>Title</strong> (optional) at 18/24 semibold, with an optional <code>subtitle</code>.</li>
@@ -93,7 +93,7 @@
 <section class="comp" id="FloatingColumns">
   <div class="comp-head"><h2 class="sec">Floating columns</h2><span class="comp-meta"><code>Anvil.FloatingColumns</code><a class="pg-link" href="playground.html#FloatingColumns">Try it in the playground</a></span></div>
   <p class="lede">Floating columns show a range for each category, such as a day's lowest and highest heart rate. Each column floats between its <code>low</code> and <code>high</code> value instead of rising from the baseline. It comes from the Figma "Floating-columns" component in Pulse 5: Data Visualization.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/FloatingColumns.html" title="Floating columns examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/FloatingColumns.html?v=20261106c" title="Floating columns examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
 <ul>
 <li>Columns in <code>data-viz-data-data-2-base</code> by default (set <code>color</code> for another dataset), with rounded ends.</li>
@@ -118,7 +118,7 @@
 <section class="comp" id="RadialChart">
   <div class="comp-head"><h2 class="sec">Radial chart</h2><span class="comp-meta"><code>Anvil.RadialChart</code><a class="pg-link" href="playground.html#RadialChart">Try it in the playground</a></span></div>
   <p class="lede">Radial chart is a donut that shows a part of a whole, such as 7 of 10 doses logged. It comes from the Figma "Chart-radial" component in Pulse 5: Data Visualization.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/RadialChart.html" title="Radial chart examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/RadialChart.html?v=20261106c" title="Radial chart examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
 <ul>
 <li><strong>Track:</strong> a full ring in <code>data-viz-axis-radial</code>.</li>
@@ -146,7 +146,7 @@
 <section class="comp" id="ChartTooltip">
   <div class="comp-head"><h2 class="sec">Tooltips</h2><span class="comp-meta"><code>Anvil.ChartTooltip</code></span></div>
   <p class="lede">Chart tooltips show exact values for the point being explored. The charts render them for you; use <code>ChartTooltip</code> directly for custom charts. From the Figma "Chart-overlay-tooltip" and "Chart-inline-tooltip" ("Chart-tooltip" is deprecated).</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartTooltip.html" title="Tooltips examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartTooltip.html?v=20261106c" title="Tooltips examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Variants</h2>
 <ul>
 <li><strong>Overlay</strong> (default): <code>data-viz-tooltip-background-primary</code> (dark) with white text, 4px corners and a 16×8 beak. <code>beak</code> sets the side (<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>) and <code>beakAlign</code> the position (<code>center</code>, <code>leading</code>, <code>trailing</code>). BarChart and FloatingColumns use it.</li>
@@ -166,7 +166,7 @@
 <section class="comp" id="ChartLegend">
   <div class="comp-head"><h2 class="sec">Legend</h2><span class="comp-meta"><code>Anvil.ChartLegend</code></span></div>
   <p class="lede">Chart legend names the datasets in a chart. The charts add it when there's more than one dataset or a goal; use it directly for custom charts. From the Figma "Chart-legend" and "Chart-legend-item".</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartLegend.html" title="Legend examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartLegend.html?v=20261106c" title="Legend examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
 <ul>
 <li>Items wrap in a row with 16px between them. Labels are 12/12 in <code>data-viz-label-legend</code>, 8px from the icon.</li>
@@ -189,7 +189,7 @@
 <section class="comp" id="ChartEmpty">
   <div class="comp-head"><h2 class="sec">Empty states</h2><span class="comp-meta"><code>Anvil.ChartEmpty</code></span></div>
   <p class="lede">Chart empty states replace a chart that has nothing to show: a gray ghost chart with a message card over it. From the Figma "Chart-empty-message" and the ghost charts on the Empty states page.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartEmpty.html" title="Empty states examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartEmpty.html?v=20261106c" title="Empty states examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Statuses</h2>
 <ul>
 <li><strong>Zero data</strong> (<code>status="zero"</code>, default): "No data yet" with the info icon. Use it before someone has logged anything.</li>
@@ -220,6 +220,6 @@
 })();
 </script>
 <footer class="site-foot">Anvil (formerly Pulse) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
-<script src="site/site.js"></script>
+<script src="site/site.js?v=20261106c"></script>
 </body>
 </html>
