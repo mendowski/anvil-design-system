@@ -32,9 +32,10 @@
   ReactDOM.createRoot(document.getElementById("root")).render(h("div", null,
     h("div", { className: "row" }, pcts.map(function (v) { return cell(v + "%", h(A.RadialChart, { percent: v, value: "NN", unit: "unit" })); })),
     h("div", { className: "row", style: { marginTop: 24 } },
-      cell("Two values", h(A.RadialChart, { percent: 62, value: "5", unit: "of 8", value2: "62", unit2: "%", color: 1, size: 120 })),
-      cell("Datasets 4 and 6", h(A.RadialChart, { percent: 80, value: "8k", unit: "steps", color: 4, size: 100 })),
-      h(A.RadialChart, { percent: 45, value: "45", unit: "%", color: 6, size: 100, style: { marginTop: 28 } }))
+      cell("Small: critical", h(A.RadialChart, { variant: "small", status: "critical", value: 1, max: 4 })),
+      cell("Small: warning", h(A.RadialChart, { variant: "small", status: "warning", value: 3, max: 4 })),
+      cell("Small: success", h(A.RadialChart, { variant: "small", status: "success", value: 1, max: 1 })),
+      cell("Small: dataset color", h(A.RadialChart, { variant: "small", value: 2, max: 3, color: 1 })))
   ));
 </script>
 </body>

@@ -534,6 +534,10 @@ export interface LineChartProps extends ChartBaseProps {
 export declare function LineChart(props: LineChartProps): React.ReactElement;
 
 export interface RadialChartProps {
+  /** "small": 48px with a fraction such as "3/4" in the middle, for tight spaces. Default "default". */
+  variant?: "default" | "small";
+  /** Colors the arc by meaning instead of dataset: stroke-status-critical, -warning or -success. */
+  status?: "critical" | "warning" | "success";
   /** 0–100. Or pass value and max. */
   percent?: number;
   value?: number | string;
@@ -545,7 +549,7 @@ export interface RadialChartProps {
   unit2?: string;
   /** Default 2 (berry). */
   color?: ChartColor;
-  /** Diameter in px. Default 140. */
+  /** Diameter in px. Default 140 (48 for small). */
   size?: number;
   thickness?: number;
   showValue?: boolean;

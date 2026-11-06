@@ -460,13 +460,18 @@
     RadialChart: {
       blurb: "Radial charts show progress toward a whole.",
       controls: {
-        percent: num("Percent complete", 70, 0, 100, 5),
-        value: text("Value", "7"), unit: text("Unit", "of 10"),
-        value2: text("Second value (optional)", ""), unit2: text("Second unit", ""),
+        variant: sel("Size", ["default", "small"], "default"),
+        status: sel("Status color", ["none", "critical", "warning", "success"], "none", { when: function (a) { return a.variant === "small"; } }),
+        num: num("Value", 3, 0, 20, 1, { when: function (a) { return a.variant === "small"; } }),
+        den: num("Out of", 4, 1, 20, 1, { when: function (a) { return a.variant === "small"; } }),
+        percent: num("Percent complete", 70, 0, 100, 5, { when: function (a) { return a.variant !== "small"; } }),
+        value: text("Value", "7", { when: function (a) { return a.variant !== "small"; } }), unit: text("Unit", "of 10", { when: function (a) { return a.variant !== "small"; } }),
+        value2: text("Second value (optional)", "", { when: function (a) { return a.variant !== "small"; } }), unit2: text("Second unit", "", { when: function (a) { return a.variant !== "small"; } }),
         color: sel("Color", ["2", "1", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"], "2"),
-        size: num("Size", 140, 64, 280, 4)
+        size: num("Size", 140, 64, 280, 4, { when: function (a) { return a.variant !== "small"; } })
       },
       props: function (a) {
+        if (a.variant === "small") return { variant: "small", status: a.status !== "none" ? a.status : undefined, value: a.num, max: a.den, color: a.status === "none" && a.color !== "2" ? Number(a.color) : undefined };
         return { percent: a.percent, value: a.value || undefined, unit: a.unit || undefined, value2: a.value2 || undefined, unit2: a.value2 && a.unit2 ? a.unit2 : undefined,
           color: a.color !== "2" ? Number(a.color) : undefined, size: a.size !== 140 ? a.size : undefined };
       }

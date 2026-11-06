@@ -1388,30 +1388,41 @@
   }
 
   // ---------- Radial chart (Figma Chart-radial): a donut showing progress toward a whole ----------
+  // Small radial (Figma "radial-number"): 48px, a status color and a fraction such as "3/4" in the middle.
+  var RADIAL_STATUS = { critical: 1, warning: 1, success: 1 };
   function RadialChart(p) {
-    var size = p.size || 140;
+    var small = p.variant === "small";
+    var size = p.size || (small ? 48 : 140);
     var pct = Math.max(0, Math.min(100, p.percent !== undefined ? p.percent : p.max ? (p.value / p.max) * 100 : 0));
-    var t = p.thickness || Math.round(size * 0.1);
-    var r = (size - t) / 2 - 2, c = size / 2;
+    var t = p.thickness || Math.max(4, Math.round(size * 0.1));
+    var pad = small ? 1.5 : 2;
+    var r = (size - t) / 2 - pad, c = size / 2;
     var color = p.color || 2;
+    var status = RADIAL_STATUS[p.status] ? p.status : null;
+    var stroke = status ? "var(--stroke-status-" + status + ")" : dvVar(color);
     var ang = (pct / 100) * Math.PI * 2;
     var ex = c + r * Math.sin(ang), ey = c - r * Math.cos(ang);
     var arc = pct >= 100 ? null : "M" + c + " " + (c - r) + "A" + r + " " + r + " 0 " + (pct > 50 ? 1 : 0) + " 1 " + ex + " " + ey;
-    var display = p.display !== undefined ? p.display : p.value !== undefined ? dvFormat(p.value, p) : Math.round(pct) + "";
-    var label = p.ariaLabel || ((p.title ? p.title + ": " : "") + display + (p.unit ? " " + p.unit : "") + (p.value2 !== undefined ? ", " + p.value2 + (p.unit2 ? " " + p.unit2 : "") : "") + (p.percent !== undefined || p.max ? " (" + Math.round(pct) + "%)" : ""));
+    var display = p.display !== undefined ? p.display
+      : small && p.max !== undefined && p.value !== undefined ? p.value + "/" + p.max
+      : p.value !== undefined ? dvFormat(p.value, p) : Math.round(pct) + "";
+    var spoken = small && p.max !== undefined && p.value !== undefined && p.display === undefined ? p.value + " of " + p.max : display;
+    var label = p.ariaLabel || ((p.title ? p.title + ": " : "") + spoken + (p.unit ? " " + p.unit : "") + (p.value2 !== undefined ? ", " + p.value2 + (p.unit2 ? " " + p.unit2 : "") : "") + (p.percent !== undefined || p.max ? " (" + Math.round(pct) + "%)" : "") + (status ? ", " + status : ""));
+    var textColor = small || status ? "var(--text-body-subdued)" : dvVar(color, "data-text");
     if (p.empty) return h("div", { className: cx("anvil-radial", p.className), style: Object.assign({ width: size }, p.style) }, h(ChartEmpty, Object.assign({ chart: "radial" }, p.empty)));
-    return h("div", { className: cx("anvil-radial", p.className), style: Object.assign({ width: size, height: size }, p.style), role: "img", "aria-label": label },
+    return h("div", { className: cx("anvil-radial", small && "anvil-radial--small", p.className), style: Object.assign({ width: size, height: size }, p.style), role: "img", "aria-label": label },
       h("svg", { width: size, height: size, viewBox: "0 0 " + size + " " + size, "aria-hidden": "true" },
         h("circle", { cx: c, cy: c, r: r, fill: "none", stroke: "var(--data-viz-axis-radial)", strokeWidth: t }),
         pct >= 100
-          ? h("circle", { cx: c, cy: c, r: r, fill: "none", stroke: dvVar(color), strokeWidth: t })
+          ? h("circle", { cx: c, cy: c, r: r, fill: "none", stroke: stroke, strokeWidth: t })
           : pct > 0 && h(React.Fragment, null,
-              h("path", { d: arc, fill: "none", stroke: "var(--data-viz-stroke-radial)", strokeWidth: t + 6, strokeLinecap: "round" }),
-              h("path", { d: arc, fill: "none", stroke: dvVar(color), strokeWidth: t, strokeLinecap: "round" }))),
+              h("path", { d: arc, fill: "none", stroke: "var(--data-viz-stroke-radial)", strokeWidth: t + (small ? 3 : 6), strokeLinecap: "round" }),
+              h("path", { d: arc, fill: "none", stroke: stroke, strokeWidth: t, strokeLinecap: "round" }))),
       p.showValue !== false && h("div", { className: "anvil-radial__center", "aria-hidden": "true" },
-        h("span", { className: "anvil-radial__value" }, h("b", { style: { color: dvVar(color, "data-text") } }, display), p.unit && h("span", null, p.unit)),
-        p.value2 !== undefined && h("span", { className: "anvil-radial__value" }, h("b", { style: { color: dvVar(color, "data-text") } }, p.value2), p.unit2 && h("span", null, p.unit2))));
+        h("span", { className: "anvil-radial__value" }, h("b", { style: { color: textColor } }, display), !small && p.unit && h("span", null, p.unit)),
+        !small && p.value2 !== undefined && h("span", { className: "anvil-radial__value" }, h("b", { style: { color: textColor } }, p.value2), p.unit2 && h("span", null, p.unit2))));
   }
+
 
   window.Anvil = { BarChart: BarChart, LineChart: LineChart, RadialChart: RadialChart, FloatingColumns: FloatingColumns, ChartTooltip: ChartTooltip, ChartLegend: ChartLegend, ChartEmpty: ChartEmpty, ChartTitle: ChartTitle, ChartSummary: ChartSummary, DataPoint: DataPoint, Button: Button, Logo: Logo, Connector: Connector, VisitCard: VisitCard, NavList: NavList, NavListItem: NavListItem, Icon: Icon, PlusIcon: PlusIcon, TextInput: TextInput, PasswordInput: PasswordInput, Checkbox: Checkbox, CheckboxGroup: CheckboxGroup, SelectionCard: SelectionCard, Slider: Slider, Card: Card, GlobalHeader: GlobalHeader, GlobalFooter: GlobalFooter, TabItem: TabItem, Illustration: Illustration, InlineMessage: InlineMessage, Badge: Badge, IconButton: IconButton, NavItem: NavItem };
 })();

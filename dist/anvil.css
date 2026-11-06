@@ -966,3 +966,5 @@ a.anvil-pnav:active :is(.anvil-pnav__label, .anvil-pnav__eyebrow, .anvil-pnav__d
 .anvil-radial__value { display: inline-flex; align-items: baseline; gap: var(--space-025); }
 .anvil-radial__value b { font-size: 18px; line-height: 24px; font-weight: 700; }
 .anvil-radial__value span { font-size: 14px; line-height: 20px; color: var(--text-body-subdued); }
+/* utility-3/strong */
+.anvil-radial--small .anvil-radial__value b { font-family: var(--font-sans); font-size: 12px; line-height: 12px; font-weight: 600; letter-spacing: 0; }
