@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkbox input · Pulse</title>
+<meta name="description" content="Checkbox input guidelines for Pulse: anatomy, error state, states, label options, placement, tap targets, selection patterns, accessibility, props and changelog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261106c"></script>
+<script src="site/doc.js?v=20261115a"></script>
+<style>
+  /* Checkbox input page only. Shared doc styles are in site/doc.css. */
+  .doc-anatomy .doc-stage { padding: 56px 56px 40px 72px; }
+  .doc-anatomy .doc-stage > * { width: 320px; }
+  .cb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px 24px; }
+  .tt-box .anvil-check__box { outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 10px; border-radius: 4px; }
+  .tt-block .anvil-check { outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 4px; border-radius: 8px; }
+  .tt-links .anvil-check__box { outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 10px; border-radius: 4px; }
+  .tt-links a { outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 2px; border-radius: 2px; }
+  .mini-card { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border: 1px solid var(--stroke-base); border-radius: 12px; background: var(--background-surface); }
+  .mini-card .anvil-check { flex-direction: row-reverse; justify-content: space-between; width: 100%; }
+  .mini-card small { display: block; color: var(--text-body-subdued); font-size: 14px; line-height: 20px; }
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#Checkbox">Form</a> / Checkbox input</p>
+<span class="doc-status doc-status--ok">Available · Figma, React, iOS, Android</span>
+<h1 class="page-title" style="margin-top:12px">Checkbox input</h1>
+<p class="lede">A checkbox lets people pick any number of options from a set, from none to all. Each checkbox in a group is independent: checking one doesn't uncheck the others. Checkbox input is built on the standalone Checkbox.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.Checkbox</code><code>Pulse.CheckboxGroup</code><a class="pg-link" href="playground.html#Checkbox">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#usage">Usage</a><a href="#anatomy">Anatomy</a><a href="#variants">Variants</a><a href="#placement">Placement</a><a href="#interaction">Interaction</a><a href="#accessibility">Accessibility</a><a href="#build">Build tips</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<section class="doc-sec" id="usage">
+  <h2 class="sec">Usage</h2>
+  <div class="doc-config">
+    <div><h3>Use checkboxes when</h3></div>
+    <div><ul><li>People choose one or more options from a list of related items.</li><li>An explicit action is needed to apply settings or agree to terms.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Always tell people</h3></div>
+    <div><ul><li>Whether a checkbox is required</li><li>Whether they can pick more than one</li><li>Whether a group is required</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Pair with a button</h3></div>
+    <div><ul><li>Add a button that applies the choices, labeled for the context.</li><li>For a setting or preference: "Save setting" or "Save".</li><li>In a flow: "Next" or "Continue".</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Product usage</h3></div>
+    <div><ul><li>Requesting service</li><li>Medical history (self or dependent): existing and family conditions</li><li>Account settings</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Used in</h3></div>
+    <div><ul><li>Checkbox input</li><li>Table: selecting rows or columns in a complex table</li></ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="anatomy">
+  <h2 class="sec">Anatomy</h2>
+  <div class="doc-anatomy" style="margin-top:24px">
+    <div class="doc-stage anat" id="anat"></div>
+    <ol class="doc-legend">
+      <li><b>1</b><div><span>Form label</span></div></li>
+      <li><b>2</b><div><span>Helper text</span></div></li>
+      <li><b>3</b><div><span>Checkbox</span><small>24px. Also a standalone component.</small></div></li>
+      <li><b>4</b><div><span>Checkbox label</span></div></li>
+    </ol>
+  </div>
+  <h3 class="doc-sub">Error state</h3>
+  <div class="doc-anatomy">
+    <div class="doc-stage anat" id="anat-error"></div>
+    <ol class="doc-legend">
+      <li><b>1</b><div><span>Form label</span><small>Turns Status/Critical.</small></div></li>
+      <li><b>2</b><div><span>Helper text</span><small>Doesn't change.</small></div></li>
+      <li><b>3</b><div><span>Checkbox</span><small>Stroke turns Status/Critical.</small></div></li>
+      <li><b>4</b><div><span>Checkbox label</span><small>Doesn't change.</small></div></li>
+      <li><b>5</b><div><span>Inline message</span><small>In a required group with no answer, it appears once, after the last checkbox, and every checkbox shows the error.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="doc-sec" id="variants">
+  <h2 class="sec">Variants and options</h2>
+  <div id="variant-rows" style="margin-top:24px"></div>
+</section>
+
+<section class="doc-sec" id="placement">
+  <h2 class="sec">Placement</h2>
+  <div class="doc-dd" id="dd-placement"></div>
+</section>
+
+<section class="doc-sec" id="interaction">
+  <h2 class="sec">Interaction</h2>
+  <div id="interaction-rows" style="margin-top:16px"></div>
+</section>
+
+<section class="doc-sec" id="accessibility">
+  <h2 class="sec">Accessibility</h2>
+  <p class="lede">Using checkboxes on a page still needs an annotated design review of the page-level design.</p>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Key</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td>Tab</td><td>Moves focus to the input, and can move to the next input in a group.</td></tr>
+      <tr><td>Space, Enter</td><td>Checks or unchecks the checkbox.</td></tr>
+      <tr><td>Arrow keys</td><td>Move focus to the next input in a group.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-config" style="margin-top:24px">
+    <div><h3>Screen readers</h3></div>
+    <div><ul>
+      <li>Every visible text must be announced.</li>
+      <li>VoiceOver says "checked" or "unchecked". NVDA and JAWS say "checked" or "not checked".</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Links in labels</h3></div>
+    <div><ul>
+      <li>On Android, a link in a label is always a button.</li>
+      <li>On iOS, it's a link if it opens an external website, and a button otherwise.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>In code</h3></div>
+    <div><ul>
+      <li><code>CheckboxGroup</code> renders a <code>&lt;fieldset&gt;</code> with the label as its <code>&lt;legend&gt;</code>, and links the helper text and message to the group.</li>
+      <li>Each checkbox is a native <code>&lt;input type="checkbox"&gt;</code> inside its label, so the whole block is clickable.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="build">
+  <h2 class="sec">Build tips</h2>
+  <div class="doc-config">
+    <div><h3>Groups</h3></div>
+    <div><ul>
+      <li>Checkbox inputs usually sit in a stacked group. Show the label and helper text only on the first input.</li>
+      <li>In the error state, show the inline message only on the last input, and the error on every checkbox.</li>
+      <li>In code, <code>CheckboxGroup</code> does both for you: pass <code>label</code>, <code>helper</code>, <code>status="error"</code> and <code>message</code> to the group.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Labels with links</h3></div>
+    <div><ul>
+      <li>In Figma, add link and color styles by hand in the "with links" variant, on web, iOS and Android.</li>
+      <li>In code, pass the label as <code>children</code> with real links inside.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <h3 class="doc-sub" style="margin-top:16px">Checkbox</h3>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>label</code>, <code>children</code></td><td><code>ReactNode</code></td><td>The label. Use <code>children</code> for rich content, such as text with links.</td></tr>
+      <tr><td><code>checked</code>, <code>defaultChecked</code>, <code>onChange</code></td><td><code>boolean</code>, <code>boolean</code>, <code>function</code></td><td></td></tr>
+      <tr><td><code>name</code>, <code>value</code>, <code>id</code></td><td><code>string</code></td><td></td></tr>
+      <tr><td><code>error</code></td><td><code>boolean</code></td><td>Critical stroke. Set by the group when it has an error.</td></tr>
+      <tr><td><code>disabled</code>, <code>readOnly</code></td><td><code>boolean</code></td><td>Read-only shows the value but can't be changed.</td></tr>
+      <tr><td><code>state</code></td><td><code>"hover" | "focus"</code></td><td>Forces a state, for docs.</td></tr>
+    </tbody>
+  </table></div>
+  <h3 class="doc-sub">CheckboxGroup</h3>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>label</code>, <code>helper</code></td><td><code>ReactNode</code></td><td>The form label and helper text.</td></tr>
+      <tr><td><code>status</code>, <code>message</code></td><td><code>"error"</code>, <code>ReactNode</code></td><td>Error styling on every checkbox, and one inline message after the last.</td></tr>
+      <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>The checkboxes. Required.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Code vs. Figma.</strong>
+    <ul>
+      <li>The exclusive-selection behavior ("None of these" disabling the others) is up to the page. The example above wires it up with state.</li>
+      <li>With links in the label, clicking the label's plain text still toggles the checkbox in code, because the whole block is a <code>&lt;label&gt;</code>. Figma limits the target to the checkbox and the links.</li>
+      <li>FlowUI's CheckboxGroup doesn't yet allow several text links in one label.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Checkbox-input</td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Checkbox, CheckableGroup</td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>PulseCheckboxGroup</td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Checkbox, CheckboxGroup</td></tr>
+      <tr><td>FlowUI</td><td><span class="doc-tag doc-tag--new">Available</span> <span class="doc-tag doc-tag--pending">Pending features</span></td><td>CheckboxGroup (needs several text links in a label)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Apr 23, 2025</td><td>v5.0.0</td><td>Pulse 5: color, type and space variable updates for all components.</td></tr>
+      <tr><td>Mar 20, 2024</td><td>v4.0.0</td><td><span class="doc-tag doc-tag--changed">Changed</span>Form input label text style.</td></tr>
+      <tr><td>Jul 25, 2023</td><td>v3.7</td><td><span class="doc-tag doc-tag--new">New</span>Multi-platform support: Large for web desktop, Small for web mobile, iOS and Android. Selected boolean for Checkbox and Checkbox-input.</td></tr>
+      <tr><td>Nov 29, 2022</td><td>v3.2.0</td><td><span class="doc-tag doc-tag--new">New</span>Checkbox and Checkbox-input in Pulse 3. Hover stroke updated for accessibility; large and small screen sizes.</td></tr>
+      <tr><td>Nov 29, 2022</td><td>v2.2.3</td><td>Pulse 3 versions released; Pulse 2 versions marked as no longer maintained.</td></tr>
+      <tr><td>Jun 10, 2022</td><td>v2.0.0</td><td>Form-label published. Colors mapped to UI Light. Radio-input and Checkbox-input became separate components.</td></tr>
+      <tr><td>Oct 21, 2021</td><td>v1.0.6</td><td>Naming standardized; keywords added.</td></tr>
+      <tr><td>Jul 28, 2021</td><td>v1.0.2</td><td>Read-only styles, condensed label line height, auto-layout fixes.</td></tr>
+      <tr><td>Apr 9, 2021</td><td>v0.0.5</td><td>Theme color styles for light and dark mode and white-labeling.</td></tr>
+      <tr><td>Dec 30, 2020</td><td>v0.0.2</td><td>Initial release.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: Components › Form › Checkbox input (Usage, Accessibility, Figma build tips, React, and Status and changelog tabs) in the Pulse Design System documentation. Every checkbox on this page is the live <code>Pulse.Checkbox</code>.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = Doc.h, cap = Doc.cap, dd = Doc.dd, A = Anvil, C = A.Checkbox, G = A.CheckboxGroup;
+  var opts = ["Breakfast", "Lunch", "Dinner"];
+  function group(props, checked) {
+    return h(G, Object.assign({ label: "Meal type", helper: "Choose any that apply." }, props),
+      opts.map(function (o, i) { return h(C, { key: o, label: o, name: "meal", defaultChecked: checked && i === 0 }); }));
+  }
+
+  Doc.render("anat", group({}, true));
+  Doc.tag("anat", [["1", ".anvil-field__label", "left"], ["2", ".anvil-field__helper", "left"], ["3", ".anvil-check__box", "left"], ["4", ".anvil-check__label", "right"]]);
+  Doc.render("anat-error", group({ status: "error", message: "Choose at least one meal." }));
+  Doc.tag("anat-error", [["1", ".anvil-field__label", "left"], ["2", ".anvil-field__helper", "left"], ["3", ".anvil-check__box", "left"], ["4", ".anvil-check__label", "right"], ["5", ".anvil-msg", "left"]]);
+
+  var stateList = [["Default", {}], ["Hover", { state: "hover" }], ["Focus", { state: "focus" }], ["Error", { error: true }], ["Read-only", { readOnly: true }], ["Disabled", { disabled: true }]];
+  function states(extra) {
+    return h("div", { className: "doc-stack" },
+      h("div", { className: "cb-grid" }, stateList.map(function (s) { return h("div", { key: s[0] }, cap(s[0], h(C, Object.assign({ label: "Label" }, extra, s[1])))); })),
+      h("div", { className: "cb-grid" }, stateList.map(function (s) { return h("div", { key: s[0] }, cap(s[0] + ", checked", h(C, Object.assign({ label: "Label", defaultChecked: true }, extra, s[1])))); })));
+  }
+  var linkLabel = h("span", null, "I agree to the ", h("a", { href: "#variants" }, "Terms of use"), " and ", h("a", { href: "#variants" }, "Privacy policy"));
+  Doc.rows("variant-rows", [
+    { t: "Checkbox states", p: "The standalone checkbox has six states, unchecked and checked.", ol: ["Default", "Hover", "Focus", "Error", "Read-only", "Disabled"], stack: true, el: [h("div", { key: 1 }, states({}))] },
+    { t: "Label and helper text", ol: ["Label and helper text", "Label, no helper text", "No label and no helper text"],
+      el: [cap("Label and helper", group({}), { key: 1 }), cap("Label only", group({ helper: null }), { key: 2 }), cap("No label", group({ label: null, helper: null }), { key: 3 })] },
+    { t: "With links (web)", p: "Labels can include links. Each link is its own tap target.", ol: ["Default", "Hover", "Focus", "Error", "Read-only", "Disabled"], stack: true,
+      el: [h("div", { key: 1, className: "doc-states", style: { gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))" } }, stateList.map(function (s) { return h("div", { key: s[0] }, cap(s[0], h(C, Object.assign({}, s[1]), linkLabel))); }))] }
+  ]);
+
+  Doc.render("dd-placement", h(React.Fragment, null,
+    dd("do", "Show a visible label on checkbox groups, and use spacing that makes clear which inputs belong together.", group({})),
+    dd("caution", "Some options need more than a single line of label. Build richer options with the checkbox, such as a card with a label and description, or use Selection card.",
+      h("div", { className: "doc-stack", style: { width: "100%" } },
+        h("div", { className: "mini-card" }, h(C, null, h("span", null, h("b", null, "Primary care"), h("small", null, "Checkups, prescriptions and referrals")))),
+        h("div", { className: "mini-card" }, h(C, { defaultChecked: true }, h("span", null, h("b", null, "Mental health"), h("small", null, "Therapy and psychiatry")))))),
+    dd("do", "You can leave out the group label for a legal-language checkbox.", h(C, null, linkLabel))
+  ));
+
+  // Exclusive selection: "None of these" turns off and disables the rest
+  function Exclusive() {
+    var st = React.useState({ a: false, b: false, c: false, none: true }), v = st[0], set = st[1];
+    function toggle(k) { return function (e) { var n = Object.assign({}, v); n[k] = e.target.checked; if (k === "none" && e.target.checked) { n.a = n.b = n.c = false; } set(n); }; }
+    return h(G, { label: "Existing conditions", helper: "Choose any that apply." },
+      h(C, { label: "Diabetes", checked: v.a, onChange: toggle("a"), disabled: v.none }),
+      h(C, { label: "High blood pressure", checked: v.b, onChange: toggle("b"), disabled: v.none }),
+      h(C, { label: "Asthma", checked: v.c, onChange: toggle("c"), disabled: v.none }),
+      h(C, { label: "None of these", checked: v.none, onChange: toggle("none") }));
+  }
+  Doc.rows("interaction-rows", [
+    { t: "Checkbox", p: "The box is 24px; its tap target is 44px.", el: [h("div", { key: 1, className: "tt-box", style: { padding: 12 } }, h(C, { label: "Label" }))] },
+    { t: "Checkbox input", p: "The tap target is the whole block around the label and checkbox, the same area that shows focus.", el: [h("div", { key: 1, className: "tt-block" }, group({ label: null, helper: null }))] },
+    { t: "With links (web)", p: "With links, the block isn't one target. The checkbox is its own target, and each link can be tapped or reached with the keyboard.", el: [h("div", { key: 1, className: "tt-links", style: { padding: 12 } }, h(C, null, linkLabel))] },
+    { t: "Custom options", p: "For richer options built with the checkbox, the whole block is tappable.", el: [h("div", { key: 1, className: "mini-card", style: { outline: "1.5px dashed var(--brand-interactive-primary-base)", outlineOffset: 4 } }, h(C, null, h("span", null, h("b", null, "Primary care"), h("small", null, "Checkups, prescriptions and referrals"))))] },
+    { t: "Multiple selection", p: "“Choose any that apply.”", el: [h("div", { key: 1 }, group({ label: "Meal type" }, true))] },
+    { t: "Exclusive selection", p: "One option rules out the others, so picking it unchecks and disables the rest. Try it.", el: [h(Exclusive, { key: 1 })] }
+  ]);
+})();
+</script>
+<script src="site/site.js?v=20261112i"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # VisitCard
 
-Visit card shows one scheduled visit: the date and time, the provider and the care type, with up to three actions. It's built from the Figma "Visit-card-v2" set, which is marked as under development for Anvil 5.7.
+Visit card shows one scheduled visit: the date and time, the provider and the care type, with up to three actions. It's built from the Figma "Visit-card-v2" set, which is marked as under development for Pulse 5.7.
 
 ## Types
 
@@ -28,7 +28,7 @@ Visit card shows one scheduled visit: the date and time, the provider and the ca
 
 ## Linking
 
-Pass `href` to make the whole card a link to the visit details. An arrow appears on the right, the hit area covers the card, and the actions stay separately clickable above it. `arrow` shows the arrow without a link.
+Pass `href` to make the whole card a link to the visit details. An arrow appears on the right, the hit area covers the card, and the actions stay separately clickable above it. `arrow` shows the arrow without a link. Custom cards can take `href` too, but never show the arrow. Prominent cards have no main action.
 
 ## Accessibility
 

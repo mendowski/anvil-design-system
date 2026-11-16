@@ -4,7 +4,7 @@ There are 68 hero illustrations, each a 320 × 160 (2:1) SVG with a transparent 
 
 ## Using them
 
-- In code: `<Anvil.Illustration type="hero" name="anytime" background="purple-subdued" />`. `Anvil.Illustration.names.hero` lists them all.
+- In code: `<Pulse.Illustration type="hero" name="anytime" background="purple-subdued" />`. `Pulse.Illustration.names.hero` lists them all.
 - In a Card, pass the file as the hero image.
 - Use one hero per screen and let it fill the width. Don't crop people out of the scene, and don't recolor.
 

@@ -25,7 +25,7 @@ Prominent nav list is a stack or grid of large, tappable links to the most impor
 | --- | --- |
 | `none` | Text only. |
 | `icon` | A 32px circle in `navigation-list-item-background-graphic-icon-default` with a white filled `icon`. |
-| `spot` | A 64px round spot illustration, picked by `spot` (an Anvil illustration name). |
+| `spot` | A 64px round spot illustration, picked by `spot` (an Pulse illustration name). |
 
 `alignment="full-width"` puts the graphic beside the label only, and lets the description and metadata use the full width underneath.
 

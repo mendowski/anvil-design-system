@@ -4,7 +4,7 @@ There are 76 spot illustrations, each a 72 × 72 SVG with a transparent backgrou
 
 ## Using them
 
-- In code: `<Anvil.Illustration name="celebration" background="purple-subdued" />`. The name is the file name without `.svg`. `Anvil.Illustration.names.spot` lists them all.
+- In code: `<Pulse.Illustration name="celebration" background="purple-subdued" />`. The name is the file name without `.svg`. `Pulse.Illustration.names.spot` lists them all.
 - Put them on a spot background from the Illustration component, as a circle (`round`) or a square (`fill`).
 - Keep them at 72px or larger; the detail doesn't hold up smaller. Don't recolor them.
 

@@ -68,8 +68,8 @@
       },
       code: function (a) {
         var img = a.imageType === "none" ? null : a.imageType === "hero"
-          ? '{ type: "hero", src: Anvil.Illustration.url("hero", "' + a.heroName + '") }'
-          : '{ type: "' + a.imageType + '", src: Anvil.Illustration.url("spot", "' + a.spotName + '") }';
+          ? '{ type: "hero", src: Pulse.Illustration.url("hero", "' + a.heroName + '") }'
+          : '{ type: "' + a.imageType + '", src: Pulse.Illustration.url("spot", "' + a.spotName + '") }';
         var lines = ["<Card"];
         if (a.eyebrow) lines.push('  eyebrow="' + a.eyebrow + '"');
         if (a.header) lines.push('  header="' + a.header + '"');
@@ -581,7 +581,10 @@
     return h("div", { className: "pg" },
       h("nav", { className: "pg-list", "aria-label": "Components" },
         GROUPS.map(function (g) {
-          return h(React.Fragment, { key: g[0] }, h("p", { className: "eyebrow" }, g[0]),
+          // Same collapsible groups as the Components page menu.
+          return h("details", { key: g[0], className: "cp-group", open: true },
+            h("summary", null, h("span", null, g[0]),
+              h("svg", { className: "cp-chev", viewBox: "0 0 16 16", "aria-hidden": "true" }, h("path", { d: "M3.5 6 8 10.5 12.5 6", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round", strokeLinejoin: "round" }))),
             g[1].filter(function (n) { return STORIES[n]; }).map(function (n) { return h("a", { key: n, href: "#" + n, "aria-current": n === name ? "page" : undefined }, LABELS[n] || n); }));
         })),
       h("section", { className: "pg-stage", "aria-label": "Preview" },

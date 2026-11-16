@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global footer · Pulse Components</title>
+<meta name="description" content="Global footer guidelines for Pulse: anatomy, states, placement, when to show it, accessibility, props and changelog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261106c"></script>
+<style>
+  /* Global footer page only. Shared doc styles are in site/doc.css. */
+  .bar { width: 358px; max-width: 100%; }
+  .states { display: grid; grid-template-columns: repeat(auto-fill, 96px); gap: 16px; }
+  .states .anvil-tab { width: 96px; }
+  .doc-anatomy .doc-stage { padding: 64px 40px; }
+  /* Illustration only: the component wraps long labels instead of hiding them (see Code vs. Figma) */
+  .demo-icons-only .anvil-tab__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .demo-icons-only .anvil-tab { justify-content: center; min-height: 48px; }
+  .demo-menu { position: relative; }
+  .demo-menu__pop { position: absolute; right: 8px; bottom: calc(100% + 8px); width: 180px; background: var(--background-surface); border: 1px solid var(--stroke-base); border-radius: 12px; box-shadow: var(--elevation); padding: 6px; font-size: 14px; line-height: 20px; }
+  .demo-menu__pop div { padding: 8px 10px; border-radius: 8px; }
+  .demo-menu__pop div:first-child { background: var(--navigation-background-hover); }
+  .dd-stage { align-items: center; }
+  .doc-dd { grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); }
+  .anat .anvil-tab__label { overflow: visible; }
+  .demo-menu { margin-top: 150px; }
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#GlobalFooter">Navigation and menus</a> / Global navigation / Global footer</p>
+<span class="doc-status">Figma and React available · iOS and Android pending</span>
+<h1 class="page-title" style="margin-top:12px">Global footer</h1>
+<p class="lede">The global footer is the main navigation on mobile. It lets people switch quickly between the key sections of the app, stays fixed at the bottom of the screen, and persists across most views.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.GlobalFooter</code><code>Pulse.TabItem</code><a class="pg-link" href="global-header.html">Global header</a><a class="pg-link" href="playground.html#GlobalFooter">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#usage">Usage</a><a href="#anatomy">Anatomy</a><a href="#variants">Variants</a><a href="#placement">Placement</a><a href="#when">When to show it</a><a href="#accessibility">Accessibility</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<section class="doc-sec" id="usage">
+  <h2 class="sec">Usage</h2>
+  <p class="lede">Use the global footer for the destinations people need most often, such as Home, Visits, Health log and Learning. It's part of Global navigation, with the <a href="global-header.html">Global header</a> and the menus.</p>
+  <div class="doc-stage" style="margin-top:24px;display:flex;justify-content:center"><div class="bar" id="hero-bar"></div></div>
+</section>
+
+<section class="doc-sec" id="anatomy">
+  <h2 class="sec">Anatomy</h2>
+  <div class="doc-anatomy" style="margin-top:24px">
+    <div class="doc-stage anat"><div class="bar" id="anat-bar"></div></div>
+    <ol class="doc-legend">
+      <li><b>1</b><div><span>Icon</span><small>20px. The current tab uses the filled version.</small></div></li>
+      <li><b>2</b><div><span>Label</span><small>One or two short words. It carries the meaning; the icon helps people scan.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="doc-sec" id="variants">
+  <h2 class="sec">Variants and options</h2>
+  <div id="variants-rows" style="margin-top:24px"></div>
+</section>
+
+<section class="doc-sec" id="placement">
+  <h2 class="sec">Placement</h2>
+  <div class="doc-dd" id="dd-placement"></div>
+  <ul style="margin-top:24px;max-width:72ch">
+    <li>Pin it to the bottom of the screen, 16px from the sides and bottom, and above the phone's safe area.</li>
+    <li>Add bottom padding to the page so the last content isn't hidden behind it.</li>
+    <li>When people tap a tab, the current page eases out to the new one.</li>
+  </ul>
+</section>
+
+<section class="doc-sec" id="when">
+  <h2 class="sec">When to show it</h2>
+  <p class="lede">Every page reached from the global footer shows it, and those pages use the default global header. Pages with the default header use the tab bar to move between the main sections.</p>
+  <div class="doc-phones" id="phones" style="margin-top:24px"></div>
+  <div class="doc-config" style="margin-top:32px">
+    <div><h3>Don't show it in</h3></div>
+    <div><ul>
+      <li>Signed-out flows</li>
+      <li>Second- and third-level flows, which use the focused task header</li>
+      <li>Menu pages</li>
+      <li>Progress tracker flows: those pages show only a Next or Continue button to move forward</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="accessibility">
+  <h2 class="sec">Accessibility</h2>
+  <p class="lede">Using the footer on a page still needs an annotated design review of the page-level design.</p>
+  <div class="doc-config">
+    <div><h3>Links or buttons</h3></div>
+    <div><ul>
+      <li>Where a tab goes may change over time. Code it as a link if it takes people to a new page, or a button if it acts on the current page.</li>
+      <li>In code, pass <code>href</code> for a link or <code>onClick</code> for a button.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Screen readers</h3></div>
+    <div><ul>
+      <li>Teams need to be able to change the screen reader text for each tab.</li>
+      <li>Badges are read as part of the label, such as "Messages, 2 new".</li>
+      <li>The footer is a <code>&lt;nav&gt;</code> named "Main". Change the name with <code>label</code>. The current tab has <code>aria-current="page"</code>.</li>
+      <li>Icons are decorative; the visible label names each tab.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Order and size</h3></div>
+    <div><ul>
+      <li>On mobile, the header's Back button comes last in the screen's swipe order.</li>
+      <li>Each tab is at least 52px tall.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <h3 class="doc-sub" style="margin-top:16px">GlobalFooter</h3>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>items</code></td><td><code>TabItemProps[]</code></td><td>The tabs: 3 to 5. Required.</td></tr>
+      <tr><td><code>label</code></td><td><code>string</code></td><td>Accessible name of the nav. Default "Main".</td></tr>
+    </tbody>
+  </table></div>
+  <h3 class="doc-sub">TabItem</h3>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>label</code></td><td><code>string</code></td><td>Short label under the icon. Required.</td></tr>
+      <tr><td><code>icon</code></td><td><code>IconName</code></td><td>Default <code>home</code>. The current tab shows the filled version.</td></tr>
+      <tr><td><code>href</code>, <code>onClick</code></td><td><code>string</code>, <code>function</code></td><td>A link or a button.</td></tr>
+      <tr><td><code>current</code></td><td><code>boolean</code></td><td>The tab for the page people are on.</td></tr>
+      <tr><td><code>badge</code></td><td><code>number | boolean</code></td><td>A number shows a count; <code>true</code> shows a dot.</td></tr>
+      <tr><td><code>state</code></td><td><code>"hover" | "focus" | "pressed"</code></td><td>Forces a state, for docs and prototypes.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Code vs. Figma.</strong>
+    <ul>
+      <li>Figma hides the labels when the screen is too narrow. The component keeps them and lets them wrap to two lines with 5 tabs. The icons-only example above uses a page style to show the Figma behavior.</li>
+      <li>The component doesn't stop you from passing more than 5 items or from opening a menu from a tab. Both are left to the page.</li>
+      <li>iOS and Android components are still pending.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Global navigation</td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Global navigation</td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--pending">Pending</span></td><td>Global navigation</td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--pending">Pending</span></td><td>Global navigation</td></tr>
+      <tr><td>FlowUI</td><td>Not applicable</td><td>Global navigation is built in at a higher level of the member app.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Aug 20, 2026</td><td>v5.6.0</td><td><span class="doc-tag doc-tag--changed">Changed</span>Small Global-header style changes for the brand evolution.</td></tr>
+      <tr><td>Feb 18, 2026</td><td>v5.5.0</td><td><span class="doc-tag doc-tag--new">New</span>Global navigation: Global-header, Global-footer, Menu and Language-menu.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: Components › Navigation and menus › Global navigation › Global footer, and the Global navigation Guidance page, in the Pulse Design System documentation. Every footer on this page is the live <code>Pulse.GlobalFooter</code>.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = React.createElement, A = Anvil, F = A.GlobalFooter, T = A.TabItem, G = A.GlobalHeader;
+  function render(id, el) { var n = document.getElementById(id); if (n) ReactDOM.createRoot(n).render(el); }
+  function cap(text, el) { return h("div", null, h("div", { className: "doc-cap" }, text), el); }
+  var tabs = [
+    { label: "Home", icon: "home", href: "#usage" },
+    { label: "Visits", icon: "calendar", href: "#usage" },
+    { label: "Health log", icon: "health-info", href: "#usage" },
+    { label: "Learning", icon: "library", href: "#usage" },
+    { label: "Messages", icon: "chat", href: "#usage" }
+  ];
+  function items(n, extra) { return tabs.slice(0, n).map(function (t, i) { return Object.assign({}, t, { current: i === 0 }, extra && extra[i]); }); }
+  function bar(n, extra, cls) { return h("div", { className: "bar " + (cls || "") }, h(F, { items: items(n, extra) })); }
+
+  render("hero-bar", h(F, { items: items(4) }));
+  render("anat-bar", h(F, { items: items(4) }));
+  (function tag(tries) {
+    var root = document.getElementById("anat-bar"), tab = root.querySelector(".anvil-tab");
+    if (!tab) { if (tries < 40) setTimeout(function () { tag(tries + 1); }, 25); return; }
+    var ic = tab.querySelector(".anvil-tab__icon"), lb = tab.querySelector(".anvil-tab__label");
+    ic.setAttribute("data-m", "1"); ic.setAttribute("data-at", "top");
+    lb.setAttribute("data-m", "2"); lb.setAttribute("data-at", "bottom");
+  })(0);
+
+  var rows = [
+    { t: "Tab states", p: "Each tab item has five states.", li: ["Current", "Default", "Hover", "Focus", "Pressed"],
+      el: h("div", { className: "states" },
+        cap("Current", h(T, { label: "Item", icon: "home", href: "#variants", current: true })),
+        cap("Default", h(T, { label: "Item", icon: "home", href: "#variants" })),
+        cap("Hover", h(T, { label: "Item", icon: "home", href: "#variants", state: "hover" })),
+        cap("Focus", h(T, { label: "Item", icon: "home", href: "#variants", state: "focus" })),
+        cap("Pressed", h(T, { label: "Item", icon: "home", href: "#variants", state: "pressed" }))) },
+    { t: "Number of tabs", p: "Use 3 to 5 tabs, never more than 5. With 5, padding tightens so they fit a 360px phone.",
+      el: h("div", { className: "doc-row" }, cap("3 tabs", bar(3)), cap("4 tabs", bar(4)), cap("5 tabs", bar(5))) },
+    { t: "Badges", p: "A count or a dot on a tab's icon, the same badges as in the global header.",
+      el: h("div", { className: "doc-row" }, cap("Count badge", bar(5, { 4: { badge: 2 } })), cap("Dot badge", bar(5, { 4: { badge: true } }))) }
+  ];
+  function list(x) { return x && h("ol", null, x.map(function (s, i) { return h("li", { key: i }, s); })); }
+  render("variants-rows", h(React.Fragment, null, rows.map(function (r, i) {
+    return h("div", { className: "doc-config", key: i }, h("div", null, h("h3", null, r.t), h("p", null, r.p), list(r.li)), h("div", null, r.el));
+  })));
+
+  var verdicts = { "do": ["Do", "check-circle"], "dont": ["Don’t", "close-circle"], "caution": ["Caution", "alert-triangle"] };
+  function dd(kind, text, stage) {
+    var v = verdicts[kind];
+    return h("figure", { className: "dd dd--" + kind, style: { margin: 0 } }, h("div", { className: "dd-stage" }, stage), h("div", { className: "dd-bar" }),
+      h("figcaption", null, h("span", { className: "dd-verdict" }, h(A.Icon, { name: v[1], size: 16 }), v[0]), h("p", null, text)));
+  }
+  render("dd-placement", h(React.Fragment, null,
+    dd("do", "Hide the labels when the screen is too small for them, so they don’t overlap.", h("div", { style: { width: 260 } }, bar(5, null, "demo-icons-only"))),
+    dd("do", "Use 5 tab items at most.", bar(5)),
+    dd("dont", "Don’t open a menu from the footer. Every tab goes to a page.",
+      h("div", { className: "bar demo-menu" },
+        h("div", { className: "demo-menu__pop", "aria-hidden": "true" }, h("div", null, "Settings"), h("div", null, "Help"), h("div", null, "Sign out")),
+        h(F, { items: items(4).concat([{ label: "More", icon: "ellipsis", current: false, onClick: function () {} }]) })))
+  ));
+
+  function phone(cap, header, footer) {
+    var body = h("div", { className: "doc-phone__body" }, h("i"), h("i"), h("b"), h("i"), h("i"), h("b"));
+    return h("div", null, h("div", { className: "doc-cap" }, cap),
+      h("div", { className: "doc-phone" }, header, body, footer && h("div", { className: "doc-phone__foot" }, footer)));
+  }
+  var noop = function () {};
+  var utils = [{ label: "Profile", icon: "profile", href: "#when" }, { label: "Messages", icon: "mail", badge: 2, href: "#when" }];
+  render("phones", h(React.Fragment, null,
+    phone("Default header: show the footer", h(G, { layout: "mobile", utilities: utils, cta: { label: "Get care" } }), h(F, { items: items(4) })),
+    phone("Focused task: no footer", h(G, { layout: "mobile", type: "focused", title: "Blood pressure", onBack: noop, onClose: noop })),
+    phone("Progress tracker: no footer", h(G, { layout: "mobile", type: "progress", steps: ["Health", "Meds", "Insurance", "Review"], currentStep: 1, onBack: noop, onClose: noop }),
+      h(A.Button, { style: { width: "100%" } }, "Continue"))
+  ));
+})();
+</script>
+<script src="site/site.js?v=20261112i"></script>
+</body>
+</html>

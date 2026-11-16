@@ -161,3 +161,63 @@ details.guide th, details.guide td { border-bottom: 1px solid var(--stroke-subdu
 /* data viz */
 .pg-frame__inner > .anvil-chart { flex: 1 1 auto; min-width: 0; }
 .pg-list .eyebrow ~ .eyebrow { margin-top: 16px; }
+
+/* grouped component menu */
+.cp-group > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 8px 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; white-space: nowrap; line-height: 20px; font-weight: 600; color: var(--text-body-base); }
+.cp-group > summary::-webkit-details-marker { display: none; }
+.cp-group > summary:hover { background: var(--background-subdued); }
+.cp-group > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.cp-group:not([open]) > summary .cp-chev { transform: rotate(-90deg); }
+.cp-group + .cp-group { margin-top: 12px; }
+.cp-side .cp-group a { display: block; margin-top: 2px; }
+.cp-chev { width: 16px; height: 16px; flex: none; color: var(--brand-interactive-primary-base); transition: transform .15s; }
+@media (prefers-reduced-motion: reduce) { .cp-chev { transition: none; } }
+
+/* playground controls: one height for every field */
+.pg-field input[type="text"], .pg-field input[type="number"], .pg-field select, .pg-picker__btn { box-sizing: border-box; height: 40px; padding-top: 0; padding-bottom: 0; line-height: 38px; }
+.pg-field select { -webkit-appearance: none; appearance: none; padding-right: 32px; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 6 8 10.5 12.5 6' fill='none' stroke='%230f1213' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center; background-size: 16px 16px; }
+[data-theme$="dark"] .pg-field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 6 8 10.5 12.5 6' fill='none' stroke='%23fdfdfd' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.pg-picker__btn .pg-caret { width: 16px; height: 16px; border: 0; transform: none; margin-right: -2px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 6 8 10.5 12.5 6' fill='none' stroke='%230f1213' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat; }
+[data-theme$="dark"] .pg-picker__btn .pg-caret { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 6 8 10.5 12.5 6' fill='none' stroke='%23fdfdfd' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.pg-thumb { width: 22px; height: 22px; }
+.pg-thumb--hero { width: 36px; height: 18px; }
+
+/* side menus: thin 6px scrollbar, hidden until you scroll or hover */
+.cp-side::-webkit-scrollbar, .pg-list::-webkit-scrollbar, .pg-controls::-webkit-scrollbar { width: 6px; background: transparent; }
+.cp-side::-webkit-scrollbar-track, .pg-list::-webkit-scrollbar-track, .pg-controls::-webkit-scrollbar-track { background: transparent; }
+.cp-side::-webkit-scrollbar-thumb, .pg-list::-webkit-scrollbar-thumb, .pg-controls::-webkit-scrollbar-thumb { background: transparent; border-radius: 3px; }
+.cp-side.is-scrolling::-webkit-scrollbar-thumb, .pg-list.is-scrolling::-webkit-scrollbar-thumb, .pg-controls.is-scrolling::-webkit-scrollbar-thumb,
+.cp-side:hover::-webkit-scrollbar-thumb, .pg-list:hover::-webkit-scrollbar-thumb, .pg-controls:hover::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--text-body-base) 22%, transparent); }
+@supports not selector(::-webkit-scrollbar) {
+  .cp-side, .pg-list, .pg-controls { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+  .cp-side:hover, .pg-list:hover, .pg-controls:hover, .is-scrolling { scrollbar-color: color-mix(in srgb, var(--text-body-base) 22%, transparent) transparent; }
+}
+
+/* playground menu: same groups as the Components page */
+.pg-list .cp-group a { display: block; margin-top: 2px; }
+.pg-list a[aria-current="page"] { font-weight: 500; }
+@media (max-width: 900px) {
+  .pg-list { gap: 0; }
+  .pg-list .cp-group { display: block; width: 100%; }
+  .pg-list .cp-group + .cp-group { margin-top: 0; }
+  .pg-list .cp-group > summary { display: none; }
+  .pg-list .cp-group a { display: inline-block; margin: 0 6px 8px 0; }
+}
+
+/* example frames: one thin 6px scrollbar under the frame, only while scrolling or hovering */
+.frame-scroll { padding-bottom: 8px; }
+.frame-scroll::-webkit-scrollbar { height: 6px; background: transparent; }
+.frame-scroll::-webkit-scrollbar-track { background: transparent; }
+.frame-scroll::-webkit-scrollbar-thumb { background: transparent; border-radius: 3px; }
+.frame-scroll:hover::-webkit-scrollbar-thumb, .frame-scroll.is-scrolling::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--text-body-base) 22%, transparent); }
+@supports not selector(::-webkit-scrollbar) {
+  .frame-scroll { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+  .frame-scroll:hover, .frame-scroll.is-scrolling { scrollbar-color: color-mix(in srgb, var(--text-body-base) 22%, transparent) transparent; }
+}
+
+/* indent items under their group (desktop menus) */
+@media (min-width: 901px) {
+  .cp-side .cp-group a, .pg-list .cp-group a { padding-left: 28px; }
+}

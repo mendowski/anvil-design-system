@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prominent nav list item · Pulse</title>
+<meta name="description" content="Prominent nav list item guidelines for Pulse: anatomy, graphics, alignment, completed and postponed states, options, placement, interaction, accessibility, props and changelog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261106c"></script>
+<script src="site/doc.js?v=20261115a"></script>
+<style>
+  /* Prominent nav list item page only. Shared doc styles are in site/doc.css. */
+  .doc-anatomy .doc-stage { padding: 64px 64px 48px 72px; }
+  .doc-anatomy .doc-stage > * { width: 380px; }
+  .nl { width: 100%; max-width: 420px; }
+  .nl-wide { width: 100%; }
+  .stack-12 { display: grid; gap: var(--space-between-prominent-nav-list); width: 100%; max-width: 420px; }
+  .ph { display: block; border: 1px dashed var(--stroke-base); border-radius: 8px; padding: 8px 10px; font-size: 13px; line-height: 20px; color: var(--text-body-subdued); background: var(--background-subdued); }
+  .sub { margin: 0 0 4px; font-weight: 600; font-size: 18px; line-height: 24px; }
+  .sub + p { margin: 0 0 12px; font-size: 14px; line-height: 20px; color: var(--text-body-subdued); }
+  .subdued-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--stroke-base); font-weight: 600; }
+  .vp { width: 100%; border: 1px solid var(--stroke-base); border-radius: 12px; background: var(--background-subdued); }
+  .vp--pad { padding: 16px; }
+  .vp .anvil-pnav { border-radius: 0; }
+  .vp--pad .anvil-pnav { border-radius: var(--radius-150); }
+  .demo-recolor .anvil-pnav__icon { background: var(--background-status-critical-base) !important; color: #fff !important; }
+  .demo-tight { gap: 2px !important; }
+  .tt .anvil-pnav { outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 4px; }
+  .anat .anvil-pnav__header > *, .anat .anvil-pnav__content > * { align-self: flex-start; }
+  .nl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; width: 100%; }
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#NavList">Navigation and menus</a> / Navigation lists / Prominent nav list item</p>
+<span class="doc-status doc-status--ok">Available · Figma, React, iOS, Android, FlowUI</span>
+<h1 class="page-title" style="margin-top:12px">Prominent nav list item</h1>
+<p class="lede">Prominent nav list item is a main navigation component for lists that need visual weight. It highlights key destinations in the app or website and gives people a clear, highly visible way to reach important pages and features.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.NavList</code><code>Pulse.NavListItem</code><a class="pg-link" href="playground.html#NavList">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#usage">Usage</a><a href="#anatomy">Anatomy</a><a href="#variants">Variants</a><a href="#placement">Placement</a><a href="#interaction">Interaction</a><a href="#accessibility">Accessibility</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<section class="doc-sec" id="usage">
+  <h2 class="sec">Usage</h2>
+  <div class="doc-config">
+    <div><h3>Prominent styling</h3></div>
+    <div class="doc-stack"><ul>
+      <li>A background fill and border make each item stand out, which helps for important items or key actions.</li>
+      <li>Use it when the list needs more emphasis or is a key focus area, and when the page background is subdued rather than base.</li>
+      <li>It's easy to find, which makes it right for core sections and frequently used content, and helps guide people to important actions and information.</li>
+    </ul><div id="usage-demo"></div></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>What only this item has</h3><p>Other nav list items don't have these.</p></div>
+    <div><ol>
+      <li>Graphics: an icon in a color-filled circle, or a spot graphic (a spot illustration, or an avatar for profiles and images).</li>
+      <li>Label or full-width alignment for the content.</li>
+      <li>A Completed state, to mark a task or goal as done.</li>
+    </ol></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Uses</h3></div>
+    <div><ul><li><a href="assets.html">Spot illustration</a></li></ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="anatomy">
+  <h2 class="sec">Anatomy</h2>
+  <h3 class="doc-sub" style="margin-top:16px">Content aligned with the label</h3>
+  <div class="doc-anatomy">
+    <div class="doc-stage anat" id="anat"></div>
+    <ol class="doc-legend">
+      <li><b>1</b><div><span>Graphic</span><small>Optional. A graphic icon here.</small></div></li>
+      <li><b>2</b><div><span>Eyebrow</span><small>Optional.</small></div></li>
+      <li><b>3</b><div><span>Label</span></div></li>
+      <li><b>4</b><div><span>Content container</span><small>Optional. Holds custom content, such as a description, a placeholder for other components, or your own content, and metadata.</small></div></li>
+      <li><b>5</b><div><span>Metadata</span><small>Optional.</small></div></li>
+      <li><b>6</b><div><span>Arrow indicator</span><small>Optional.</small></div></li>
+    </ol>
+  </div>
+  <h3 class="doc-sub">Content aligned full width</h3>
+  <div class="doc-anatomy">
+    <div class="doc-stage anat" id="anat-full"></div>
+    <ol class="doc-legend">
+      <li><b>4</b><div><span>Content container</span><small>Same parts as the label layout, but the content runs to the leading edge of the item instead of lining up with the label.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="doc-sec" id="variants">
+  <h2 class="sec">Variants and options</h2>
+  <div id="variant-rows" style="margin-top:24px"></div>
+  <div class="doc-dd" id="dd-consistency" style="margin-top:32px"></div>
+</section>
+
+<section class="doc-sec" id="placement">
+  <h2 class="sec">Placement and groupings</h2>
+  <h3 class="doc-sub" style="margin-top:16px">Spacing</h3>
+  <div class="doc-dd" id="dd-spacing"></div>
+  <h3 class="doc-sub">Combining with other nav list components</h3>
+  <div class="doc-dd" id="dd-combine"></div>
+  <h3 class="doc-sub">Grids and layout</h3>
+  <div class="doc-dd" id="dd-layout"></div>
+  <h3 class="doc-sub">Sub-headers</h3>
+  <div class="doc-dd" id="dd-sub"></div>
+</section>
+
+<section class="doc-sec" id="interaction">
+  <h2 class="sec">Interaction</h2>
+  <div class="doc-config">
+    <div><h3>Tap target</h3><p>The whole item is one tap target.</p></div>
+    <div class="doc-stack"><div class="tt nl" id="tap" style="padding:6px"></div>
+      <div class="doc-note doc-note--code" style="margin:0"><strong>Note.</strong> Custom content can't include interactive components or elements, because the whole item is a single target.</div></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="accessibility">
+  <h2 class="sec">Accessibility</h2>
+  <p class="lede">Using this component on a page still needs an annotated design review of the page-level design.</p>
+  <div class="doc-config">
+    <div><h3>Headings</h3></div>
+    <div><ul><li>The label can be announced as any heading level or as body text, even when it looks like heading 4. Annotate the level you want; each platform has a prop for it.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Screen readers</h3></div>
+    <div><ul>
+      <li>People must be able to tab or swipe to each item, and hear all its visible text, plus its role if it's clickable.</li>
+      <li>The first item in a group is announced with "List, N items", then "&lt;all visible text&gt;, 1 of N". Later items: "&lt;all visible text&gt;, n of N".</li>
+      <li>Completed and postponed items need visible text that says their state, such as "Completed" or "In progress", so it isn't shown by the graphic alone.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>In code</h3></div>
+    <div><ul>
+      <li><code>NavList</code> renders a <code>&lt;ul&gt;</code>, so screen readers announce the list and its count. Pass <code>label</code> to name it.</li>
+      <li>With <code>href</code> an item is a link; with <code>onClick</code> it's a button. Disabled items get <code>aria-disabled</code>.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <h3 class="doc-sub" style="margin-top:16px">NavListItem</h3>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>label</code></td><td><code>ReactNode</code></td><td>Required.</td></tr>
+      <tr><td><code>eyebrow</code></td><td><code>ReactNode</code></td><td>Off by default.</td></tr>
+      <tr><td><code>description</code>, <code>children</code></td><td><code>ReactNode</code></td><td>Custom content. <code>children</code> replaces the description.</td></tr>
+      <tr><td><code>metadata</code></td><td><code>ReactNode</code></td><td></td></tr>
+      <tr><td><code>graphic</code></td><td><code>"none" | "icon" | "spot"</code></td><td>Set automatically when you pass <code>icon</code> or <code>spot</code>.</td></tr>
+      <tr><td><code>icon</code></td><td><code>IconName</code></td><td>The icon in the 32px circle.</td></tr>
+      <tr><td><code>spot</code>, <code>spotSrc</code>, <code>spotBackground</code></td><td><code>string</code></td><td>A spot illustration by name, or any image (an avatar) with <code>spotSrc</code>.</td></tr>
+      <tr><td><code>alignment</code></td><td><code>"label" | "full-width"</code></td><td>Default <code>label</code>.</td></tr>
+      <tr><td><code>status</code></td><td><code>"completed" | "postponed"</code></td><td></td></tr>
+      <tr><td><code>arrow</code></td><td><code>boolean</code></td><td>Off by default.</td></tr>
+      <tr><td><code>href</code>, <code>onClick</code>, <code>disabled</code></td><td></td><td></td></tr>
+      <tr><td><code>state</code></td><td><code>"hover" | "focus" | "pressed"</code></td><td>Forces a state, for docs.</td></tr>
+    </tbody>
+  </table></div>
+  <h3 class="doc-sub">NavList</h3>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>items</code>, <code>children</code></td><td><code>NavListItemProps[]</code>, <code>ReactNode</code></td><td>The items.</td></tr>
+      <tr><td><code>layout</code></td><td><code>"stack" | "grid"</code></td><td>Default <code>stack</code>, spaced with <code>space-between-prominent-nav-list</code>.</td></tr>
+      <tr><td><code>label</code></td><td><code>string</code></td><td>Accessible name for the list.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Code vs. Figma.</strong>
+    <ul>
+      <li>React has no prop for the label's heading level yet; the label renders as plain text.</li>
+      <li>Completed and postponed items don't add any text on their own. Say the state in the eyebrow or metadata, such as "Completed".</li>
+      <li>Nothing stops custom content from holding links or buttons. Keep it non-interactive.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Prominent-nav-list-item</td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Prominent Navigation Item</td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>PulseNavigationListTableViewController</td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>ProminentNavigationListItem</td></tr>
+      <tr><td>FlowUI</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>ProminentNavigationList</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Jul 24, 2025</td><td>v5.2.0</td><td><span class="doc-tag doc-tag--new">New</span>Postponed state.</td></tr>
+      <tr><td>Apr 23, 2025</td><td>v5.0.0</td><td>Pulse 5: color, type and space variable updates for all components. For nav lists:<ul><li><span class="doc-tag doc-tag--new">New</span>Right-arrow icon option</li><li><span class="doc-tag doc-tag--new">New</span>Eyebrow option</li><li><span class="doc-tag doc-tag--new">New</span>Custom content option</li></ul></td></tr>
+      <tr><td>Oct 21, 2024</td><td>v4.4.0</td><td><span class="doc-tag doc-tag--new">New</span>Lists (navigation, link and info) with prominent or subdued styles. Navigation and info items combine a graphic, eyebrow, label, description or custom content, and metadata.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: Components › Navigation and menus › Navigation lists › Prominent nav list item (Usage, Accessibility, React, and Status and changelog tabs) in the Pulse Design System documentation. Every item on this page is the live <code>Pulse.NavListItem</code>.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = Doc.h, cap = Doc.cap, dd = Doc.dd, A = Anvil, L = A.NavList, I = A.NavListItem;
+  var go = "#interaction";
+  function item(p) { return h("div", { className: "nl" }, h(I, Object.assign({ label: "Label", href: go }, p))); }
+  function list(items, cls, extra) { return h("div", { className: cls || "nl" }, h(L, Object.assign({ label: "Example list", items: items.map(function (i) { return Object.assign({ href: go }, i); }) }, extra))); }
+  var base = { eyebrow: "Eyebrow", label: "Label", description: "Description", metadata: "Metadata", arrow: true };
+
+  Doc.render("usage-demo", h("div", { className: "vp vp--pad nl" }, h(L, { label: "Your programs", items: [
+    { icon: "weight", eyebrow: "Weight management", label: "Log your weight", description: "Weigh in at the same time each morning.", arrow: true, href: go },
+    { icon: "blood-pressure", eyebrow: "Hypertension", label: "Check your blood pressure", metadata: "Last reading 2 days ago", arrow: true, href: go },
+    { icon: "sleep", eyebrow: "Sleep", label: "Connect a sleep tracker", arrow: true, href: go }] })));
+
+  Doc.render("anat", h(I, Object.assign({ icon: "calendar", href: go }, base)));
+  Doc.tag("anat", [["1", ".anvil-pnav__icon", "left"], ["2", ".anvil-pnav__eyebrow", "right"], ["3", ".anvil-pnav__label", "right"], ["4", ".anvil-pnav__content", "bottom"], ["5", ".anvil-pnav__meta", "right"], ["6", ".anvil-pnav__arrow", "top"]]);
+  Doc.render("anat-full", h(I, Object.assign({ icon: "calendar", alignment: "full-width", href: go }, base)));
+  Doc.tag("anat-full", [["4", ".anvil-pnav__content", "bottom"]]);
+
+  var states = [["Default", {}], ["Hover", { state: "hover" }], ["Focus", { state: "focus" }], ["Pressed", { state: "pressed" }], ["Disabled", { disabled: true }]];
+  function three(p, c) { return [cap(c + ": no graphic", item(p), { key: 1 }), cap(c + ": graphic icon", item(Object.assign({ icon: "calendar" }, p)), { key: 2 }), cap(c + ": spot graphic", item(Object.assign({ spot: "celebration" }, p)), { key: 3 })]; }
+  Doc.rows("variant-rows", [
+    { t: "States", ol: ["Default", "Hover", "Focus", "Pressed", "Disabled"], el: states.map(function (s) { return cap(s[0], item(Object.assign({ icon: "calendar" }, base, s[1])), { key: s[0] }); }) },
+    { t: "Graphic", ol: [
+        "No graphic (default): for simple text items, where a visual would clutter the list. Best when labels and descriptions carry the meaning.",
+        "Graphic icon: a one-color icon in a color-filled circle. A quick cue for the item's type or category, without overwhelming. You can’t change the icon or fill color.",
+        "Spot graphic: the most emphasis, for items that need to stand out or where the visual helps people decide or recognize. A spot illustration or an avatar."],
+      el: [cap("No graphic", item(base), { key: 1 }), cap("Graphic icon", item(Object.assign({ icon: "calendar" }, base)), { key: 2 }),
+           cap("Spot illustration", item(Object.assign({ spot: "celebration" }, base)), { key: 3 }), cap("Avatar", item(Object.assign({ spot: "doctor-1", spotBackground: "aqua-subdued", eyebrow: "Your care team", label: "Dr. Ana Rivera", description: "Primary care", metadata: "Next visit Thursday" }, { arrow: true })), { key: 4 })] },
+    { t: "Content alignment", p: "Label lines the content up with the label. Full width runs it to the leading edge.",
+      el: [].concat(
+        [cap("No graphic, label", item(base), { key: "a" }), cap("No graphic, full width", item(Object.assign({ alignment: "full-width" }, base)), { key: "b" })],
+        [cap("Graphic icon, label", item(Object.assign({ icon: "calendar" }, base)), { key: "c" }), cap("Graphic icon, full width", item(Object.assign({ icon: "calendar", alignment: "full-width" }, base)), { key: "d" })],
+        [cap("Spot graphic, label", item(Object.assign({ spot: "celebration" }, base)), { key: "e" }), cap("Spot graphic, full width", item(Object.assign({ spot: "celebration", alignment: "full-width" }, base)), { key: "f" })]) },
+    { t: "Completed", li: [
+        "No graphic: still shows a small graphic; for compact layouts, when the task is already understood but confirming it matters.",
+        "Graphic icon (default): a clear confirmation without drawing too much attention. Good for long lists of tasks.",
+        "Spot graphic: a richer, celebratory visual for bigger milestones, in lists with a few key tasks."],
+      el: three({ status: "completed", eyebrow: "Completed", label: "Log your weight", description: "Done for today.", arrow: false }, "Completed") },
+    { t: "Postponed", li: ["No graphic: for compact layouts.", "Graphic icon (default): says the task is postponed without drawing too much attention.", "Spot graphic: a richer visual for tasks that carry more weight."],
+      el: three({ status: "postponed", eyebrow: "Postponed", label: "Check your blood pressure", description: "Moved to tomorrow.", arrow: false }, "Postponed") },
+    { t: "Eyebrow", p: "Text above the label that adds context or a category without taking focus from it. Off by default.",
+      el: [cap("Off", item({ label: "Label", description: "Description" }), { key: 1 }), cap("On", item({ eyebrow: "Eyebrow", label: "Label", description: "Description" }), { key: 2 })] },
+    { t: "Content container", p: "Shown by default, with custom content and metadata. Hide it to show only the label (and eyebrow, if on).",
+      el: [cap("Shown", item(base), { key: 1 }), cap("Hidden", item({ eyebrow: "Eyebrow", label: "Label", arrow: true }), { key: 2 })] },
+    { t: "Custom content", ol: ["Shown by default, with a description", "Off: no description", "Swapped for a placeholder, showing the width other components or content can use"],
+      el: [cap("Description", item(base), { key: 1 }), cap("Off", item({ eyebrow: "Eyebrow", label: "Label", metadata: "Metadata", arrow: true }), { key: 2 }),
+           cap("Placeholder", item(Object.assign({}, base, { description: null, children: h("span", { className: "ph" }, "Placeholder for custom content") })), { key: 3 })] },
+    { t: "Metadata", p: "Shown by default with the content container, always lined up with the custom content above it.",
+      el: [cap("On", item(base), { key: 1 }), cap("Off", item(Object.assign({}, base, { metadata: null })), { key: 2 })] },
+    { t: "Arrow indicator", p: "A chevron at the trailing end gives more sense that the item does something. Off by default.",
+      el: [cap("Off", item(Object.assign({}, base, { arrow: false })), { key: 1 }), cap("On", item(base), { key: 2 })] }
+  ]);
+
+  Doc.render("dd-consistency", h(React.Fragment, null,
+    dd("caution", "Too much variety in a set breaks the group. Keep every item in a group as consistent as possible so people can scan quickly.",
+      list([{ icon: "weight", label: "Log your weight", description: "Each morning", arrow: true }, { spot: "celebration", eyebrow: "Goal", label: "You hit a goal", alignment: "full-width" }, { label: "Settings", metadata: "Notifications, privacy" }])),
+    dd("dont", "Don’t change the icon or fill color. It breaks the list’s consistency.",
+      h("div", { className: "nl" }, h(L, { label: "Example", items: [{ icon: "weight", label: "Log your weight", arrow: true, href: go }, { icon: "blood-pressure", label: "Check blood pressure", arrow: true, href: go, className: "demo-recolor" }, { icon: "sleep", label: "Connect a sleep tracker", arrow: true, href: go }] })))
+  ));
+
+  var three3 = [{ icon: "weight", label: "Log your weight", arrow: true }, { icon: "blood-pressure", label: "Check your blood pressure", arrow: true }, { icon: "sleep", label: "Connect a sleep tracker", arrow: true }];
+  Doc.render("dd-spacing", h(React.Fragment, null,
+    dd("do", "Use the space-between-prominent-nav-list token between items. Its value changes between desktop and mobile.", list(three3)),
+    dd("dont", "Don’t override the token’s value.", list(three3, null, { className: "demo-tight" }))
+  ));
+
+  Doc.render("dd-combine", h(React.Fragment, null,
+    dd("dont", "Don’t combine prominent and subdued nav list items.",
+      h("div", { className: "nl" }, h(L, { label: "Example", items: three3.slice(0, 2).map(function (i) { return Object.assign({ href: go }, i); }) }),
+        h("div", { className: "subdued-item" }, "Connect a sleep tracker", h(A.Icon, { name: "arrow-right" })))),
+    dd("caution", "Take care using them with prominent link list items. This component wasn’t designed with other nav list components in mind.",
+      h("div", { className: "stack-12" }, h(I, Object.assign({ href: go }, three3[0])), h(I, { icon: "phone", label: "Call support", href: go }))),
+    dd("dont", "Don’t combine them with subdued link list items.",
+      h("div", { className: "nl" }, h(I, Object.assign({ href: go }, three3[0])), h("div", { className: "subdued-item", style: { marginTop: 12 } }, "Email support", h(A.Icon, { name: "mail" }))))
+  ));
+
+  Doc.render("dd-layout", h(React.Fragment, null,
+    dd("caution", "Several columns of list items are allowed but uncommon in Pulse products. Make sure they stay easy to use, understand and scale.",
+      h("div", { style: { width: "100%" } }, h(L, { layout: "grid", label: "Example", items: three3.concat([{ icon: "medicine", label: "Refill a prescription", arrow: true }]).map(function (i) { return Object.assign({ href: go }, i); }) })), { wide: true }),
+    dd("do", "Leave padding on the left and right so items don’t fill the whole width of the screen.", h("div", { className: "vp vp--pad" }, h(L, { label: "Example", items: three3.slice(0, 2).map(function (i) { return Object.assign({ href: go }, i); }) }))),
+    dd("dont", "Don’t stretch items to the full width of the screen.", h("div", { className: "vp" }, h(L, { label: "Example", items: three3.slice(0, 2).map(function (i) { return Object.assign({ href: go }, i); }) })))
+  ));
+
+  Doc.render("dd-sub", h(React.Fragment, null,
+    dd("do", "Add sub-headers and descriptions when they help explain what a group is for.",
+      h("div", { className: "nl" }, h("p", { className: "sub" }, "Today"), h("p", null, "Tasks from your care plan."), h(L, { label: "Today", items: three3.slice(0, 2).map(function (i) { return Object.assign({ href: go }, i); }) }),
+        h("p", { className: "sub", style: { marginTop: 20 } }, "Get started"), h("p", null, "Set up your devices."), h(L, { label: "Get started", items: [Object.assign({ href: go }, three3[2])] })), { wide: true })
+  ));
+
+  Doc.render("tap", h(I, Object.assign({ icon: "calendar", href: go }, base)));
+})();
+</script>
+<script src="site/site.js?v=20261112i"></script>
+</body>
+</html>

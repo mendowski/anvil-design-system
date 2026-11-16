@@ -1,5 +1,7 @@
 import * as React from "react";
 
+// The script sets window.Pulse and window.Anvil to the same object, so Pulse.Button and Anvil.Button both work.
+
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
   /** Emphasis. primary = the main action on a page; secondary = an important alternative; tertiary = a lower-priority standalone action that looks like a link. Default "primary". */
   variant?: "primary" | "secondary" | "tertiary";
@@ -351,10 +353,10 @@ export interface VisitCardProps {
   actions?: VisitAction[];
   /** Prominent cards: "prominent" makes the first action a full-width primary button. */
   footerStyle?: "default" | "prominent";
-  /** Makes the whole card a link, with an arrow. */
+  /** Makes the whole card a link, with an arrow (no arrow on custom cards). */
   href?: string;
   onClick?: () => void;
-  /** Shows the arrow without a link. */
+  /** Shows the arrow without a link. Ignored on prominent and custom cards. */
   arrow?: boolean;
   headingAs?: "h2" | "h3" | "h4";
   as?: "article" | "li" | "div";

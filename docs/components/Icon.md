@@ -1,6 +1,6 @@
 # Icon
 
-Icons are the 172 glyphs from the Anvil Figma Icons page. They're drawn on a 16px grid and follow the surrounding text color.
+Icons are the 172 glyphs from the Pulse Figma Icons page. They're drawn on a 16px grid and follow the surrounding text color.
 
 ## Using icons
 

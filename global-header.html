@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global header · Pulse Components</title>
+<meta name="description" content="Global header guidelines for Pulse: navigation types, anatomy, signed-out headers, variants, breakpoints, transitions, step labels, accessibility, props and changelog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261106c"></script>
+<style>
+  /* Global header page only. Shared doc styles are in site/doc.css. */
+  .m { width: 358px; max-width: 100%; }
+  .m .anvil-gh, .d .anvil-gh { border: 1px solid var(--stroke-subdued); border-radius: 12px; overflow: hidden; }
+  .anat .m .anvil-gh, .anat .d .anvil-gh { overflow: visible; }
+  .d { width: 100%; }
+  .doc-anat-trio { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; align-items: start; }
+  .doc-anat-trio .doc-stage { padding: 56px 16px 32px; display: flex; justify-content: center; }
+  .doc-anat-trio .doc-legend { margin-top: 20px; gap: 8px; }
+  .anat-wide { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 24px; }
+  .anat-wide .doc-legend { flex-direction: row; flex-wrap: wrap; gap: 8px 32px; }
+  .doc-config .full { grid-column: 1 / -1; }
+  .anat-wide .doc-stage { padding: 56px 24px 40px; }
+  .anat-wide .doc-legend { gap: 8px; }
+  .doc-legend small.na { color: var(--text-status-warning); }
+  .types-stack { display: grid; gap: 16px; }
+  .states { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: flex-end; }
+  .doc-dd .anvil-gh { min-width: 0; }
+  #dd-content { grid-template-columns: 1fr; }
+  #dd-content .dd-stage { min-height: 0; }
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#GlobalHeader">Navigation and menus</a> / Global navigation / Global header</p>
+<span class="doc-status">Figma and React available · iOS and Android pending</span>
+<h1 class="page-title" style="margin-top:12px">Global header</h1>
+<p class="lede">The global header is the top bar of every screen. One component covers mobile and web, so headers stay consistent across platforms while each platform gets its own layout. Its nested parts differ by platform to support animation and sizing.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.GlobalHeader</code><a class="pg-link" href="global-footer.html">Global footer</a><a class="pg-link" href="playground.html#GlobalHeader">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#types">Navigation types</a><a href="#anatomy">Anatomy</a><a href="#signed-out">Signed out</a><a href="#variants">Variants</a><a href="#breakpoints">Breakpoints</a><a href="#guidance">Guidance</a><a href="#transitions">Transitions</a><a href="#content">Step labels</a><a href="#accessibility">Accessibility</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<section class="doc-sec" id="types">
+  <h2 class="sec">Navigation types</h2>
+  <p class="lede">The header combines nav items, icon and secondary buttons, dropdown menus and the progress tracker into three types.</p>
+  <div id="types-rows" style="margin-top:24px"></div>
+</section>
+
+<section class="doc-sec" id="anatomy">
+  <h2 class="sec">Anatomy</h2>
+  <p class="lede">Signed in. On mobile, each type has a default view and a condensed "scrolled" view that gets shorter as people scroll down.</p>
+  <h3 class="doc-sub">Mobile</h3>
+  <div class="doc-anat-trio">
+    <div>
+      <div class="doc-stage anat"><div class="m" id="a-m-default"></div></div>
+      <ol class="doc-legend"><li><b>1</b><div><span>Profile</span></div></li><li><b>2</b><div><span>Messages</span><small>Count badge in the default view, dot badge when scrolled.</small></div></li><li><b>3</b><div><span>Language selector</span><small>Web only.</small></div></li><li><b>4</b><div><span>Get care button</span></div></li><li><b>·</b><div><span>Secondary menu</span><small class="na">For CCM and Mental Health. Not in the code component yet.</small></div></li></ol>
+    </div>
+    <div>
+      <div class="doc-stage anat"><div class="m" id="a-m-focused"></div></div>
+      <ol class="doc-legend"><li><b>1</b><div><span>Back button</span><small>Optional.</small></div></li><li><b>2</b><div><span>Page title</span><small>Optional.</small></div></li><li><b>3</b><div><span>Close button</span><small>Optional.</small></div></li><li><b>·</b><div><span>Info button</span><small class="na">Optional. Not in the code component yet.</small></div></li></ol>
+    </div>
+    <div>
+      <div class="doc-stage anat"><div class="m" id="a-m-progress"></div></div>
+      <ol class="doc-legend"><li><b>1</b><div><span>Back button</span><small>Icon button.</small></div></li><li><b>2</b><div><span>Step label</span><small>With "Step N of N".</small></div></li><li><b>3</b><div><span>Close button</span><small>Icon button.</small></div></li><li><b>4</b><div><span>Linear progress bar</span></div></li></ol>
+    </div>
+  </div>
+  <h3 class="doc-sub">Desktop</h3>
+  <div class="anat-wide">
+    <div class="doc-stage anat"><div class="d" id="a-d-default"></div></div>
+    <ol class="doc-legend"><li><b>1</b><div><span>Navigation</span></div></li><li><b>2</b><div><span>Profile</span></div></li><li><b>3</b><div><span>Messages</span></div></li><li><b>4</b><div><span>Language selector</span></div></li><li><b>5</b><div><span>Get care button</span></div></li></ol>
+  </div>
+  <div class="anat-wide">
+    <div class="doc-stage anat"><div class="d" id="a-d-focused"></div></div>
+    <ol class="doc-legend"><li><b>1</b><div><span>Back button</span><small>Tertiary button.</small></div></li><li><b>2</b><div><span>Teladoc Health mark</span><small>Decoration only.</small></div></li><li><b>3</b><div><span>Close button</span><small>Tertiary button on web.</small></div></li></ol>
+  </div>
+  <div class="anat-wide">
+    <div class="doc-stage anat"><div class="d" id="a-d-progress"></div></div>
+    <ol class="doc-legend"><li><b>1</b><div><span>Back button</span><small>Tertiary button.</small></div></li><li><b>2</b><div><span>Step labels</span></div></li><li><b>3</b><div><span>Close button</span><small>Tertiary button.</small></div></li><li><b>4</b><div><span>Linear progress bar</span></div></li></ol>
+  </div>
+</section>
+
+<section class="doc-sec" id="signed-out">
+  <h2 class="sec">Signed out</h2>
+  <div id="signed-out-rows" style="margin-top:16px"></div>
+</section>
+
+<section class="doc-sec" id="variants">
+  <h2 class="sec">Variants and options</h2>
+  <div id="variants-rows" style="margin-top:24px"></div>
+</section>
+
+<section class="doc-sec" id="breakpoints">
+  <h2 class="sec">Web breakpoints</h2>
+  <p class="lede">Use these as a general guide for how much each header shows.</p>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Width</th><th>Layout</th><th>Default header</th></tr></thead>
+    <tbody>
+      <tr><td>390, 767</td><td>Mobile</td><td>Icons for the top navigation.</td></tr>
+      <tr><td>834</td><td>Desktop</td><td>Left: navigation items in full (they replace the old mobile tab navigation). Right: icons only.</td></tr>
+      <tr><td>1024</td><td>Desktop</td><td>Left: navigation items in full. Right: the expanded avatar list, and icons for search and language.</td></tr>
+      <tr><td>1140</td><td>Desktop</td><td>Every menu item in its expanded view.</td></tr>
+    </tbody>
+  </table></div>
+  <p style="max-width:72ch;margin-top:16px">Focused task and progress tracker headers follow the same widths. At 150% and 200% zoom, check the header at 390, 894, 1024 and 1440.</p>
+</section>
+
+<section class="doc-sec" id="guidance">
+  <h2 class="sec">Guidance</h2>
+  <div class="doc-config">
+    <div><h3>Default</h3></div>
+    <div><ul>
+      <li>Use it on every page reached from the global footer, which is always shown with it. Pages with the default header use the tab bar to move between the main sections.</li>
+      <li>Every menu item goes to a new page or opens a menu. Get care goes to a new page.</li>
+      <li>The language selector is a dropdown, on web only.</li>
+      <li>The secondary menu goes to a new page. It's for Chronic Condition Management and Mental Health, and gives section navigation separate from the tab bar.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Focused task</h3></div>
+    <div><ul>
+      <li>Don't show the global footer: not in signed-out flows, second- and third-level flows, or menu pages.</li>
+      <li>Back goes to the page before.</li>
+      <li>Close leaves the sub-flow or cancels what the flow started. The product decides where the flow begins.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Progress tracker</h3></div>
+    <div><ul>
+      <li>Never show the global footer. Pages show only a Next or Continue button to move forward.</li>
+      <li>Back goes to the page or step before. On web it usually appears after the first screen, and should work like the browser's own Back button: it's a courtesy, not a different path.</li>
+      <li>Close is always available, and leaves the flow.</li>
+    </ul></div>
+  </div>
+  <div class="doc-dd" id="dd-guidance"></div>
+  <div class="doc-config" style="margin-top:32px">
+    <div><h3>Breaking flows into steps</h3></div>
+    <div><ul>
+      <li>Break long or complicated tasks into meaningful, small steps. Test the structure with UX research, and work with engineering on how steps map to the component.</li>
+      <li>Don't treat every page as a step. The number of pages can be unknown, too high, change with what people enter, or mix required, optional and revealed sections.</li>
+      <li>If a step is always one page, the tracker can turn into decoration, discourage people, or show wrong numbers or change scale midway.</li>
+      <li>Never mislead people about where they are or how many steps are left.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="transitions">
+  <h2 class="sec">Transitions</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Header</th><th>Element</th><th>Motion</th></tr></thead>
+    <tbody>
+      <tr><td>Default</td><td>Language menu</td><td>Dropdown</td></tr>
+      <tr><td></td><td>Top-left menu (Profile, Messages)</td><td>Slides in from the left</td></tr>
+      <tr><td></td><td>Top-right menu (Get care)</td><td>Slides in from the right</td></tr>
+      <tr><td></td><td>Global footer</td><td>Eases out to the new page</td></tr>
+      <tr><td>Focused task</td><td>Back</td><td>Page slides to the right</td></tr>
+      <tr><td></td><td>Action button</td><td>Opens a modal</td></tr>
+      <tr><td></td><td>Close</td><td>Can open a modal to confirm, then eases out back to the page before the flow</td></tr>
+      <tr><td>Progress tracker</td><td>Back</td><td>Current page slides to the right</td></tr>
+      <tr><td></td><td>Primary button</td><td>Page slides to the left and the progress moves to the next step</td></tr>
+      <tr><td></td><td>Progress fill</td><td>Ease out, 300ms between steps</td></tr>
+      <tr><td></td><td>Close</td><td>Intent-to-exit modal, then eases out back to the page before the flow</td></tr>
+    </tbody>
+  </table></div>
+  <p style="max-width:72ch;margin-top:16px">Scroll animations (default to scrolled) are for the iOS and Android apps only, not web mobile.</p>
+</section>
+
+<section class="doc-sec" id="content">
+  <h2 class="sec">Writing step labels</h2>
+  <p class="lede">The progress tracker needs custom step labels; write them with the Content team. Test any labels in US English and US Spanish, and if you can, in Dutch, Catalan and French.</p>
+  <div class="doc-dd" id="dd-content"></div>
+  <div class="doc-config" style="margin-top:32px">
+    <div><h3>Also</h3></div>
+    <div><ul>
+      <li>Avoid abbreviations and acronyms unless they're widely understood, like Info or Meds. If in doubt, spell it out.</li>
+      <li>With one dynamic step label, the value reads "Step N of N". It can use other units, such as "NN% completed".</li>
+      <li>Keep the Back label as "Back". If you must change it, keep it short, clear about where it goes, the same across the flow, and check it in Spanish.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="accessibility">
+  <h2 class="sec">Accessibility</h2>
+  <p class="lede">Using the header on a page still needs an annotated design review of the page-level design.</p>
+  <div class="doc-config">
+    <div><h3>Links or buttons</h3></div>
+    <div><ul><li>Code a menu item as a link if it goes to a new page, or a button if it acts on the current page.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Screen readers</h3></div>
+    <div><ul>
+      <li>Teams need to be able to change the screen reader text for the menu icon buttons.</li>
+      <li>On web, announce each menu item's state, "expanded" or "collapsed". Most screen readers also announce "List with N items" on the first item of an open menu.</li>
+      <li>Badges are read as part of the label, such as "Messages, 2 new".</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Order and size</h3></div>
+    <div><ul>
+      <li>On mobile, Back comes last in the screen's swipe order.</li>
+      <li>Tap targets are at least 44 × 44px.</li>
+      <li>The header renders as <code>&lt;header&gt;</code>, with the main nav as a <code>&lt;nav&gt;</code> named "Main", and the progress bar as a <code>progressbar</code>.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>type</code></td><td><code>"default" | "focused" | "progress"</code></td><td>Default <code>default</code>.</td></tr>
+      <tr><td><code>loggedIn</code></td><td><code>boolean</code></td><td>Default <code>true</code>. Signed out hides nav, utilities, the CTA and Close/Exit, and shows the country.</td></tr>
+      <tr><td><code>platform</code></td><td><code>"web" | "native"</code></td><td>Native drops the language menu.</td></tr>
+      <tr><td><code>scrolled</code></td><td><code>boolean</code></td><td>Mobile only: the condensed view.</td></tr>
+      <tr><td><code>layout</code></td><td><code>"desktop" | "mobile"</code></td><td>Forces a layout. By default it switches at 768px of its own width.</td></tr>
+      <tr><td><code>nav</code>, <code>utilities</code></td><td><code>NavItemProps[]</code></td><td><code>{ label, href?, onClick?, icon?, badge?, current? }</code></td></tr>
+      <tr><td><code>language</code>, <code>onLanguage</code></td><td><code>string</code>, <code>function</code></td><td>Language selector, web only.</td></tr>
+      <tr><td><code>country</code>, <code>onCountry</code></td><td><code>string</code>, <code>function</code></td><td>Signed-out pages.</td></tr>
+      <tr><td><code>cta</code></td><td><code>{ label, href?, onClick? }</code></td><td>Get care.</td></tr>
+      <tr><td><code>title</code></td><td><code>string</code></td><td>Mobile focused task title.</td></tr>
+      <tr><td><code>steps</code>, <code>currentStep</code>, <code>totalSteps</code>, <code>stepLabel</code></td><td><code>string[]</code>, <code>number</code>, <code>number</code>, <code>string</code></td><td><code>currentStep</code> is 0-based.</td></tr>
+      <tr><td><code>valueType</code>, <code>progress</code></td><td><code>"steps" | "percentage"</code>, <code>number</code></td><td><code>progress</code> is 0 to 1; it defaults to the current step.</td></tr>
+      <tr><td><code>onBack</code>, <code>backLabel</code></td><td><code>function | null</code>, <code>string</code></td><td><code>null</code> hides Back.</td></tr>
+      <tr><td><code>onClose</code>, <code>closeLabel</code></td><td><code>function | null</code>, <code>string</code></td><td><code>null</code> hides Close. Progress trackers say "Exit" by default.</td></tr>
+      <tr><td><code>logo</code>, <code>label</code>, <code>mobileLogoHeight</code></td><td><code>ReactNode</code>, <code>string</code>, <code>number</code></td><td>Logo and its link name.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Code vs. Figma.</strong>
+    <ul>
+      <li>Not in the code component yet: the secondary menu (CCM and Mental Health), the focused task Info button, search, and the expanded avatar list at 1024px.</li>
+      <li>The header switches between mobile and desktop at 768px of its own width. The 834, 1024 and 1140 steps aren't built.</li>
+      <li>The desktop focused header shows the full logo where Figma shows the Teladoc Health connector mark.</li>
+      <li>Nav items support default, hover, focus and current. Pressed and disabled aren't built, and mobile icon buttons have no forced states for docs.</li>
+      <li>Menus, the intent-to-exit modal and transitions (including the 300ms progress fill) are up to the page.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Global navigation</td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Global navigation</td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--pending">Pending</span></td><td>Global navigation</td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--pending">Pending</span></td><td>Global navigation</td></tr>
+      <tr><td>FlowUI</td><td>Not applicable</td><td>The global header is built in at a higher level of the member app.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Aug 20, 2026</td><td>v5.6.0</td><td><span class="doc-tag doc-tag--changed">Changed</span>Small Global-header style changes for the brand evolution.</td></tr>
+      <tr><td>Feb 18, 2026</td><td>v5.5.0</td><td><span class="doc-tag doc-tag--new">New</span>Global navigation: Global-header, Global-footer, Menu and Language-menu.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: Components › Navigation and menus › Global navigation › Global header (Mobile, Desktop, Content guidelines and Accessibility tabs), and the Global navigation Guidance page, in the Pulse Design System documentation. Every header on this page is the live <code>Pulse.GlobalHeader</code>.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = React.createElement, A = Anvil, G = A.GlobalHeader;
+  function render(id, el) { var n = document.getElementById(id); if (n) ReactDOM.createRoot(n).render(el); }
+  function cap(text, el) { return h("div", null, h("div", { className: "doc-cap" }, text), el); }
+  var noop = function () {};
+  var nav = [{ label: "Visits", href: "#types", current: true }, { label: "Health log", href: "#types" }, { label: "Learning", href: "#types" }];
+  var utils = [{ label: "Profile", icon: "profile", href: "#types" }, { label: "Messages", icon: "mail", badge: 2, href: "#types" }];
+  var steps = ["Health", "Meds", "Insurance", "Review"];
+  var base = { nav: nav, utilities: utils, language: "English", country: "USA", cta: { label: "Get care" }, title: "Blood pressure", steps: steps, currentStep: 1, onBack: noop, onClose: noop };
+  function gh(props) { return h(G, Object.assign({}, base, props)); }
+  function m(props) { return h("div", { className: "m" }, gh(Object.assign({ layout: "mobile" }, props))); }
+  function d(props) { return h("div", { className: "d" }, gh(Object.assign({ layout: "desktop" }, props))); }
+  function list(x) { return x && h("ul", null, x.map(function (s, i) { return h("li", { key: i }, s); })); }
+  function row(r, i) {
+    return h("div", { className: "doc-config", key: i },
+      h("div", null, h("h3", null, r.t), r.p && h("p", null, r.p), r.uh && h("p", { style: { marginTop: 8, fontWeight: 500, color: "var(--text-body-base)" } }, r.uh), list(r.li)),
+      h("div", { className: "types-stack" }, r.el),
+      r.wide && h("div", { className: "types-stack full" }, r.wide));
+  }
+
+  render("types-rows", h(React.Fragment, null, [
+    { t: "Default", p: "The default view on main pages, when people aren't in the middle of a task. Quick access to Profile, Messages, notifications, the language selector (web only), Get care, and an optional secondary menu.",
+      uh: "Use it for", li: ["Home, Visits, Health log, Learning", "Chronic Condition Management and Mental Health home, with the secondary menu"],
+      el: [cap("Mobile", m({}))], wide: [cap("Desktop", d({}))] },
+    { t: "Focused task", p: "For more detail about a feature, or extra context or tasks that continue from the previous flow.",
+      uh: "Use it for", li: ["Detail views of CCM data, such as blood pressure, blood sugar, steps and weight", "Editing a meal in the food logger", "Levels 1 and 2 of the navigation menu"],
+      el: [cap("Mobile", m({ type: "focused" }))], wide: [cap("Desktop", d({ type: "focused" }))] },
+    { t: "Progress tracker", p: "Keeps people on track through a step-by-step task across several screens, with steps or a percentage. Mainly for multi-form flows. It works like the standalone Progress tracker, built into the header.",
+      uh: "Use it for", li: ["Requesting a telehealth visit (RAV)", "Registration"],
+      el: [cap("Mobile", m({ type: "progress" }))], wide: [cap("Desktop", d({ type: "progress" }))] }
+  ].map(row)));
+
+  // Anatomy
+  var anat = [
+    ["a-m-default", m({}), [["1", ".anvil-gh__mobile .anvil-gh__m-left > :nth-child(1)", "top"], ["2", ".anvil-gh__mobile .anvil-gh__m-left > :nth-child(2)", "top"], ["3", ".anvil-gh__mobile .anvil-gh__m-right .anvil-icon-btn", "top"], ["4", ".anvil-gh__mobile .anvil-gh__cta", "top"]]],
+    ["a-m-focused", m({ type: "focused" }), [["1", ".anvil-gh__mobile .anvil-gh__m-row > :first-child", "top"], ["2", ".anvil-gh__mobile .anvil-gh__m-title", "top"], ["3", ".anvil-gh__mobile .anvil-gh__m-row > :last-child", "top"]]],
+    ["a-m-progress", m({ type: "progress" }), [["1", ".anvil-gh__mobile .anvil-gh__m-row > :first-child", "top"], ["2", ".anvil-gh__mobile .anvil-gh__m-title", "top"], ["3", ".anvil-gh__mobile .anvil-gh__m-row > :last-child", "top"], ["4", ".anvil-gh__mobile .anvil-gh__progress", "bottom"]]],
+    ["a-d-default", d({}), [["1", ".anvil-gh__desktop .anvil-gh__nav", "top"], ["2", ".anvil-gh__desktop .anvil-gh__utils > :nth-child(1)", "top"], ["3", ".anvil-gh__desktop .anvil-gh__utils > :nth-child(2)", "top"], ["4", ".anvil-gh__desktop .anvil-gh__actions .anvil-gh__text-btn", "top"], ["5", ".anvil-gh__desktop .anvil-gh__cta", "top"]]],
+    ["a-d-focused", d({ type: "focused" }), [["1", ".anvil-gh__desktop .anvil-gh__row > :first-child .anvil-btn", "top"], ["2", ".anvil-gh__desktop .anvil-gh__logo", "top"], ["3", ".anvil-gh__desktop .anvil-gh__end .anvil-btn", "top"]]],
+    ["a-d-progress", d({ type: "progress" }), [["1", ".anvil-gh__desktop .anvil-gh__row > .anvil-btn:first-child", "top"], ["2", ".anvil-gh__desktop .anvil-gh__step-labels", "top"], ["3", ".anvil-gh__desktop .anvil-gh__row > .anvil-btn:last-child", "top"], ["4", ".anvil-gh__desktop .anvil-gh__progress", "bottom"]]]
+  ];
+  anat.forEach(function (a) {
+    var host = document.getElementById(a[0]);
+    ReactDOM.createRoot(host).render(a[1].props.children);
+    (function tag(tries) {
+      if (!host.querySelector(".anvil-gh")) { if (tries < 40) setTimeout(function () { tag(tries + 1); }, 25); return; }
+      a[2].forEach(function (pt) { var el = host.querySelector(pt[1]); if (el) { el.setAttribute("data-m", pt[0]); el.setAttribute("data-at", pt[2]); } });
+    })(0);
+  });
+
+  // Signed out
+  var out = { loggedIn: false };
+  render("signed-out-rows", h(React.Fragment, null, [
+    { t: "Default", p: "Web mobile and desktop only.", li: ["Teladoc Health logo", "Country selector", "Language selector"],
+      el: [cap("Web (Mobile)", m(Object.assign({}, out)))], wide: [cap("Web (Desktop)", d(Object.assign({}, out)))] },
+    { t: "Focused task", li: ["Back button", "Page title (optional)", "Language selector, web only"],
+      el: [h("div", { className: "doc-row", key: "r" }, cap("Native: iOS and Android", m(Object.assign({ type: "focused", platform: "native" }, out))), cap("Web (Mobile)", m(Object.assign({ type: "focused" }, out))))] },
+    { t: "Progress tracker", p: "Web and native. No Close: signed-out flows can only go back.", li: ["Back button", "Step labels", "Linear progress bar"],
+      el: [cap("Mobile", m(Object.assign({ type: "progress" }, out)))], wide: [cap("Desktop", d(Object.assign({ type: "progress" }, out)))] }
+  ].map(row)));
+
+  // Variants
+  var NI = A.NavItem;
+  render("variants-rows", h(React.Fragment, null, [
+    { t: "Scrolled", p: "On mobile, the condensed view as people scroll down: shorter, smaller controls, count badges become dots, and the progress tracker keeps only “Step N of N”.",
+      el: [h("div", { className: "doc-row", key: "r" },
+        cap("Default", m({})), cap("Default, scrolled", m({ scrolled: true })),
+        cap("Focused task", m({ type: "focused" })), cap("Focused task, scrolled", m({ type: "focused", scrolled: true })),
+        cap("Progress tracker", m({ type: "progress" })), cap("Progress tracker, scrolled", m({ type: "progress", scrolled: true })))] },
+    { t: "Progress value type", p: "Show the steps, or the percentage completed.", li: ["Steps", "Percentage completed"],
+      el: [h("div", { className: "doc-row", key: "r" }, cap("Mobile, steps", m({ type: "progress" })), cap("Mobile, percentage", m({ type: "progress", valueType: "percentage", progress: 0.4 }))),
+], wide: [cap("Desktop, steps", d({ type: "progress" })), cap("Desktop, percentage", d({ type: "progress", valueType: "percentage", progress: 0.4 }))] },
+    { t: "Web nav item states", p: "Nav items link to other pages. Figma also has Pressed and Disabled.", li: ["Default", "Hover", "Focus", "Current"],
+      el: [h("div", { className: "states", key: "s" },
+        cap("Default", h(NI, { label: "Visits", href: "#variants" })), cap("Hover", h(NI, { label: "Visits", href: "#variants", state: "hover" })),
+        cap("Focus", h(NI, { label: "Visits", href: "#variants", state: "focus" })), cap("Current", h(NI, { label: "Visits", href: "#variants", current: true })),
+        cap("Utility, count badge", h(NI, { label: "Messages", icon: "mail", badge: 2, href: "#variants" })), cap("Utility, dot badge", h(NI, { label: "Messages", icon: "mail", badge: true, href: "#variants" })),
+        cap("Utility, no badge", h(NI, { label: "Profile", icon: "profile", href: "#variants" })))] }
+  ].map(row)));
+
+  // Do / Don't
+  var verdicts = { "do": ["Do", "check-circle"], "dont": ["Don’t", "close-circle"], "caution": ["Caution", "alert-triangle"] };
+  function dd(kind, text, stage) {
+    var v = verdicts[kind];
+    return h("figure", { className: "dd dd--" + kind, style: { margin: 0 } }, h("div", { className: "dd-stage" }, stage), h("div", { className: "dd-bar" }),
+      h("figcaption", null, h("span", { className: "dd-verdict" }, h(A.Icon, { name: v[1], size: 16 }), v[0]), h("p", null, text)));
+  }
+  var modal = h("div", { style: { background: "var(--background-surface)", border: "1px solid var(--stroke-base)", borderRadius: 16, padding: 20, boxShadow: "var(--elevation)", maxWidth: 320, margin: "0 auto" } },
+    h("div", { style: { fontWeight: 600, fontSize: 18, lineHeight: "24px" } }, "Leave your visit request?"),
+    h("p", { style: { margin: "8px 0 16px", fontSize: 14, lineHeight: "20px", color: "var(--text-body-subdued)" } }, "Your answers won’t be saved."),
+    h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } }, h(A.Button, null, "Keep going"), h(A.Button, { variant: "tertiary" }, "Leave")));
+  render("dd-guidance", h(React.Fragment, null,
+    dd("do", "On every platform, make Close or Exit open an intent-to-exit modal or notice, so people don’t leave by accident.", [h("div", { key: 1, className: "m", style: { margin: "0 auto" } }, gh({ layout: "mobile", type: "progress" })), h(React.Fragment, { key: 2 }, modal)])
+  ));
+
+  var dsk = function (s) { return d({ type: "progress", steps: s, currentStep: 1 }); };
+  render("dd-content", h(React.Fragment, null,
+    dd("do", "Be succinct. One word per step is ideal, since translations are often longer. With more words, check mobile, where labels truncate at around 8 to 12 characters.", dsk(["Health", "Meds", "Insurance", "Review"])),
+    dd("dont", "Don’t add words people don’t need.", dsk(["Tell us about your health", "Your current medications", "Insurance details", "Review and submit"])),
+    dd("do", "Give each step its own words.", dsk(["Health", "Meds", "Insurance", "Review"])),
+    dd("dont", "Don’t repeat the same words across labels.", dsk(["Your health", "Your meds", "Your insurance", "Your review"])),
+    dd("do", "Follow one pattern, such as nouns for every step.", dsk(["Symptoms", "Provider", "Time", "Payment"])),
+    dd("dont", "Don’t mix nouns and verbs.", dsk(["Symptoms", "Pick a provider", "Time", "Pay"]))
+  ));
+})();
+</script>
+<script src="site/site.js?v=20261112i"></script>
+</body>
+</html>

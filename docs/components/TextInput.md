@@ -13,7 +13,7 @@ Text input lets people write or edit a single line of text, with an optional uni
 - **Helper** (`helper`): 14/20 in `form-input-label-text-helper`. Use it for format hints, not instructions that must be read.
 - **Control:** 44px tall (`form-input-control-height`), 12px padding, `form-input-control-radius` corners, 1px `form-input-control-stroke-default` outline.
 - **Unit** (`unit`, `unitPosition`): placeholder-colored text before or after the value, such as `$` or `lbs`.
-- **Icon** (`icon`): any Anvil icon name, shown before the text, such as `search`.
+- **Icon** (`icon`): any Pulse icon name, shown before the text, such as `search`.
 - **Inline message** (`message`): appears under the control with a status icon.
 
 ## States

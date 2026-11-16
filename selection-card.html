@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selection card · Pulse</title>
+<meta name="description" content="Selection card guidelines for Pulse: when to use it, anatomy, radio and checkbox types, body options, states, groups, placement, interaction, accessibility, props and changelog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261106c"></script>
+<script src="site/doc.js?v=20261115a"></script>
+<style>
+  /* Selection card page only. Shared doc styles are in site/doc.css. */
+  .doc-anatomy .doc-stage { padding: 56px 72px 40px; }
+  .doc-anatomy .doc-stage > * { width: 340px; }
+  .sc-stack { display: grid; gap: 12px; width: 100%; max-width: 358px; }
+  .sc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px 24px; }
+  .ph { border: 1px dashed var(--stroke-base); border-radius: 8px; padding: 8px 10px; font-size: 13px; line-height: 20px; color: var(--text-body-subdued); background: var(--background-subdued); }
+  .pharm { display: grid; gap: 2px; font-size: 14px; line-height: 20px; color: var(--text-body-subdued); }
+  .tt .anvil-sc { outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 4px; }
+  fieldset.sc-group { border: 0; margin: 0; padding: 0; min-width: 0; }
+  fieldset.sc-group legend { padding: 0; margin-bottom: 12px; font-weight: 600; font-size: 16px; line-height: 22px; }
+  .centered { display: flex; justify-content: center; width: 100%; }
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#SelectionCard">Form</a> / Selection card</p>
+<span class="doc-status doc-status--ok">Available · Figma, React, iOS, Android</span>
+<h1 class="page-title" style="margin-top:12px">Selection card</h1>
+<p class="lede">Selection card wraps a radio button or a checkbox with custom content, so choices carry more visual weight in step-by-step flows. Use it when people need supporting information about each option to decide.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.SelectionCard</code><a class="pg-link" href="checkbox-input.html">Checkbox input</a><a class="pg-link" href="playground.html#SelectionCard">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#usage">Usage</a><a href="#anatomy">Anatomy</a><a href="#variants">Variants</a><a href="#groups">Groups</a><a href="#placement">Placement</a><a href="#interaction">Interaction</a><a href="#accessibility">Accessibility</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<section class="doc-sec" id="usage">
+  <h2 class="sec">Usage</h2>
+  <p class="lede">Radio selection cards let people pick one option from a group. Checkbox selection cards let them pick several.</p>
+  <div class="doc-config">
+    <div><h3>Use it when</h3></div>
+    <div><ul><li>There are only a few options</li><li>Each option needs supporting content beyond a short description</li><li>People need to see every option and its details at once</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Don't use it when</h3></div>
+    <div><ul><li>There are many options: consider Advanced select.</li><li>Options don't need more than a short description: consider a Select input or Advanced select.</li><li>There isn't room to show every option: consider a Select input or Advanced select.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Product usage</h3></div>
+    <div><ul><li>Service requests: member name, age, assigned gender at birth</li><li>Choosing a pharmacy: name, address, distance and hours</li><li>Payment method: card number, issuer and expiration date</li></ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="anatomy">
+  <h2 class="sec">Anatomy</h2>
+  <div class="doc-anatomy" style="margin-top:24px">
+    <div class="doc-stage anat" id="anat"></div>
+    <ol class="doc-legend">
+      <li><b>1</b><div><span>Title</span><small>Required.</small></div></li>
+      <li><b>2</b><div><span>Body</span><small>Optional. A description by default.</small></div></li>
+      <li><b>3</b><div><span>Radio</span><small>The default.</small></div></li>
+    </ol>
+  </div>
+  <div class="doc-anatomy" style="margin-top:24px">
+    <div class="doc-stage anat" id="anat-custom"></div>
+    <ol class="doc-legend">
+      <li><b>4</b><div><span>Checkbox</span><small>When the checkbox type is on.</small></div></li>
+      <li><b>5</b><div><span>Custom body</span><small>Optional. Placeholder content you can swap for custom content or other components.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="doc-sec" id="variants">
+  <h2 class="sec">Variants and options</h2>
+  <div id="variant-rows" style="margin-top:24px"></div>
+</section>
+
+<section class="doc-sec" id="groups">
+  <h2 class="sec">Groups</h2>
+  <div class="doc-dd" id="dd-groups"></div>
+</section>
+
+<section class="doc-sec" id="placement">
+  <h2 class="sec">Placement</h2>
+  <p class="lede">On web and mobile, center selection cards in their parent container.</p>
+  <div class="doc-stage" id="placement-demo" style="margin-top:16px"></div>
+</section>
+
+<section class="doc-sec" id="interaction">
+  <h2 class="sec">Interaction</h2>
+  <p class="lede">Selection cards can be single- or multi-select: people must pick exactly one, at least one, or up to a set number.</p>
+  <div id="interaction-rows" style="margin-top:16px"></div>
+</section>
+
+<section class="doc-sec" id="accessibility">
+  <h2 class="sec">Accessibility</h2>
+  <p class="lede">Using selection cards on a page still needs an annotated design review of the page-level design.</p>
+  <div class="doc-config">
+    <div><h3>Keyboard</h3></div>
+    <div><ul><li>Tab to the group, then use the arrow keys to move between options.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Screen readers</h3></div>
+    <div><ul>
+      <li>Every visible text must be announced.</li>
+      <li>For radio cards, VoiceOver says "selected" or "unselected", and NVDA and JAWS say "checked" or "not checked".</li>
+      <li>Groups are announced differently: VoiceOver says "Radio group", NVDA "Grouping" and JAWS "Group".</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>In code</h3></div>
+    <div><ul>
+      <li>Each card is a <code>&lt;label&gt;</code> around a native radio or checkbox input, so the whole card is clickable and keyboard behavior comes from the browser.</li>
+      <li>Wrap a group in a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code>, and give radio cards the same <code>name</code>.</li>
+      <li>An error <code>message</code> is linked to the card with <code>aria-describedby</code>.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>type</code></td><td><code>"radio" | "checkbox"</code></td><td>Default <code>radio</code>.</td></tr>
+      <tr><td><code>title</code></td><td><code>ReactNode</code></td><td>Required.</td></tr>
+      <tr><td><code>description</code>, <code>children</code></td><td><code>ReactNode</code></td><td>The body. <code>children</code> replaces the description with custom content.</td></tr>
+      <tr><td><code>checked</code>, <code>defaultChecked</code>, <code>onChange</code>, <code>name</code>, <code>value</code></td><td></td><td></td></tr>
+      <tr><td><code>error</code>, <code>message</code></td><td><code>boolean</code>, <code>ReactNode</code></td><td>Error styling, and an inline message under the card.</td></tr>
+      <tr><td><code>disabled</code>, <code>readOnly</code></td><td><code>boolean</code></td><td>Read-only is the view-only state, with a lock.</td></tr>
+      <tr><td><code>state</code></td><td><code>"hover" | "focus"</code></td><td>Forces a state, for docs.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Code vs. Figma.</strong>
+    <ul>
+      <li>There's no group component in code, unlike iOS (PulseSelectionCardGroup) and Android (SelectionCardGroup). Group the cards yourself, and put the error message on the last card.</li>
+      <li>Selection limits, such as "at least one" or "up to 3", are up to the page.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Selection-card</td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>SelectionCard</td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>PulseSelectionCardGroup</td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>SelectionCardGroup</td></tr>
+      <tr><td>FlowUI</td><td><span class="doc-tag doc-tag--new">Available</span> <span class="doc-tag doc-tag--pending">Pending features</span></td><td>SelectionCardGroup</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Apr 23, 2025</td><td>v5.0.0</td><td>Pulse 5: color, type and space variable updates for all components.<ul><li><span class="doc-tag doc-tag--changed">Changed</span>Selected, hover and focus backgrounds match the chip</li><li><span class="doc-tag doc-tag--changed">Changed</span>Hover and focus text match the chip</li></ul></td></tr>
+      <tr><td>Mar 20, 2024</td><td>v4.0.0</td><td><span class="doc-tag doc-tag--changed">Changed</span>Property names and types aligned with other components. A title is required. Hover and focus match other form inputs. Error spacing matches other form inputs, which changes the height.</td></tr>
+      <tr><td>Sep 19, 2023</td><td>v3.9.0</td><td><span class="doc-tag doc-tag--new">New</span>Selection card, large (web desktop) and small (web mobile, iOS, Android), with radio or checkbox, default, hover, focus, error, disabled and view-only states, selected variants, and swappable nested components.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: Components › Form › Selection card (Usage, Accessibility, React, and Status and changelog tabs) in the Pulse Design System documentation. Every card on this page is the live <code>Pulse.SelectionCard</code>.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = Doc.h, cap = Doc.cap, dd = Doc.dd, A = Anvil, S = A.SelectionCard;
+  var n = 0; function nm() { return "g" + (n++); }
+
+  Doc.render("anat", h(S, { title: "Video visit", description: "Talk to a provider from home, usually within an hour.", defaultChecked: true }));
+  Doc.tag("anat", [["1", ".anvil-sc__title", "left"], ["2", ".anvil-sc__body", "left"], ["3", ".anvil-sc__radio", "right"]]);
+  var pharm = h("span", { className: "pharm" }, h("span", null, "1200 Market St, San Francisco"), h("span", null, "0.4 mi · Open until 9 PM"));
+  Doc.render("anat-custom", h(S, { type: "checkbox", title: "Walgreens", defaultChecked: true }, pharm));
+  Doc.tag("anat-custom", [["4", ".anvil-sc__box", "right"], ["5", ".anvil-sc__body", "left"]]);
+
+  var stateList = [["Default", {}], ["Hover", { state: "hover" }], ["Focus", { state: "focus" }], ["Error", { error: true }], ["Disabled", { disabled: true }], ["View-only", { readOnly: true }]];
+  function states(type) {
+    return h("div", { className: "sc-grid" }, stateList.map(function (s) {
+      return h(React.Fragment, { key: s[0] },
+        cap(s[0], h(S, Object.assign({ type: type, title: "Title", description: "Description", name: nm() }, s[1]))),
+        cap(s[0] + ", selected", h(S, Object.assign({ type: type, title: "Title", description: "Description", defaultChecked: true, name: nm() }, s[1]))));
+    }));
+  }
+  Doc.rows("variant-rows", [
+    { t: "Radio and checkbox", ol: ["Radio, at the trailing end (default)", "Checkbox, at the trailing end"],
+      el: [cap("Radio", h(S, { title: "Title", description: "Description", name: nm() }), { key: 1 }), cap("Checkbox", h(S, { type: "checkbox", title: "Title", description: "Description" }), { key: 2 })] },
+    { t: "Selected", ol: ["Radio, not selected (default)", "Radio, selected", "Checkbox, not selected (default)", "Checkbox, selected"],
+      el: [cap("Radio", h(S, { title: "Title", description: "Description", name: nm() }), { key: 1 }), cap("Radio, selected", h(S, { title: "Title", description: "Description", defaultChecked: true, name: nm() }), { key: 2 }),
+           cap("Checkbox", h(S, { type: "checkbox", title: "Title", description: "Description" }), { key: 3 }), cap("Checkbox, selected", h(S, { type: "checkbox", title: "Title", description: "Description", defaultChecked: true }), { key: 4 })] },
+    { t: "Body", p: "Both types can show body text or custom content.", ol: ["Body shown (default)", "Body hidden: title only", "Body replaced with custom content"],
+      el: [cap("Body", h(S, { title: "Title", description: "Description", name: nm() }), { key: 1 }), cap("Title only", h(S, { title: "Title", name: nm() }), { key: 2 }),
+           cap("Custom content", h(S, { title: "Title", name: nm() }, h("span", { className: "ph" }, "Placeholder for custom content")), { key: 3 })] },
+    { t: "States, radio", ol: ["Default", "Hover", "Focus", "Error", "Disabled", "View-only"], stack: true, el: [h("div", { key: 1 }, states("radio"))] },
+    { t: "States, checkbox", ol: ["Default", "Hover", "Focus", "Error", "Disabled", "View-only"], stack: true, el: [h("div", { key: 1 }, states("checkbox"))] }
+  ]);
+
+  var g = nm();
+  Doc.render("dd-groups", h(React.Fragment, null,
+    dd("do", "In a group with an error, every card shows the error, and only the last one shows the inline message.",
+      h("fieldset", { className: "sc-group sc-stack" }, h("legend", null, "Who is this visit for?"),
+        h(S, { title: "Me", name: g, error: true }), h(S, { title: "My child", name: g, error: true }), h(S, { title: "Someone else", name: g, error: true, message: "Choose who the visit is for." }))),
+    dd("dont", "Don’t mix radio and checkbox cards. A group is all radio buttons or all checkboxes.",
+      h("div", { className: "sc-stack" }, h(S, { title: "Me", name: "mix" }), h(S, { type: "checkbox", title: "My child" }), h(S, { title: "Someone else", name: "mix" })))
+  ));
+
+  var p = nm();
+  Doc.render("placement-demo", h("div", { className: "centered" }, h("fieldset", { className: "sc-group sc-stack" }, h("legend", null, "Choose a pharmacy"),
+    h(S, { title: "Walgreens", name: p, defaultChecked: true }, pharm),
+    h(S, { title: "CVS Pharmacy", name: p }, h("span", { className: "pharm" }, h("span", null, "731 Market St, San Francisco"), h("span", null, "0.7 mi · Open 24 hours"))))));
+
+  function Limited() {
+    var st = React.useState(["Sleep"]), v = st[0], set = st[1], max = 2;
+    var opts = ["Sleep", "Stress", "Nutrition", "Activity"];
+    return h("fieldset", { className: "sc-group sc-stack" }, h("legend", null, "Pick up to 2 goals"),
+      opts.map(function (o) {
+        var on = v.indexOf(o) > -1;
+        return h(S, { key: o, type: "checkbox", title: o, checked: on, disabled: !on && v.length >= max,
+          onChange: function (e) { set(e.target.checked ? v.concat(o) : v.filter(function (x) { return x !== o; })); } });
+      }));
+  }
+  var s = nm();
+  Doc.rows("interaction-rows", [
+    { t: "Tap target", p: "The whole card is the tap target, for every variant except disabled and view-only, which aren’t interactive.",
+      el: [h("div", { key: 1, className: "tt sc-stack", style: { padding: 4 } }, h(S, { title: "Video visit", description: "Talk to a provider from home.", name: nm() }))] },
+    { t: "Single select", p: "Like radio inputs: one card in the group is selected at a time, and picking another moves the selection.",
+      el: [h("fieldset", { key: 1, className: "sc-group sc-stack" }, h("legend", null, "Visit type"),
+        h(S, { title: "Video visit", description: "From home, usually within an hour.", name: s, defaultChecked: true }), h(S, { title: "Phone visit", description: "A provider calls you.", name: s }))] },
+    { t: "Multi-select", p: "Like checkboxes: several cards can be selected. People may need to pick at least one, or no more than a set number. Try it.",
+      el: [h(Limited, { key: 1 })] }
+  ]);
+})();
+</script>
+<script src="site/site.js?v=20261112i"></script>
+</body>
+</html>

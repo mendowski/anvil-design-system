@@ -507,7 +507,7 @@
     var eyebrow = h("div", { className: "anvil-visit__eyebrow" },
       h("span", null, label),
       icon && h("span", { className: "anvil-visit__icon" }, h(Icon, { name: icon, size: 12, title: p.iconLabel })));
-    var arrow = (p.arrow || p.href) && !prominent && h("span", { className: "anvil-visit__arrow", "aria-hidden": "true" }, h(Icon, { name: "arrow-right", size: 16 }));
+    var arrow = (p.arrow || p.href) && !prominent && type !== "custom" && h("span", { className: "anvil-visit__arrow", "aria-hidden": "true" }, h(Icon, { name: "arrow-right", size: 16 }));
     var info = h("div", { className: "anvil-visit__info" },
       h("div", { className: "anvil-visit__header" },
         h("div", { className: "anvil-visit__titles" }, eyebrow, h(Heading, { className: "anvil-visit__title" }, title)),
@@ -1425,4 +1425,6 @@
 
 
   window.Anvil = { BarChart: BarChart, LineChart: LineChart, RadialChart: RadialChart, FloatingColumns: FloatingColumns, ChartTooltip: ChartTooltip, ChartLegend: ChartLegend, ChartEmpty: ChartEmpty, ChartTitle: ChartTitle, ChartSummary: ChartSummary, DataPoint: DataPoint, Button: Button, Logo: Logo, Connector: Connector, VisitCard: VisitCard, NavList: NavList, NavListItem: NavListItem, Icon: Icon, PlusIcon: PlusIcon, TextInput: TextInput, PasswordInput: PasswordInput, Checkbox: Checkbox, CheckboxGroup: CheckboxGroup, SelectionCard: SelectionCard, Slider: Slider, Card: Card, GlobalHeader: GlobalHeader, GlobalFooter: GlobalFooter, TabItem: TabItem, Illustration: Illustration, InlineMessage: InlineMessage, Badge: Badge, IconButton: IconButton, NavItem: NavItem };
+  // Pulse was the system's original name. Both names point to the same library, so Pulse.Button and Anvil.Button both work.
+  window.Pulse = window.Anvil;
 })();

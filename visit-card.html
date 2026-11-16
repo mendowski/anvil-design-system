@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visit card · Pulse Components</title>
+<meta name="description" content="Visit card guidelines for Pulse 5.7.0: what changed, anatomy, content, prominent and canceled visits, action configurations and tap targets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261106c"></script>
+<style>
+  /* Visit card page only. Shared doc styles are in site/doc.css. */
+  .anat [data-m="A"]::after { left: -38px; top: 50%; transform: translateY(-50%); }
+  .anat [data-m="B"]::after, .anat [data-m="C"]::after { left: 50%; top: -34px; transform: translateX(-50%); }
+  .anat [data-m="D"]::after, .anat [data-m="E"]::after { right: -42px; top: 50%; transform: translateY(-50%); }
+  .tap .anvil-visit--linked .anvil-visit__main { position: relative; outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: -2px; border-radius: var(--radius-150) var(--radius-150) 0 0; }
+  .tap .anvil-visit--linked .anvil-visit__main::before { content: "Main action"; position: absolute; right: 0; top: -24px; white-space: nowrap; font: 500 11px/16px var(--font-sans); padding: 1px 6px; border-radius: 4px;
+    background: var(--brand-interactive-primary-base); color: var(--background-surface); pointer-events: none; }
+
+  /* Before (v1) cards: static recreation of the old Visit-card for comparison */
+  .v1 { box-sizing: border-box; background: var(--background-surface); border: 1px solid var(--stroke-subdued); border-radius: var(--radius-150); overflow: hidden; font-family: var(--font-sans); color: var(--text-body-base); }
+  .v1__top { display: flex; gap: 12px; padding: 16px; }
+  .v1__pill { display: inline-block; margin: 16px 16px 0; font-size: 12px; font-weight: 500; line-height: 20px; padding: 2px 8px; border-radius: 6px; background: var(--background-subdued); }
+  .v1__date { width: 54px; flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 2px; border-radius: 8px; background: var(--brand-human-care-background-subdued); color: var(--brand-human-care-text); font-size: 13px; line-height: 18px; }
+  .v1__date b { font-size: 18px; line-height: 24px; font-weight: 700; }
+  .v1--past .v1__date { background: var(--visit-card-background-disabled); color: var(--visit-card-text-disabled); }
+  .v1__eyebrow { display: flex; gap: 6px; align-items: center; font-size: 12px; line-height: 16px; color: var(--text-body-subdued); }
+  .v1__time { font-size: 18px; line-height: 24px; font-weight: 600; margin: 4px 0 2px; }
+  .v1__desc { font-size: 12px; line-height: 20px; color: var(--text-header-eyebrow); }
+  .v1__foot { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 16px 16px; background: var(--background-subdued); }
+  .v1__foot .anvil-btn:not(.anvil-btn--tertiary) { align-self: stretch; }
+  .v1--featured { max-width: 560px; }
+  .v1--featured .v1__foot { flex-direction: row; justify-content: flex-start; }
+  .v1--featured .v1__foot .anvil-btn { align-self: auto; }
+
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#VisitCard">Containers</a> / Visit card</p>
+<span class="doc-status">Under development · Pulse 5.7.0</span>
+<h1 class="page-title" style="margin-top:12px">Visit card</h1>
+<p class="lede">Visit card shows one of the member's visits: past, requested, today's or upcoming. Each card shows the date and time, the provider and the care type, and can add details such as coverage, copay or a cancellation fee, with up to three actions.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.VisitCard</code><a class="pg-link" href="playground.html#VisitCard">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#changes">What changed</a><a href="#anatomy">Anatomy</a><a href="#content">Content</a><a href="#prominent">Prominent</a><a href="#canceled">Canceled</a><a href="#actions">Actions</a><a href="#tap-targets">Tap targets</a><a href="#deprecated">Deprecated</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<!-- 1. What changed -->
+<section class="doc-sec" id="changes">
+  <h2 class="sec">What changed in 5.7.0</h2>
+  <p class="lede">Visit-card-v2 replaces Visit-card. The content is reorganized around the provider, the footer is lighter, and two new properties cover prominent and canceled visits.</p>
+  <ul class="doc-changes">
+    <li><span class="doc-tag doc-tag--changed">Changed</span>Content restructured; care type and description merged into one field</li>
+    <li><span class="doc-tag doc-tag--new">New</span><code>prominent</code> property for more emphasis on today and tomorrow</li>
+    <li><span class="doc-tag doc-tag--new">New</span><code>canceled</code> property</li>
+    <li><span class="doc-tag doc-tag--new">New</span>Arrow indicator for the card's main action</li>
+    <li><span class="doc-tag doc-tag--changed">Changed</span>Button usage: small tertiary buttons in the footer</li>
+    <li><span class="doc-tag doc-tag--changed">Changed</span>Border color, elevation and border radius</li>
+    <li><span class="doc-tag doc-tag--changed">Changed</span>Text styles and color usage</li>
+    <li><span class="doc-tag doc-tag--removed">Removed</span>Property to turn off the description and main content</li>
+    <li><span class="doc-tag doc-tag--removed">Deprecated</span><code>featured</code> property</li>
+  </ul>
+  <span class="doc-label">Now: Visit-card-v2 (live component)</span>
+  <div class="doc-row" id="now"></div>
+  <span class="doc-label">Before: Visit-card</span>
+  <div class="doc-row" id="before"></div>
+</section>
+
+<!-- 2. Anatomy -->
+<section class="doc-sec" id="anatomy">
+  <h2 class="sec">Anatomy</h2>
+  <p class="lede">The biggest changes are to the time and the care type. Time now sits on its own above the header, and the header holds the provider's name. Care type is no longer a separate field: product teams include it in the description.</p>
+  <div class="doc-anatomy">
+    <div class="doc-stage anat" id="anatomy-card"></div>
+    <ol class="doc-legend">
+      <li><b>A</b><div><span>Date</span><small>Month and day; past visits add the year.</small></div></li>
+      <li><b>B</b><div><span>Time, without time zone</span><small>Previously in the header.</small></div></li>
+      <li><b>C</b><div><span>Care icon</span><small>Video, phone and so on. Give it an accessible name.</small></div></li>
+      <li><b>D</b><div><span>Header</span><small>Previously the time. Now the provider's name.</small></div></li>
+      <li><b>E</b><div><span>Description</span><small>Previously two separate fields for care type and description.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 3. Content -->
+<section class="doc-sec" id="content">
+  <h2 class="sec">Content</h2>
+  <p class="lede">The description can run to several lines: who the visit is for, fees, or what happens next. Product teams need to be able to add each of these.</p>
+  <div class="doc-row" id="content-examples" style="margin-top:24px"></div>
+  <ul style="margin-top:24px;max-width:72ch">
+    <li>Write the header as the provider's name and credential, such as "Anita Sharma, MD". For requests without a provider yet, describe who they'll see: "First available care provider".</li>
+    <li>Start the description with the care type. Add one fact per line after it.</li>
+    <li>Show the time without a time zone.</li>
+    <li>Keep button labels to a short verb phrase: "Modify", "View invoice", "Cancel request".</li>
+  </ul>
+</section>
+
+<!-- 4. Prominent -->
+<section class="doc-sec" id="prominent">
+  <h2 class="sec">Prominent visit cards</h2>
+  <p class="lede">The new <code>prominent</code> property adds emphasis to Upcoming and Today cards. It puts the time first instead of the date, and is meant for visits in the next 48 hours: today and tomorrow.</p>
+  <p class="lede">Show "Today" or "Tomorrow" by comparing the visit date with the current date. Past and Custom types have no prominent style and look the same as usual.</p>
+  <div class="doc-row" id="prominent-examples" style="margin-top:24px"></div>
+  <h3 style="margin-top:40px">As soon as possible</h3>
+  <p class="lede">A prominent Today or Upcoming visit can be requested for "as soon as possible" instead of a set time. Put "ASAP" in the time.</p>
+  <div class="doc-row" id="asap-examples" style="margin-top:16px"></div>
+</section>
+
+<!-- 5. Canceled -->
+<section class="doc-sec" id="canceled">
+  <h2 class="sec">Canceled visits</h2>
+  <p class="lede">The new <code>canceled</code> property adds "Canceled" under the description. It works on Past, Upcoming, Today and Custom cards.</p>
+  <p class="lede">Prominent cards never show it. Prominent cards only appear in the to-do (ephemeral) section, and a canceled visit leaves that section, so it's never prominent.</p>
+  <div class="doc-row" id="canceled-examples" style="margin-top:24px"></div>
+</section>
+
+<!-- 6. Action configurations -->
+<section class="doc-sec" id="actions">
+  <h2 class="sec">Action configurations</h2>
+  <p class="lede">A visit card holds up to three actions. Which ones, and how they look, depends on the type. Inline tertiary buttons wrap to a new line when the labels don't fit on one.</p>
+  <div id="config" style="margin-top:24px"></div>
+</section>
+
+<!-- 7. Tap targets -->
+<section class="doc-sec" id="tap-targets">
+  <h2 class="sec">Tap targets</h2>
+  <p class="lede">Each button has its own tap target, as a button or a link. When the card has a main action, the area above the buttons is the tap target for that action. Past, Upcoming and Today cards show the arrow for it; Custom cards can have a main action but never show the arrow. Prominent cards don't support a main action, so only their buttons are interactive.</p>
+  <div class="doc-row tap" id="tap-examples" style="margin-top:16px"></div>
+</section>
+
+<!-- 8. Deprecated -->
+<section class="doc-sec" id="deprecated">
+  <h2 class="sec">Deprecated: featured</h2>
+  <p class="lede">The <code>featured</code> property is deprecated, and the card no longer has a max width. Featured only applied to web. To call out the next visit, use a prominent card instead.</p>
+  <div class="doc-row" style="grid-template-columns:minmax(0,560px) minmax(0,358px);margin-top:16px">
+    <div><div class="doc-cap">Before: featured (web only)</div><div id="featured-before"></div></div>
+    <div><div class="doc-cap">Now: prominent, with a primary button</div><div id="featured-now"></div></div>
+  </div>
+</section>
+
+<!-- 9. Props -->
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>type</code></td><td><code>"upcoming" | "today" | "past" | "custom"</code></td><td>Default <code>upcoming</code>.</td></tr>
+      <tr><td><code>prominent</code></td><td><code>boolean</code></td><td>Upcoming and Today only. Left bar, no date block, time pill.</td></tr>
+      <tr><td><code>label</code></td><td><code>string</code></td><td>Eyebrow text. Defaults to the time, "Today" or "Tomorrow" when prominent, or "Custom label".</td></tr>
+      <tr><td><code>month</code>, <code>day</code>, <code>year</code>, <code>time</code></td><td><code>string</code></td><td><code>year</code> shows on past visits only.</td></tr>
+      <tr><td><code>header</code></td><td><code>ReactNode</code></td><td>The provider. Required.</td></tr>
+      <tr><td><code>description</code></td><td><code>ReactNode</code></td><td>Care type first, then any extra lines.</td></tr>
+      <tr><td><code>icon</code>, <code>iconLabel</code></td><td><code>IconName | null</code>, <code>string</code></td><td>Default <code>video</code>; <code>null</code> hides it.</td></tr>
+      <tr><td><code>canceled</code>, <code>canceledLabel</code></td><td><code>boolean</code>, <code>string</code></td><td>Adds "Canceled" in <code>text-status-critical</code>. Ignored on prominent cards.</td></tr>
+      <tr><td><code>actions</code></td><td><code>{ label, href?, onClick? }[]</code></td><td>Two at most, three for Custom.</td></tr>
+      <tr><td><code>footerStyle</code></td><td><code>"default" | "prominent"</code></td><td>Prominent cards: the first action becomes a full-width primary button.</td></tr>
+      <tr><td><code>href</code>, <code>onClick</code>, <code>arrow</code></td><td><code>string</code>, <code>function</code>, <code>boolean</code></td><td>The main action. Shows the arrow, except on custom cards. Prominent cards ignore it.</td></tr>
+      <tr><td><code>headingAs</code>, <code>as</code></td><td><code>"h2" | "h3" | "h4"</code>, <code>"article" | "li" | "div"</code></td><td>Defaults <code>h3</code> and <code>article</code>.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Code vs. Figma.</strong> With <code>href</code>, the hit area covers the whole card, with the buttons layered above it. Figma limits it to the area above the buttons. The eyebrow and date use <code>brand-human-care-*</code> tokens, which replace Figma's status-branded colors.</div>
+</section>
+
+<!-- 10. Status and changelog -->
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Visit-card-v2</th><th>Previous version</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Visit-card-v2</td><td>Visit-card <span class="doc-tag doc-tag--removed">Deprecated</span></td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>VisitCardV2</td><td>VisitCard <span class="doc-tag doc-tag--removed">Deprecated</span></td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>PulseVisitCardV2</td><td>PulseVisitCard <span class="doc-tag doc-tag--removed">Deprecated</span></td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Visit-card-v2</td><td>VisitCard <span class="doc-tag doc-tag--removed">Deprecated</span></td></tr>
+      <tr><td>FlowUI</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Not planned for FlowUI</td><td>Visit Card <span class="doc-tag doc-tag--removed">Deprecated</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Aug 20, 2026</td><td>v5.6.0</td><td><span class="doc-tag doc-tag--new">New</span>Visit-card-v2 released for all platforms.<br><span class="doc-tag doc-tag--removed">Deprecated</span>The previous Visit card. It will be removed in a future release.</td></tr>
+      <tr><td>Aug 29, 2025</td><td>v5.3.0</td><td><span class="doc-tag doc-tag--new">New</span>Initial release.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: the "Pulse 5.7.0 updates" frame on the Visit card page of <a href="https://www.figma.com/design/kIVvmdNSeeK60TS3Z82K2N/Anvil_-Components?node-id=73787-3574">Pulse Components in Figma</a>, and Components › Content display › Visit card (Status and changelog) in the Pulse Design System documentation. Every card on this page is the live <code>Pulse.VisitCard</code> except the "Before" cards, which recreate the old Visit-card.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = React.createElement, V = Anvil.VisitCard, B = Anvil.Button, I = Anvil.Icon;
+  var base = { month: "Apr", day: "30", year: "2024", time: "11:00 AM", header: "Doctor name, MD", description: "Care type", iconLabel: "Video visit" };
+  var b2 = [{ label: "Button 1" }, { label: "Button 2" }];
+  var b3 = b2.concat([{ label: "Button 3" }]);
+  function card(props) { return h(V, Object.assign({}, base, props)); }
+  function cap(text, el) { return h("div", null, h("div", { className: "doc-cap" }, text), el); }
+  function render(id, el) { var n = document.getElementById(id); if (n) ReactDOM.createRoot(n).render(el); }
+  function lines() { return Array.prototype.map.call(arguments, function (t, i) { return h("div", { key: i }, t); }); }
+
+  // Now vs before
+  render("now", h(React.Fragment, null,
+    cap("Past, with arrow", card({ type: "past", arrow: true, actions: b2 })),
+    cap("Upcoming", card({ type: "upcoming", actions: b2 })),
+    cap("Today", card({ type: "today", actions: b2 })),
+    cap("Custom", card({ type: "custom", actions: b3 }))));
+
+  function v1(o) {
+    return h("div", { className: "v1" + (o.past ? " v1--past" : "") + (o.featured ? " v1--featured" : "") },
+      o.pill && h("span", { className: "v1__pill" }, o.pill),
+      h("div", { className: "v1__top" },
+        o.date !== false && h("div", { className: "v1__date" }, o.today ? h("b", { style: { fontSize: 13 } }, "Today") : [h("span", { key: 1 }, "Apr"), h("b", { key: 2 }, "30"), o.past && h("span", { key: 3 }, "2024")]),
+        h("div", null,
+          h("div", { className: "v1__eyebrow" }, h(I, { name: "video", size: 12 }), "Care type"),
+          h("div", { className: "v1__time" }, "11:00 AM EDT"),
+          h("div", { className: "v1__desc" }, "Description"))),
+      h("div", { className: "v1__foot" }, o.buttons.map(function (b, i) {
+        return h(B, { key: i, variant: b[0], size: b[0] === "tertiary" ? "small" : undefined }, b[1]);
+      })));
+  }
+  render("before", h(React.Fragment, null,
+    cap("Past", v1({ past: true, buttons: [["secondary", "Button label"], ["tertiary", "Button label"]] })),
+    cap("Upcoming", v1({ buttons: [["secondary", "Button label"], ["tertiary", "Button label"]] })),
+    cap("Today", v1({ today: true, buttons: [["primary", "Button label"], ["tertiary", "Button label"]] })),
+    cap("Requested", v1({ pill: "Requested", date: false, buttons: [["primary", "Button label"], ["secondary", "Button label"], ["tertiary", "Button label"]] }))));
+
+  // Anatomy: tag the live card's parts after it renders
+  render("anatomy-card", card({ type: "upcoming", actions: b2 }));
+  (function tag(tries) {
+    var root = document.getElementById("anatomy-card");
+    var parts = { A: ".anvil-visit__date", B: ".anvil-visit__eyebrow > span:first-child", C: ".anvil-visit__icon", D: ".anvil-visit__title", E: ".anvil-visit__desc" };
+    if (!root.querySelector(".anvil-visit")) { if (tries < 40) setTimeout(function () { tag(tries + 1); }, 25); return; }
+    Object.keys(parts).forEach(function (k) { var el = root.querySelector(parts[k]); if (el) el.setAttribute("data-m", k); });
+  })(0);
+
+  // Content examples
+  render("content-examples", h(React.Fragment, null,
+    card({ type: "upcoming", month: "Oct", day: "30", time: "9:15 AM", icon: "phone", iconLabel: "Phone visit", header: "Anita Sharma, MD", description: "Allergy and immunology", actions: [{ label: "Modify" }] }),
+    card({ type: "today", prominent: true, time: "3:30 PM", header: "Peter Brennan, MD", description: "Dermatology visit for [Dependent name]", actions: [{ label: "Complete checklist" }, { label: "Modify" }] }),
+    card({ type: "past", year: "2026", time: "12:30 PM", header: "Peter Brennan, MD", description: lines("Dermatology visit for [Dependent name]", "No-show fee: [$00]", "Cancellation fee: [$00]"), actions: [{ label: "View invoice" }] }),
+    card({ type: "custom", label: "Requested", header: "First available care provider", description: lines("Allergy and immunology", "We’ll email you to confirm your visit and to share any other updates."), actions: [{ label: "View request details" }, { label: "Cancel request" }] })));
+
+  // Prominent
+  render("prominent-examples", h(React.Fragment, null,
+    cap("Upcoming (tomorrow)", card({ type: "upcoming", prominent: true, actions: b2 })),
+    cap("Today", card({ type: "today", prominent: true, actions: b2 })),
+    cap("Today, primary button", card({ type: "today", prominent: true, footerStyle: "prominent", actions: [{ label: "Button 1" }] }))));
+  var asap = { prominent: true, time: "ASAP", header: "[Provider name, credential]", description: "Urgent care" };
+  render("asap-examples", h(React.Fragment, null,
+    card(Object.assign({ type: "upcoming", actions: [{ label: "Reschedule" }, { label: "Cancel" }] }, asap)),
+    card(Object.assign({ type: "today", actions: [{ label: "Reschedule" }, { label: "Cancel" }] }, asap)),
+    card(Object.assign({ type: "today", footerStyle: "prominent", actions: [{ label: "Join now" }, { label: "Cancel" }] }, asap))));
+
+  // Canceled
+  render("canceled-examples", h(React.Fragment, null,
+    cap("Past", card({ type: "past", canceled: true, actions: b2 })),
+    cap("Upcoming", card({ type: "upcoming", canceled: true, actions: b2 })),
+    cap("Today", card({ type: "today", canceled: true, actions: b2 })),
+    cap("Custom", card({ type: "custom", canceled: true, actions: b3 }))));
+
+  // Action configurations
+  var configs = [
+    { t: "Past visits", rules: ["Up to 2 tertiary buttons in the footer", "Optional main action with an arrow indicator"],
+      cards: [{ type: "past", arrow: true, actions: b2 }, { type: "past", actions: b2 }, { type: "past", arrow: true }] },
+    { t: "Upcoming visits", rules: ["Up to 2 tertiary buttons in the footer", "Optional main action with an arrow indicator"],
+      cards: [{ type: "upcoming", arrow: true, actions: b2 }, { type: "upcoming", actions: b2 }, { type: "upcoming", arrow: true }] },
+    { t: "Prominent upcoming visits", rules: ["Up to 2 tertiary buttons in the footer", "No main action or arrow indicator"],
+      cards: [{ type: "upcoming", prominent: true, actions: b2 }, { type: "upcoming", prominent: true }] },
+    { t: "Today’s visits", rules: ["Up to 2 tertiary buttons in the footer", "Optional main action with an arrow indicator"],
+      cards: [{ type: "today", arrow: true, actions: b2 }, { type: "today", actions: b2 }, { type: "today", arrow: true }] },
+    { t: "Prominent today’s visits", rules: ["A primary button, with an optional tertiary button below it"], or: ["Up to 2 tertiary buttons in the footer"], after: ["No main action or arrow indicator"],
+      cards: [{ type: "today", prominent: true, footerStyle: "prominent", actions: [{ label: "Button 1" }] }, { type: "today", prominent: true, footerStyle: "prominent", actions: b2 }, { type: "today", prominent: true, actions: b2 }, { type: "today", prominent: true }] },
+    { t: "Custom visits", rules: ["Up to 3 tertiary buttons in the footer", "Optional main action, without an arrow indicator"],
+      cards: [{ type: "custom", actions: b3 }, { type: "custom" }] }
+  ];
+  function ul(items) { return h("ul", null, items.map(function (r, i) { return h("li", { key: i }, r); })); }
+  render("config", h(React.Fragment, null, configs.map(function (c, i) {
+    return h("div", { className: "doc-config", key: i },
+      h("div", null, h("h3", null, c.t), ul(c.rules), c.or && h("div", { className: "or" }, "OR"), c.or && ul(c.or), c.after && h("div", { style: { marginTop: 8 } }, ul(c.after))),
+      h("div", { className: "doc-row" }, c.cards.map(function (p, j) { return h("div", { key: j }, card(p)); })));
+  })));
+
+  // Tap targets: href makes the card's main action live; the overlay outlines each target
+  var stop = function (e) { e.preventDefault(); };
+  render("tap-examples", h(React.Fragment, null,
+    cap("Main action and 2 buttons", card({ type: "upcoming", href: "#tap-targets", onClick: stop, actions: [{ label: "Button 1", onClick: stop }, { label: "Button 2", onClick: stop }] })),
+    cap("Buttons only", card({ type: "upcoming", actions: [{ label: "Button 1", onClick: stop }, { label: "Button 2", onClick: stop }] })),
+    cap("Main action only", card({ type: "upcoming", href: "#tap-targets", onClick: stop })),
+    cap("Custom: main action, no arrow", card({ type: "custom", label: "Requested", href: "#tap-targets", onClick: stop, actions: [{ label: "Button 1", onClick: stop }, { label: "Button 2", onClick: stop }] }))));
+
+  // Deprecated featured
+  render("featured-before", v1({ today: true, featured: true, buttons: [["primary", "Button label"], ["tertiary", "Button label"]] }));
+  render("featured-now", card({ type: "today", prominent: true, footerStyle: "prominent", actions: [{ label: "Join visit" }, { label: "Can’t make it?" }] }));
+})();
+</script>
+<script src="site/site.js?v=20261112i"></script>
+</body>
+</html>

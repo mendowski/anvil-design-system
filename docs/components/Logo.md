@@ -1,6 +1,6 @@
 # Logo
 
-The Teladoc Health logo, from the Anvil "Logos and marks" page in Figma. Use it in headers, footers and sign-in screens.
+The Teladoc Health logo, from the Pulse "Logos and marks" page in Figma. Use it in headers, footers and sign-in screens.
 
 ## Usage
 

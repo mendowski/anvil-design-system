@@ -1,6 +1,6 @@
-# Anvil design system
+# Pulse design system
 
-Anvil (formerly Pulse) is the design system that brought Teladoc Health, Livongo and myStrength under one foundation for web, iOS and Android. This repo holds its tokens, React components and assets, rebuilt from the Anvil Figma library for interactive portfolio prototypes.
+Pulse (later renamed Anvil) is the design system that brought Teladoc Health, Livongo and myStrength under one foundation for web, iOS and Android. This repo holds its tokens, React components and assets, rebuilt from the Pulse Figma library for interactive portfolio prototypes.
 
 **Live site:** https://mendowski.github.io/anvil-design-system/ — overview, live components, colors, icons and illustrations.
 
@@ -8,10 +8,10 @@ Anvil (formerly Pulse) is the design system that brought Teladoc Health, Livongo
 
 | File or folder | What it is |
 | --- | --- |
-| `index.html`, `components.html`, `datavis.html`, `colors.html`, `assets.html` | The design system site |
+| `index.html`, `foundations.html`, `components.html`, `datavis.html`, `assets.html` | The design system site. Component guideline pages such as `button.html` sit beside them. `colors.html` now redirects to Foundations |
 | `tokens/tokens.json` | Every token: 333 color tokens in four themes plus 109 primitives, scale (space, form input, layout, spacing, radius), shadows and 30 text styles |
 | `tokens/anvil-tokens.css` | The same tokens as CSS custom properties, theme blocks, `@font-face` rules and a class per text style |
-| `dist/anvil.js` | The React components as one script. It sets `window.Anvil` |
+| `dist/anvil.js` | The React components as one script. It sets `window.Pulse` (and `window.Anvil`, the same object) |
 | `dist/anvil.css` | Component styles |
 | `dist/anvil.d.ts` | Component props, for reference |
 | `fonts/` | Reckless Neue Bold and Effra Italic. Lexend Deca loads from Google Fonts |
@@ -42,7 +42,7 @@ Then render components:
 <script>
   const h = React.createElement;
   ReactDOM.createRoot(document.getElementById("app")).render(
-    h(Anvil.Button, { variant: "primary" }, "Schedule a visit")
+    h(Pulse.Button, { variant: "primary" }, "Schedule a visit")
   );
 </script>
 ```
@@ -59,8 +59,8 @@ BarChart, LineChart, FloatingColumns and RadialChart, with ChartTooltip, ChartSu
 
 Button, TextInput, PasswordInput, Checkbox (with CheckboxGroup), SelectionCard, Slider, Card, GlobalHeader, GlobalFooter, Illustration and Icon. Each one's guidelines are in `docs/components/`.
 
-`Anvil.Illustration` loads its artwork from `assets/illustrations/`, found from where `anvil.js` is loaded. If you move `dist/` away from `assets/`, set `window.ANVIL_ASSET_BASE = "https://mendowski.github.io/anvil-design-system/assets/"` before loading `anvil.js`.
+`Pulse.Illustration` loads its artwork from `assets/illustrations/`, found from where `anvil.js` is loaded. If you move `dist/` away from `assets/`, set `window.ANVIL_ASSET_BASE = "https://mendowski.github.io/anvil-design-system/assets/"` before loading `anvil.js`.
 
 ## Source
 
-Built from the Anvil Components Figma file and its linked color and illustration libraries, exported with a custom Figma plugin. The working copy of this design system is a Claude design system artifact; this repo is a snapshot of it.
+Built from the Pulse Components Figma file and its linked color and illustration libraries, exported with a custom Figma plugin. The working copy of this design system is a Claude design system artifact; this repo is a snapshot of it.

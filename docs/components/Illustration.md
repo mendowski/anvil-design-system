@@ -1,6 +1,6 @@
 # Illustration
 
-Illustration is the frame for Anvil artwork: a spot illustration for small moments and way-finding, or a hero illustration for onboarding and big moments.
+Illustration is the frame for Pulse artwork: a spot illustration for small moments and way-finding, or a hero illustration for onboarding and big moments.
 
 ## Types
 
@@ -22,7 +22,7 @@ They map to the `illustration-spot-background-*` and `illustration-hero-backgrou
 
 ## Artwork
 
-- Pass `name` to use Anvil artwork, such as `name="celebration"` or, for a hero, `name="anytime"`. The names match the Spot illustrations and Hero illustrations assets.
+- Pass `name` to use Pulse artwork, such as `name="celebration"` or, for a hero, `name="anytime"`. The names match the Spot illustrations and Hero illustrations assets.
 - Or pass `src` for any image, or inline SVG as children.
 - Until artwork is added, a placeholder icon shows (`icon` changes it).
 - Artwork keeps its own colors. Don't recolor illustrations.

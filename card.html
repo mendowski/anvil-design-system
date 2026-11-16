@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Card · Pulse Components</title>
+<meta name="description" content="Card guidelines for Pulse: anatomy, variants, placement, images and buttons in cards, interaction, accessibility, content and changelog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261106c"></script>
+<style>
+  /* Card page only. Shared doc styles are in site/doc.css. */
+  .w-mobile { width: 358px; max-width: 100%; }
+  .w-desktop { width: 100%; max-width: 560px; }
+  .ph { border: 1px dashed var(--stroke-base); border-radius: 8px; padding: 10px 12px; font-size: 13px; line-height: 20px; color: var(--text-body-subdued); background: var(--background-subdued); }
+  .mini-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .mini-grid .anvil-card__inner { padding: 16px 16px 0; }
+  .mini-grid .anvil-card__body { padding-bottom: 16px; font-size: 14px; line-height: 20px; }
+  .mini-grid .anvil-card__title { font-size: 16px; line-height: 22px; }
+  .sec-head { font-weight: 600; font-size: 18px; line-height: 24px; margin: 0; }
+  .split { display: flex; justify-content: space-between; gap: 16px; width: 100%; }
+  .doc-dd { grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); }
+  .doc-anat-trio { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; align-items: start; }
+  .doc-anat-trio .doc-stage { padding: 48px 48px 32px; }
+  .doc-anat-trio .doc-legend { margin-top: 20px; gap: 8px; }
+  /* Card clips its content, so markers sit inside the card's 24px padding */
+  .anat [data-at="pad"]::after { left: -23px; top: 50%; transform: translateY(-50%); }
+  .anat [data-at="edge"]::after { left: 1px; top: 50%; transform: translateY(-50%); }
+  .anat [data-at="inside"]::after { left: 12px; top: 12px; }
+  .anat .anvil-card__spot[data-m] { position: absolute; outline-offset: -2px; }
+  .anat .anvil-card__spot[data-at="spot"]::after { left: 28px; top: 44px; }
+  .anat .anvil-card__hero[data-m], .anat .anvil-card__footer[data-m] { outline-offset: -2px; }
+  /* Desktop examples need room: the card switches to its mobile layout under 480px wide */
+  .doc-row > div:has(> div > .w-desktop), .doc-row > div:has(> .w-desktop) { grid-column: 1 / -1; }
+  .doc-dd > .dd:has(.w-desktop) { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#Card">Content display</a> / Card</p>
+<span class="doc-status doc-status--ok">Available · Figma, React, iOS, Android</span>
+<h1 class="page-title" style="margin-top:12px">Card</h1>
+<p class="lede">A card is a container for related information. It can hold text, media such as photos or illustrations, and interactive content. Cards can be arranged in stacks, columns or grids.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.Card</code><a class="pg-link" href="playground.html#Card">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#usage">Usage</a><a href="#anatomy">Anatomy</a><a href="#variants">Variants</a><a href="#placement">Placement</a><a href="#images">Images</a><a href="#buttons">Buttons</a><a href="#interaction">Interaction</a><a href="#accessibility">Accessibility</a><a href="#content">Content</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<!-- Usage -->
+<section class="doc-sec" id="usage">
+  <h2 class="sec">Product usage</h2>
+  <p class="lede">Cards are most common on home pages and dashboards, such as the Teladoc Health member home and the provider home. They can also appear in flows.</p>
+</section>
+
+<!-- Anatomy -->
+<section class="doc-sec" id="anatomy">
+  <h2 class="sec">Anatomy</h2>
+  <p class="lede">Every card has the same three parts. Hero and spot images add one more, and spot cards can add a full-width slot under the main content.</p>
+  <div class="doc-anat-trio" style="margin-top:24px">
+    <div>
+      <div class="doc-stage anat" id="anat-basic"></div>
+      <ol class="doc-legend"><li><b>1</b><div><span>Header</span></div></li><li><b>2</b><div><span>Main content slot</span></div></li><li><b>3</b><div><span>Footer</span></div></li></ol>
+    </div>
+    <div>
+      <div class="doc-stage anat" id="anat-hero"></div>
+      <ol class="doc-legend"><li><b>1</b><div><span>Hero image</span></div></li><li><b>2</b><div><span>Header</span></div></li><li><b>3</b><div><span>Main content slot</span></div></li><li><b>4</b><div><span>Footer</span></div></li></ol>
+    </div>
+    <div>
+      <div class="doc-stage anat" id="anat-spot"></div>
+      <ol class="doc-legend"><li><b>1</b><div><span>Header</span></div></li><li><b>2</b><div><span>Spot illustration</span></div></li><li><b>3</b><div><span>Main content slot</span></div></li><li><b>4</b><div><span>Additional content slot</span></div></li><li><b>5</b><div><span>Footer</span></div></li></ol>
+    </div>
+  </div>
+</section>
+
+<!-- Variants -->
+<section class="doc-sec" id="variants">
+  <h2 class="sec">Variants and options</h2>
+  <div id="variants-rows" style="margin-top:24px"></div>
+</section>
+
+<!-- Placement -->
+<section class="doc-sec" id="placement">
+  <h2 class="sec">Placement</h2>
+  <div class="doc-dd" id="dd-placement"></div>
+</section>
+
+<!-- Images -->
+<section class="doc-sec" id="images">
+  <h2 class="sec">Images in cards</h2>
+  <div class="doc-dd" id="dd-images"></div>
+</section>
+
+<!-- Buttons -->
+<section class="doc-sec" id="buttons">
+  <h2 class="sec">Buttons in cards</h2>
+  <p class="lede">Cards do many jobs in Teladoc Health products, so button guidance depends on the card's context. Follow the general <a href="components.html#Button">button placement guidance</a> as well as the guidance below.</p>
+  <div class="doc-dd" id="dd-buttons"></div>
+</section>
+
+<!-- Interaction -->
+<section class="doc-sec" id="interaction">
+  <h2 class="sec">Interaction</h2>
+  <p class="lede">Cards are static containers: the whole card is never a tap target. To make a card interactive, add interactive content in the header (when there's no image at the top), the main content slot or the footer.</p>
+  <div class="doc-row tap" id="tap-examples" style="margin-top:16px"></div>
+  <ul style="margin-top:8px;max-width:72ch">
+    <li><strong>Header:</strong> the optional header action uses the default tap target of its icon button or tertiary button.</li>
+    <li><strong>Main content slot:</strong> you can add more tap targets here, such as links or nav-list items.</li>
+    <li><strong>Footer:</strong> footer actions use the default tap targets of their primary, secondary or tertiary buttons.</li>
+  </ul>
+</section>
+
+<!-- Accessibility -->
+<section class="doc-sec" id="accessibility">
+  <h2 class="sec">Accessibility</h2>
+  <p class="lede">Using a card on a page still needs an annotated design review of the page-level design.</p>
+  <div class="doc-config">
+    <div><h3>Header and footer buttons</h3></div>
+    <div><ul>
+      <li>An icon button in the header needs a description of what it does as extra screen reader context: <code>&lt;Header&gt;, &lt;Additional context&gt;</code>, such as "Button, More information".</li>
+      <li>Header and footer buttons can use the button or link role, depending on the action. Add context when the visible label isn't enough: <code>&lt;Visible label&gt;, &lt;Additional context&gt;</code>.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Links and form inputs</h3></div>
+    <div><ul>
+      <li>Don't put inline text links in headers. They're fine in the main content slot.</li>
+      <li>Include interactive content in the main content slot in the tab order.</li>
+      <li>Read each input's label with its field, separately from the card header.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Images</h3></div>
+    <div><ul>
+      <li>Most card images are decorative. On web, use <code>alt=""</code>; on mobile, they need no image description.</li>
+      <li>If an image carries meaning, describe it (<code>alt</code> on web, an image description on mobile) and include it in the mobile swipe order.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Headings and order</h3></div>
+    <div><ul>
+      <li>The header's heading level, and the tab or swipe order of every control, depend on the surrounding page.</li>
+      <li>In code, cards render as <code>&lt;section&gt;</code>. Set <code>headerAs</code> to keep heading levels in order (default <code>h3</code>), and pass <code>headerId</code> so the section is labeled by its header.</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- Content -->
+<section class="doc-sec" id="content">
+  <h2 class="sec">Content guidelines</h2>
+  <div class="doc-config">
+    <div><h3>Headers</h3></div>
+    <div><ul><li>Summarize what's in the card.</li><li>Don't use inline text links in header text.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Footers</h3></div>
+    <div><ul><li>Follow the <a href="components.html#Button">Button</a> content guidelines.</li></ul></div>
+  </div>
+</section>
+
+<!-- Props -->
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>eyebrow</code></td><td><code>ReactNode</code></td><td>Small text above the header.</td></tr>
+      <tr><td><code>header</code></td><td><code>ReactNode</code></td><td>Leave it out for a card with no header.</td></tr>
+      <tr><td><code>headerAs</code>, <code>headerId</code></td><td><code>"h2" | "h3" | "h4" | "div"</code>, <code>string</code></td><td>Default <code>h3</code>. <code>headerId</code> labels the section.</td></tr>
+      <tr><td><code>headerAction</code></td><td><code>ReactNode</code></td><td>An icon button or small tertiary button on the right of the header.</td></tr>
+      <tr><td><code>image</code></td><td><code>{ type?, src?, alt?, node?, icon? }</code></td><td><code>type</code>: <code>hero</code> (2:1, full width), <code>spot</code> or <code>avatar</code> (circle, top right).</td></tr>
+      <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>Main content. On spot cards, the first child is narrowed to clear the image; later children are full width (the additional content slot).</td></tr>
+      <tr><td><code>footer</code></td><td><code>ReactNode</code></td><td>Up to three buttons. Leave it out for no footer.</td></tr>
+      <tr><td><code>footerStyle</code></td><td><code>"default" | "filled"</code></td><td>Filled adds a rule and a subdued band behind the buttons.</td></tr>
+      <tr><td><code>as</code></td><td><code>"section" | "article" | "div" | "li"</code></td><td>Default <code>section</code>.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Code vs. Figma.</strong>
+    <ul>
+      <li>Figma has an "Additional content" property. In code, pass more than one child to a spot card: everything after the first child is full width.</li>
+      <li>Mobile or desktop layout follows the card's own width, not a platform prop: under 480px the footer stacks and buttons fill the width. There's no override yet to make a single mobile button hug its label.</li>
+      <li>Footer buttons render in the order you pass them, so reordering or right-aligning them on desktop is up to the page.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Changelog -->
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Card</td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Card</td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>PulseCardView</td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Card</td></tr>
+      <tr><td>FlowUI</td><td><span class="doc-tag doc-tag--new">Available</span> <span class="doc-tag doc-tag--pending">Pending features</span></td><td>Card (FLOWUI-1471, 1472, 1473 pending)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Apr 23, 2025</td><td>v5.0.0</td><td>Pulse 5 launched with color, type and space variable updates for all components. For Card:
+        <ul>
+          <li><span class="doc-tag doc-tag--removed">Removed</span>Card elevation</li>
+          <li><span class="doc-tag doc-tag--changed">Changed</span>Header font size from MD to SM</li>
+          <li><span class="doc-tag doc-tag--changed">Changed</span>Hero illustration to 2:1 inside cards</li>
+          <li><span class="doc-tag doc-tag--changed">Changed</span>Header button from prominent to subtle</li>
+          <li><span class="doc-tag doc-tag--new">New</span>"Additional custom content" property for spot cards</li>
+          <li><span class="doc-tag doc-tag--new">New</span>Eyebrow option in the header</li>
+        </ul></td></tr>
+      <tr><td>Apr 3, 2024</td><td>v4.0.1</td><td><span class="doc-tag doc-tag--changed">Changed</span>Card subcomponents have updated fill behavior.</td></tr>
+      <tr><td>Mar 20, 2024</td><td>v4.0.0</td><td>Pulse 4 launched with color and space variables. Card header, action header and footer subcomponents simplified to remove unneeded platform variants. Nested icons with overrides need relinking to Pulse: Design Resources 4.0.0+.</td></tr>
+      <tr><td>Aug 3, 2023</td><td>v3.8.0</td><td><span class="doc-tag doc-tag--new">New</span>Card component for Web (Desktop), Web (Mobile), iOS and Android, with hero and spot placeholders, optional elevation, an optional header with icon button, an optional footer with primary, secondary and tertiary buttons, and a swappable main content slot.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: Components › Content display › Card in the Pulse Design System documentation (Usage, Accessibility, Content guidelines, React, and Status and changelog tabs). Every card on this page is the live <code>Pulse.Card</code>.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = React.createElement, A = Anvil, C = A.Card, B = A.Button;
+  var spot = A.Illustration.url("spot", "celebration"), hero = A.Illustration.url("hero", "anytime");
+  function render(id, el) { var n = document.getElementById(id); if (n) ReactDOM.createRoot(n).render(el); }
+  function cap(text, el) { return h("div", null, h("div", { className: "doc-cap" }, text), el); }
+  function p(t) { return h("p", null, t); }
+  function card(props, w) { return h("div", { className: w === "d" ? "w-desktop" : "w-mobile" }, h(C, props)); }
+  var desc = p("Description");
+  var iconAction = h(A.IconButton, { icon: "arrow-right", label: "More information", className: "anvil-icon-btn--brand" });
+  var textAction = h(B, { variant: "tertiary", size: "small" }, "Button label");
+  var prim = h(B, null, "Primary");
+
+  // Anatomy: tag parts of live cards once they render
+  render("anat-basic", h(C, { header: "Header", children: [p("Description"), p("Description")], footer: prim }));
+  render("anat-hero", h(C, { header: "Header", image: { type: "hero", src: hero, alt: "" }, children: desc, footer: prim }));
+  render("anat-spot", h(C, { header: "Header", image: { type: "spot", src: spot, alt: "" }, children: [p("Description"), h("div", { key: "x", className: "ph" }, "Additional content")], footer: prim }));
+  function tag(id, parts, tries) {
+    var root = document.getElementById(id);
+    if (!root.querySelector(".anvil-card")) { if ((tries || 0) < 40) setTimeout(function () { tag(id, parts, (tries || 0) + 1); }, 25); return; }
+    parts.forEach(function (pt) { var el = root.querySelector(pt[1]); if (el) { el.setAttribute("data-m", pt[0]); el.setAttribute("data-at", pt[2]); } });
+  }
+  tag("anat-basic", [["1", ".anvil-card__header", "pad"], ["2", ".anvil-card__body", "pad"], ["3", ".anvil-card__footer", "edge"]]);
+  tag("anat-hero", [["1", ".anvil-card__hero", "inside"], ["2", ".anvil-card__header", "pad"], ["3", ".anvil-card__body", "pad"], ["4", ".anvil-card__footer", "edge"]]);
+  tag("anat-spot", [["1", ".anvil-card__header", "pad"], ["2", ".anvil-card__spot", "spot"], ["3", ".anvil-card__body > :first-child", "pad"], ["4", ".anvil-card__body > .ph", "pad"], ["5", ".anvil-card__footer", "edge"]]);
+
+  // Variants and options
+  var three = [h(B, { key: 1 }, "Primary"), h(B, { key: 2, variant: "secondary" }, "Secondary"), h(B, { key: 3, variant: "tertiary" }, "Tertiary")];
+  var rows = [
+    { t: "Screen size and platform", p: "Cards have small platform differences.",
+      li: ["Native and Web (Mobile): footer actions fill the card's width and stack.", "Web (Desktop): footer actions hug their labels and sit in a row."],
+      cards: [cap("Native and Web (Mobile)", card({ header: "Header", children: desc, footer: [h(B, { key: 1 }, "Primary"), h(B, { key: 2, variant: "tertiary" }, "Button label")] })),
+              cap("Web (Desktop)", card({ header: "Header", children: desc, footer: [h(B, { key: 1 }, "Primary"), h(B, { key: 2, variant: "tertiary" }, "Tertiary")] }, "d"))] },
+    { t: "Image", p: "Cards can have an illustration or photo. For other layouts, add media to the main content slot.",
+      li: ["No image.", "Hero: a full-width 2:1 image at the top.", "Spot: a circle clipped by the top-right corner. The header and main content are narrower so they don't run under it."],
+      cards: [cap("No image", card({ header: "Header", children: desc, footer: prim })),
+              cap("Hero", card({ header: "Header", image: { type: "hero", src: hero, alt: "" }, children: desc, footer: prim })),
+              cap("Spot", card({ header: "Header", image: { type: "spot", src: spot, alt: "" }, children: desc, footer: prim }))] },
+    { t: "Additional content", p: "Spot cards can add content under the description. Because the header and main content are narrowed for the spot image, this slot can run the full width.",
+      cards: [cap("Spot with additional content", card({ header: "Header", image: { type: "spot", src: spot, alt: "" }, children: [p("Description"), h("div", { key: "x", className: "ph" }, "Additional content: any Pulse or local component, full width")], footer: prim }))] },
+    { t: "Header style", p: "Headers are optional but recommended to sum up the card. Header type styles can be overridden to build hierarchy on a screen.",
+      li: ["Default header.", "Action header: a label plus an icon button or tertiary button.", "No header, for custom layouts, including ones with more items in the header row."],
+      cards: [cap("Default", card({ header: "Header", children: desc, footer: prim })),
+              cap("Action, icon button", card({ header: "Header", headerAction: iconAction, children: desc, footer: prim })),
+              cap("Action, tertiary button", card({ header: "Header", headerAction: textAction, children: desc, footer: prim })),
+              cap("No header", card({ children: [p("Custom layout in the main content slot.")], footer: prim }))] },
+    { t: "Header with eyebrow", p: "An eyebrow above the headline adds context or a category for the card.",
+      cards: [cap("Default with eyebrow", card({ eyebrow: "Eyebrow", header: "Header", children: desc, footer: prim })),
+              cap("Action with eyebrow", card({ eyebrow: "Eyebrow", header: "Header", headerAction: iconAction, children: desc, footer: prim }))] },
+    { t: "Footer style", p: "Most cards have one or more calls to action, usually at the bottom.",
+      li: ["Default.", "Filled: more prominence for the actions, with a full-width rule above them.", "No footer, for custom layouts or to focus on a header action. The footer can also appear progressively, for example once content in the card is edited."],
+      cards: [cap("Default", card({ header: "Header", children: desc, footer: prim })),
+              cap("Filled", card({ header: "Header", children: desc, footerStyle: "filled", footer: [h(B, { key: 1 }, "Primary"), h(B, { key: 2, variant: "tertiary" }, "Button label")] })),
+              cap("No footer", card({ header: "Header", headerAction: iconAction, children: desc }))] },
+    { t: "Footer buttons", p: "Up to three buttons, in any mix of primary, secondary and tertiary. Show no more than one primary per card, and few per screen.",
+      li: ["Web (Desktop): in a row by priority, usually packed and left-aligned.", "Native and Web (Mobile): stacked by priority, filling the card's width by default."],
+      cards: [cap("Web (Desktop)", card({ header: "Header", image: { type: "spot", src: spot, alt: "" }, children: desc, footer: three }, "d")),
+              cap("Native and Web (Mobile)", card({ header: "Header", image: { type: "spot", src: spot, alt: "" }, children: desc, footer: three }))] }
+  ];
+  function list(items) { return items && h("ol", null, items.map(function (x, i) { return h("li", { key: i }, x); })); }
+  render("variants-rows", h(React.Fragment, null, rows.map(function (r, i) {
+    return h("div", { className: "doc-config", key: i },
+      h("div", null, h("h3", null, r.t), h("p", null, r.p), list(r.li)),
+      h("div", { className: "doc-row" }, r.cards.map(function (c, j) { return h(React.Fragment, { key: j }, c); })));
+  })));
+
+  // Do / Don't / Caution
+  var verdicts = { "do": ["Do", "check-circle"], "dont": ["Don’t", "close-circle"], "caution": ["Caution", "alert-triangle"] };
+  function dd(kind, text, stage) {
+    var v = verdicts[kind];
+    return h("figure", { className: "dd dd--" + kind, style: { margin: 0 } },
+      h("div", { className: "dd-stage" }, stage),
+      h("div", { className: "dd-bar" }),
+      h("figcaption", null, h("span", { className: "dd-verdict" }, h(A.Icon, { name: v[1], size: 16 }), v[0]), h("p", null, text)));
+  }
+  function mini(t, extra) { return h(C, Object.assign({ header: t, children: p("Description") }, extra || {})); }
+
+  render("dd-placement", h(React.Fragment, null,
+    dd("do", "Use headers to group similar cards.",
+      [h("h3", { key: 0, className: "sec-head" }, "Your programs"), h("div", { key: 1, className: "mini-grid" }, mini("Diabetes"), mini("Heart"), mini("Sleep"))]),
+    dd("do", "Use nav-list items inside cards when needed. When their content differs in length, set their height to fill.",
+      h(C, { header: "Header", image: { type: "spot", src: spot, alt: "" }, children: [p("Description"), h(A.NavList, { key: "n", label: "Options", items: [{ label: "Label", description: "Description", arrow: true, href: "#placement" }, { label: "Label", description: "Description", arrow: true, href: "#placement" }] })] })),
+    dd("dont", "Don’t layer cards on top of cards.",
+      h(C, { header: "Header", children: [p("Description"), h("div", { key: "c", className: "mini-grid" }, mini("Header"), mini("Header"), mini("Header"))], footer: h(B, null, "Button label") })),
+    dd("caution", "Use one card style for every card in a section of the screen. Different sections can use different styles, but don’t mix styles within a section.",
+      h("div", { className: "mini-grid" }, mini("Header"), mini("Header", { footerStyle: "filled", footer: h(B, { size: "small", variant: "tertiary" }, "Action") }), mini("Header", { image: { type: "hero", src: hero, alt: "" } })))
+  ));
+
+  render("dd-images", h(React.Fragment, null,
+    dd("do", "Put the header below a hero image.",
+      card({ header: "Your blood pressure monitor", eyebrow: "Welcome kit order", image: { type: "hero", src: A.Illustration.url("hero", "blood-pressure-monitor"), alt: "" }, children: p("Shipped. Step 3 of 4.") })),
+    dd("caution", "Keep padding around spot images. Spot cards narrow the header and main content so they don’t overlap the image. Depending on the header height and layout, you can let the content fill the card, as long as the image keeps its padding.",
+      card({ header: "Condition management", image: { type: "spot", src: A.Illustration.url("spot", "condition-management"), alt: "" }, children: p("Join programs to manage chronic conditions like diabetes and high blood pressure, with connected devices, tips and coaching."), footer: h(B, null, "Primary") })),
+    dd("dont", "Don’t use a header action with a hero or spot image.",
+      card({ header: "24/7 Care", headerAction: iconAction, image: { type: "spot", src: A.Illustration.url("spot", "doctor-1"), alt: "" }, children: p("Talk to a doctor any time.") }))
+  ));
+
+  render("dd-buttons", h(React.Fragment, null,
+    dd("do", "On Web (Desktop), footer buttons hug their labels.",
+      card({ header: "Header", image: { type: "spot", src: spot, alt: "" }, children: desc, footer: three }, "d")),
+    dd("caution", "On Native and Web (Mobile), footer buttons fill the card by default. Sometimes hugging the label works better, mostly for cards with one button.",
+      h("div", { className: "split" }, card({ header: "Header", children: desc, footer: h(B, null, "Primary") }))),
+    dd("caution", "On Web (Desktop), footer buttons can be reordered for the context. In a card with a form, Save can sit to the right of Cancel. On Native and Web (Mobile), don’t reorder them: the primary action stays at the top of the stack.",
+      card({ header: "Header", children: desc, footer: [h(B, { key: 1, variant: "secondary" }, "Cancel"), h(B, { key: 2 }, "Save")] }, "d")),
+    dd("caution", "On Web (Desktop), alignment can change with the context. In a multi-step flow, Next can be right-aligned and Back left-aligned. On Native and Web (Mobile), don’t change alignment.",
+      card({ header: "Header", children: desc, footer: h("div", { className: "split" }, h(B, { variant: "secondary" }, "Back"), h(B, null, "Next")) }, "d")),
+    dd("do", "Card headers can use icon buttons or tertiary buttons.",
+      h("div", { className: "mini-grid", style: { gridTemplateColumns: "1fr 1fr" } }, mini("Header", { headerAction: iconAction }), mini("Header", { headerAction: textAction }))),
+    dd("dont", "Don’t change the alignment of header buttons.",
+      card({ header: h("span", { style: { display: "flex", alignItems: "center", gap: 8 } }, "Header", h(A.Icon, { name: "arrow-right", size: 16 })), children: desc }))
+  ));
+
+  // Interaction / tap targets
+  var stop = function (e) { e.preventDefault(); };
+  render("tap-examples", h(React.Fragment, null,
+    cap("Header action and footer buttons", card({ header: "Header", headerAction: h(A.IconButton, { icon: "arrow-right", label: "More information", className: "anvil-icon-btn--brand", onClick: stop }), children: desc, footer: [h(B, { key: 1, onClick: stop }, "Primary"), h(B, { key: 2, variant: "secondary", onClick: stop }, "Secondary"), h(B, { key: 3, variant: "tertiary", onClick: stop }, "Tertiary")] })),
+    cap("Links in the main content slot", card({ header: "Header", children: [p("Description"), h("a", { key: "l", href: "#interaction", onClick: stop, "data-tap": "Link", style: { alignSelf: "flex-start" } }, "Read more about your plan")], footer: h(B, { onClick: stop }, "Primary") }))
+  ));
+})();
+</script>
+<script src="site/site.js?v=20261112i"></script>
+</body>
+</html>

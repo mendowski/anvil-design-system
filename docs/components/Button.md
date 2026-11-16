@@ -31,7 +31,7 @@ Buttons start actions, in three levels of emphasis: primary, secondary and terti
 ## What you provide
 
 - A short verb-phrase label, such as "Book a visit" or "Save changes".
-- Optionally, an icon: `iconName` takes any Anvil icon name (see the Icons assets), and the default is `plus`. For custom art, pass a 16px SVG drawn with `currentColor` as `iconNode`.
+- Optionally, an icon: `iconName` takes any Pulse icon name (see the Icons assets), and the default is `plus`. For custom art, pass a 16px SVG drawn with `currentColor` as `iconNode`.
 - `href` when the button navigates, so it renders as a link.
 
 ## Accessibility

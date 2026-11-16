@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button · Pulse</title>
+<meta name="description" content="Button guidelines for Pulse: hierarchy, types, states, icons, placement in forms, flows and modals, tap targets, accessibility, content, props and changelog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261106c"></script>
+<script src="site/doc.js?v=20261115a"></script>
+<style>
+  /* Button page only. Shared doc styles are in site/doc.css. */
+  .doc-anatomy .doc-stage { padding: 64px 40px; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .form-mock { display: grid; gap: 16px; width: 100%; }
+  .form-mock .anvil-btn { justify-self: start; }
+  .form-mock--fill .anvil-btn { justify-self: stretch; }
+  .split { display: flex; justify-content: space-between; gap: 16px; width: 100%; }
+  .end { display: flex; justify-content: flex-end; gap: 16px; width: 100%; }
+  .modal { width: 100%; max-width: 440px; margin: 0 auto; background: var(--background-surface); border: 1px solid var(--stroke-base); border-radius: 16px; padding: 24px; box-shadow: var(--elevation); display: grid; gap: 12px; }
+  .modal--m { max-width: 300px; }
+  .modal b { font-size: 18px; line-height: 24px; font-weight: 600; }
+  .modal p { margin: 0; font-size: 14px; line-height: 20px; color: var(--text-body-subdued); }
+  .modal__bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 8px; }
+  .modal__bar > div { display: flex; gap: 12px; }
+  .stack { display: grid; gap: 12px; margin-top: 8px; }
+  .stack .anvil-btn--tertiary { justify-self: center; }
+  .narrow { width: 220px; }
+  #dd-modals { grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); }
+  /* Tap target overlays */
+  .tt { position: relative; display: inline-flex; }
+  .tt::before { content: ""; position: absolute; inset: 0; outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 3px; border-radius: 999px; pointer-events: none; }
+  .tt--tertiary::before { inset: auto; left: -8px; right: -8px; top: 50%; height: 44px; transform: translateY(-50%); border-radius: 8px; outline-offset: 0; }
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#Button">Action</a> / Button</p>
+<span class="doc-status doc-status--ok">Available · Figma, React, iOS, Android</span>
+<h1 class="page-title" style="margin-top:12px">Button</h1>
+<p class="lede">Buttons tell people what they can do, and stand apart from headers and text. The label should make clear what happens when someone presses it.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.Button</code><a class="pg-link" href="playground.html#Button">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#usage">Usage</a><a href="#anatomy">Anatomy</a><a href="#variants">Variants</a><a href="#placement">Placement</a><a href="#interaction">Interaction</a><a href="#accessibility">Accessibility</a><a href="#content">Content</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<section class="doc-sec" id="usage">
+  <h2 class="sec">Usage</h2>
+  <ul style="max-width:72ch">
+    <li>Use the hierarchy to show how important an action is compared with the actions near it, or with the whole screen.</li>
+    <li>Add an icon, or use an icon-only button, when the action is simple, visual or a common pattern.</li>
+    <li>Use the destructive style for actions like deleting, removing or canceling, and anything else that needs caution or confirmation.</li>
+  </ul>
+  <div class="doc-config">
+    <div><h3>Product usage</h3></div>
+    <div><ul><li>Moving through flows, such as registration or requesting a visit</li><li>Submitting forms</li><li>Homepage tiles</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Used in</h3></div>
+    <div><ul><li>Header (a modified version)</li><li>Inline notification</li><li>Modal</li><li>Table</li><li>Toast notification</li></ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="anatomy">
+  <h2 class="sec">Anatomy</h2>
+  <div class="doc-anatomy" style="margin-top:24px">
+    <div class="doc-stage anat" id="anat"></div>
+    <ol class="doc-legend">
+      <li><b>1</b><div><span>Label</span></div></li>
+      <li><b>2</b><div><span>Icon</span><small>Optional, on the left or right of the label.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="doc-sec" id="variants">
+  <h2 class="sec">Variants and options</h2>
+  <div id="variant-rows" style="margin-top:24px"></div>
+</section>
+
+<section class="doc-sec" id="placement">
+  <h2 class="sec">Placement</h2>
+  <h3 class="doc-sub">Forms</h3>
+  <div class="doc-config">
+    <div><h3>One button</h3></div>
+    <div><ul><li>Large screens: a primary button at the bottom of the form, left-aligned with it.</li><li>Small screens: a primary button at the bottom of the form, or a fixed ("sticky") action footer. The button can fill the width of the content.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Several buttons</h3></div>
+    <div><ul><li>Use a primary button for the main action, such as Save, and group the buttons in a row at the bottom of the form, left-aligned with it.</li><li>On small screens, stack them if needed, with the primary button first.</li></ul></div>
+  </div>
+  <div class="doc-dd" id="dd-forms"></div>
+  <h3 class="doc-sub">Multi-step flows</h3>
+  <p style="max-width:72ch">Place the flow's navigation so it reads like a book: in left-to-right languages, you turn pages from right to left to move forward. Group the actions at the bottom of the content. Right-align the primary button for moving forward (usually Next), and left-align a less prominent button for going back (usually Back).</p>
+  <div class="doc-dd" id="dd-flows"></div>
+  <h3 class="doc-sub">Modals</h3>
+  <div class="doc-config">
+    <div><h3>Large screens</h3></div>
+    <div><ul><li>The primary button sits farthest right, aligned with the modal's content.</li><li>A secondary button sits to its left, in a right-aligned group.</li><li>A tertiary button (usually Cancel) sits farthest left, aligned with the content.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Small screens</h3></div>
+    <div><ul><li>Stack them: primary first, then secondary, then tertiary (usually Cancel) last.</li></ul></div>
+  </div>
+  <div class="doc-dd" id="dd-modals"></div>
+</section>
+
+<section class="doc-sec" id="interaction">
+  <h2 class="sec">Interaction</h2>
+  <div class="doc-config">
+    <div><h3>Tap targets</h3><p>Dashed outlines show the tap target.</p></div>
+    <div class="doc-stack">
+      <div class="btn-row" id="tap"></div>
+      <ul><li>Primary and secondary buttons: the tap target is the button.</li><li>Tertiary buttons: the tap target is bigger than the button looks, to reach the 44 × 44px minimum.</li></ul>
+    </div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Platforms</h3></div>
+    <div><ul><li>iOS and Android buttons have the same states as web, since phones and tablets can use a mouse or keyboard.</li><li>Figma handoff usually shows only the default and pressed states.</li></ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="accessibility">
+  <h2 class="sec">Accessibility</h2>
+  <p class="lede">Using a button on a page still needs an annotated design review of the page-level design.</p>
+  <div class="doc-config">
+    <div><h3>Web</h3></div>
+    <div><ul>
+      <li>Buttons are reached with Tab and pressed with Space or Enter.</li>
+      <li>Icons are decorative: give them empty alt text (<code>alt=""</code>).</li>
+      <li>A button can have the link or button role, depending on what it does. In code, pass <code>href</code> to render a link.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>iOS and Android</h3></div>
+    <div><ul>
+      <li>People reach buttons by swiping left or right with VoiceOver on.</li>
+      <li>VoiceOver reads "Label, button", such as "Next, button".</li>
+      <li>Disabled, view-only and loading buttons read "Label, dimmed, button", such as "Confirm, dimmed, button".</li>
+      <li>Icons are decorative and have no alt text.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="content">
+  <h2 class="sec">Content guidelines</h2>
+  <ul style="max-width:72ch">
+    <li>Lead with a verb, not a noun: "View more info", not "More info".</li>
+    <li>Use sentence case and no end punctuation.</li>
+    <li>Be brief: four words or fewer, without filler like "the". Don't give up clarity for brevity; writers can make exceptions.</li>
+    <li>Say what happens next when you can. Avoid vague labels like "Learn more" without context.</li>
+    <li>Don't repeat the header or body copy around it.</li>
+  </ul>
+  <div class="doc-dd" id="dd-content"></div>
+</section>
+
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>variant</code></td><td><code>"primary" | "secondary" | "tertiary"</code></td><td>Default <code>primary</code>.</td></tr>
+      <tr><td><code>destructive</code></td><td><code>boolean</code></td><td>Critical styling for actions that need caution.</td></tr>
+      <tr><td><code>size</code></td><td><code>"default" | "small"</code></td><td>Tertiary only: a 14px label.</td></tr>
+      <tr><td><code>icon</code>, <code>iconName</code>, <code>iconNode</code></td><td><code>"none" | "left" | "right"</code>, <code>IconName</code>, <code>ReactNode</code></td><td>Where the icon sits, which Pulse icon, or a custom 16px SVG.</td></tr>
+      <tr><td><code>loading</code></td><td><code>boolean</code></td><td>Shows a spinner and disables the button.</td></tr>
+      <tr><td><code>disabled</code></td><td><code>boolean</code></td><td></td></tr>
+      <tr><td><code>href</code></td><td><code>string</code></td><td>Renders a link instead of a button.</td></tr>
+      <tr><td><code>state</code></td><td><code>"hover" | "focus" | "pressed"</code></td><td>Forces a state, for docs and prototypes.</td></tr>
+      <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>The label. Required.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Code vs. Figma.</strong>
+    <ul>
+      <li>The React loading state uses the Pulse spinner everywhere. On iOS, Figma uses the native loader.</li>
+      <li>Placement, such as sticky action footers, book-style flow navigation and modal action bars, is up to the page. The Do and Don't examples here are built from plain buttons.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Button</td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Button</td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>PulseButton</td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Button</td></tr>
+      <tr><td>FlowUI</td><td><span class="doc-tag doc-tag--new">Available</span> <span class="doc-tag doc-tag--pending">Pending features</span></td><td>Button (missing icon on web)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Aug 20, 2026</td><td>v5.6.0</td><td><span class="doc-tag doc-tag--new">New</span>Size variant for the tertiary button.</td></tr>
+      <tr><td>Apr 23, 2025</td><td>v5.0.0</td><td>Pulse 5: color, type and space variable updates for all components.<ul><li><span class="doc-tag doc-tag--removed">Removed</span>Small size for primary and secondary buttons on desktop</li><li><span class="doc-tag doc-tag--removed">Removed</span>Fixed height on the Figma button components</li></ul></td></tr>
+      <tr><td>Mar 20, 2024</td><td>v4.0.0</td><td>Pulse 4 with color and space variables. Nested icons with overrides need relinking to Pulse: Design Resources 4.0.0+.</td></tr>
+      <tr><td>Apr 27, 2023</td><td>v3.6.0</td><td>Primary, secondary and tertiary buttons support several platforms: Large for Web (Desktop), Small for Web (Mobile), iOS and Android.</td></tr>
+      <tr><td>Nov 8, 2022</td><td>v3.0.0</td><td><span class="doc-tag doc-tag--new">New</span>Separate primary, secondary and tertiary components for large and small screens. Destructive buttons became variants. Fixed a bug where destructive buttons could show both icons.</td></tr>
+      <tr><td>Jul 22, 2022</td><td>v2.1.0</td><td>Icon updates from the Icons library.</td></tr>
+      <tr><td>Jun 10, 2022</td><td>v2.0.0</td><td><span class="doc-tag doc-tag--new">New</span>Destructive variants with critical colors. Colors mapped to the rebrand's UI Light styles, round corners, updated icons, myStrength variants removed, and "-Core" dropped from the names.</td></tr>
+      <tr><td>Oct 21, 2021</td><td>v1.0.6</td><td>Naming standardized across the library; keywords added.</td></tr>
+      <tr><td>May 6, 2021</td><td>v0.0.7</td><td>Sizes no longer switch font weight.</td></tr>
+      <tr><td>Apr 27, 2021</td><td>v0.0.6</td><td>Default and small buttons are 48 and 44px tall.</td></tr>
+      <tr><td>Apr 9, 2021</td><td>v0.0.5</td><td>Theme color styles for light and dark mode and white-labeling; myStrength button split out.</td></tr>
+      <tr><td>Dec 30, 2020</td><td>v0.0.2</td><td>Initial release.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: Components › Action › Button (Usage, Accessibility, Content guidelines, React, and Status and changelog tabs) in the Pulse Design System documentation. Every button on this page is the live <code>Pulse.Button</code>.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = Doc.h, cap = Doc.cap, dd = Doc.dd, A = Anvil, B = A.Button, TI = A.TextInput;
+  function row(items) { return h("div", { className: "btn-row" }, items); }
+
+  Doc.render("anat", h(B, { icon: "left", iconName: "calendar" }, "Schedule a visit"));
+  Doc.tag("anat", [["1", ".anvil-btn__label", "top"], ["2", ".anvil-btn__icon", "top"]]);
+
+  var states = function (variant, extra) {
+    return h("div", { className: "doc-states" }, [
+      ["Default", {}], ["Hover", { state: "hover" }], ["Focus", { state: "focus" }], ["Pressed", { state: "pressed" }], ["Disabled", { disabled: true }], ["Loading", { loading: true }]
+    ].map(function (s) { return h("div", { key: s[0] }, cap(s[0], h(B, Object.assign({ variant: variant }, extra, s[1]), "Button"))); }));
+  };
+  Doc.rows("variant-rows", [
+    { t: "Hierarchy", p: "Build hierarchy with different levels of emphasis.", ol: ["Primary: the most important action on a page or in an area. Use one per page.", "Secondary", "Tertiary: less visual weight, good when a page has many actions."],
+      el: [row([h(B, { key: 1 }, "Primary"), h(B, { key: 2, variant: "secondary" }, "Secondary"), h(B, { key: 3, variant: "tertiary" }, "Tertiary")])] },
+    { t: "Type", p: "Show what kind of action happens.", ol: ["Default", "Destructive: critical styling for actions that need caution, such as deleting, removing, canceling (a visit, say) or ending."],
+      el: [h("div", { key: "a", className: "doc-stack" },
+        cap("Default", row([h(B, { key: 1 }, "Primary"), h(B, { key: 2, variant: "secondary" }, "Secondary"), h(B, { key: 3, variant: "tertiary" }, "Tertiary")])),
+        cap("Destructive", row([h(B, { key: 1, destructive: true }, "Cancel visit"), h(B, { key: 2, variant: "secondary", destructive: true }, "Remove"), h(B, { key: 3, variant: "tertiary", destructive: true }, "Delete")])))] },
+    { t: "State", p: "States vary by platform, but can include these.", ol: ["Default", "Hover", "Focus", "Pressed", "Disabled", "Loading"], stack: true,
+      el: [h("div", { key: 1 }, cap("Primary", states("primary"))), h("div", { key: 2 }, cap("Secondary", states("secondary"))), h("div", { key: 3 }, cap("Tertiary", states("tertiary")))] },
+    { t: "Icon", p: "An optional icon adds to the label.", ol: ["None", "Left of the label", "Right of the label"],
+      el: [row([cap("None", h(B, { key: 1 }, "Book a visit")), cap("Left", h(B, { key: 2, icon: "left", iconName: "calendar" }, "Book a visit")), cap("Right", h(B, { key: 3, icon: "right", iconName: "arrow-right" }, "Continue"))])] },
+    { t: "Size", p: "Tertiary buttons also come in a small size (14px label), for tight spaces such as card footers.",
+      el: [row([cap("Default", h(B, { key: 1, variant: "tertiary" }, "View details")), cap("Small", h(B, { key: 2, variant: "tertiary", size: "small" }, "View details"))])] },
+    { t: "Loading", p: "The loading state differs by platform.", li: ["Web (desktop and mobile) and Android: the standard Pulse loading indicator.", "iOS: the native loader."],
+      el: [row([h(B, { key: 1, loading: true }, "Saving"), h(B, { key: 2, variant: "secondary", loading: true }, "Saving")])] }
+  ]);
+
+  var field = function (k) { return h(TI, { key: k, label: "Email", defaultValue: "ana@example.com" }); };
+  Doc.render("dd-forms", h(React.Fragment, null,
+    dd("do", "On small screens, a single form button can fill the width of the content.", h("div", { className: "form-mock form-mock--fill doc-w" }, field(1), h(B, null, "Save"))),
+    dd("dont", "On large screens, don’t let buttons fill the width of the content.", h("div", { className: "form-mock form-mock--fill" }, field(1), h(B, null, "Save")), { wide: true }),
+    dd("do", "On small screens, consider a fixed (“sticky”) action footer at the bottom of the screen.",
+      h("div", { className: "doc-phone", style: { height: 300, margin: "0 auto" } }, h("div", { className: "doc-phone__body" }, field(1), h("i"), h("i")), h("div", { className: "doc-phone__foot", style: { borderTop: "1px solid var(--stroke-subdued)", paddingTop: 12, background: "var(--background-surface)" } }, h(B, { style: { width: "100%" } }, "Save")))),
+    dd("do", "With several actions, group them in a row at the bottom, left-aligned, with the primary first.", h("div", { className: "form-mock" }, field(1), row([h(B, { key: 1 }, "Save"), h(B, { key: 2, variant: "secondary" }, "Cancel")])))
+  ));
+
+  Doc.render("dd-flows", h(React.Fragment, null,
+    dd("do", "Right-align the action that moves forward and left-align the one that goes back.", h("div", { className: "split" }, h(B, { variant: "secondary" }, "Back"), h(B, null, "Next"))),
+    dd("dont", "Don’t right-align the whole navigation group.", h("div", { className: "end" }, h(B, { variant: "secondary" }, "Back"), h(B, null, "Next")))
+  ));
+
+  function modal(kind) {
+    var body = [h("b", { key: "t" }, "Cancel your visit?"), h("p", { key: "p" }, "Your provider will be notified.")];
+    if (kind === "one") return h("div", { className: "modal" }, h("b", null, "Visit booked"), h("p", null, "We’ll send a reminder before your visit."), h("div", { className: "modal__bar", style: { justifyContent: "flex-end" } }, h(B, null, "Got it")));
+    if (kind === "badstack") return h("div", { className: "modal modal--m" }, body, h("div", { className: "stack" }, h(B, { variant: "secondary" }, "Reschedule"), h(B, null, "Keep visit"), h(B, { variant: "tertiary" }, "Cancel")));
+    if (kind === "destructive") return h("div", { className: "modal" }, body, h("div", { className: "modal__bar" }, h(B, { variant: "tertiary" }, "Keep visit"), h("div", null, h(B, { destructive: true }, "Cancel visit"))));
+    return h("div", { className: "modal" }, body, h("div", { className: "modal__bar" }, h(B, { variant: "tertiary" }, "Cancel"), h("div", null, h(B, { variant: "secondary" }, "Reschedule"), h(B, null, "Keep visit"))));
+  }
+  Doc.render("dd-modals", h(React.Fragment, null,
+    dd("do", "Large screens: primary farthest right, secondary beside it, tertiary farthest left.", modal("default")),
+    dd("do", "Use only the buttons people need. An informational modal may need just one confirmation.", modal("one")),
+    dd("dont", "Don’t reorder the hierarchy. On mobile, the primary action is always at the top of the stack.", modal("badstack")),
+    dd("do", "When the confirming action is negative, keep the usual placement but consider the destructive style for the primary button.", modal("destructive"))
+  ));
+
+  Doc.render("tap", h(React.Fragment, null,
+    cap("Primary", h("span", { className: "tt" }, h(B, null, "Primary"))),
+    cap("Secondary", h("span", { className: "tt" }, h(B, { variant: "secondary" }, "Secondary"))),
+    cap("Tertiary (44px target)", h("span", { className: "tt tt--tertiary" }, h(B, { variant: "tertiary", size: "small" }, "Tertiary")))));
+
+  Doc.render("dd-content", h(React.Fragment, null,
+    dd("dont", "Don’t let labels wrap to a second line. This often happens with translated text, such as Spanish. Labels should only wrap when people turn on larger text on their device.", h("div", { className: "narrow" }, h(B, { style: { width: "100%", whiteSpace: "normal" } }, "Programar una visita con su proveedor"))),
+    dd("do", "With translated content, shorten the translation or the source so the label fits on one line.", h("div", { className: "narrow" }, h(B, { style: { width: "100%" } }, "Programar visita")))
+  ));
+})();
+</script>
+<script src="site/site.js?v=20261112i"></script>
+</body>
+</html>

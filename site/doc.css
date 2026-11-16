@@ -1,0 +1,108 @@
+/* Component documentation pages (visit-card.html, card.html, global-footer.html, global-header.html). Every color is an Anvil token, so the theme switcher restyles these pages too. */
+
+/* Page head */
+.doc-crumb { font-size: 14px; color: var(--text-body-subdued); margin: 0 0 16px; }
+.doc-crumb a { color: inherit; }
+.doc-status { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; line-height: 20px; padding: 2px 10px; border-radius: 999px;
+  background: var(--background-status-warning-subdued); color: var(--text-status-warning); border: 1px solid var(--stroke-status-warning-subdued); }
+.doc-status--ok { background: var(--background-status-success-subdued); color: var(--text-status-success); border-color: var(--stroke-status-success-subdued); }
+
+/* Sections */
+.doc-sec { margin-top: 64px; scroll-margin-top: 90px; }
+.doc-sec > h2.sec { margin-top: 0; }
+.doc-sec .lede + .lede { margin-top: -4px; }
+.doc-sec h3.doc-sub { margin: 40px 0 8px; font-weight: 600; font-size: 18px; line-height: 24px; }
+.doc-label { display: block; font-size: 13px; font-weight: 500; line-height: 20px; color: var(--text-body-subdued); background: var(--background-subdued); padding: 8px 16px; border-radius: 8px; margin: 32px 0 16px; }
+.doc-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; align-items: start; }
+.doc-stage { background: var(--background-subdued); border: 1px solid var(--stroke-subdued); border-radius: 16px; padding: 24px; }
+.doc-cap { font-size: 12px; line-height: 16px; color: var(--text-body-subdued); margin-bottom: 8px; }
+.doc-src { margin-top: 64px; font-size: 14px; color: var(--text-body-subdued); }
+
+/* Change list and tags */
+.doc-changes { columns: 2 280px; column-gap: 40px; padding-left: 20px; margin: 16px 0 0; }
+.doc-changes li { break-inside: avoid; margin-bottom: 4px; }
+.doc-tag { display: inline-block; font-size: 11px; font-weight: 600; line-height: 16px; letter-spacing: .02em; padding: 1px 6px; border-radius: 4px; margin-right: 6px; vertical-align: 1px; white-space: nowrap; }
+.doc-tag--new { background: var(--background-status-success-subdued); color: var(--text-status-success); }
+.doc-tag--changed { background: var(--background-status-info-subdued); color: var(--text-status-info); }
+.doc-tag--removed { background: var(--background-status-critical-subdued); color: var(--text-status-critical); }
+.doc-tag--pending { background: var(--background-status-warning-subdued); color: var(--text-status-warning); }
+
+/* Notes */
+.doc-note { border-left: 4px solid var(--stroke-status-info); background: var(--background-status-info-subdued); padding: 12px 16px; border-radius: 4px 8px 8px 4px; font-size: 15px; line-height: 24px; margin: 16px 0; max-width: 80ch; }
+.doc-note--code { border-left-color: var(--stroke-status-warning); background: var(--background-status-warning-subdued); }
+.doc-note strong { font-weight: 600; }
+.doc-note ul { margin: 8px 0 0; padding-left: 18px; }
+
+/* Config rows: guidance on the left, live examples on the right */
+.doc-config { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 24px 40px; padding: 28px 0; border-top: 1px solid var(--stroke-subdued); }
+.doc-config:last-child { border-bottom: 1px solid var(--stroke-subdued); }
+.doc-config h3 { margin: 0 0 6px; font-weight: 600; font-size: 16px; line-height: 22px; }
+.doc-config p { margin: 0 0 8px; font-size: 15px; line-height: 22px; color: var(--text-body-subdued); }
+.doc-config ul, .doc-config ol { margin: 0; padding-left: 18px; font-size: 15px; line-height: 22px; color: var(--text-body-subdued); }
+.doc-config li + li { margin-top: 4px; }
+.doc-config .or { font-size: 13px; font-weight: 600; color: var(--text-body-subdued); margin: 8px 0; }
+.doc-config .doc-row { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+@media (max-width: 800px) { .doc-config { grid-template-columns: 1fr; } }
+
+/* Anatomy: numbered markers drawn on the live component. Tag a part with data-m="1" and data-at="left|right|top". */
+.doc-anatomy { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 32px; align-items: center; }
+.doc-anatomy .doc-stage { padding: 56px 56px 40px; display: flex; justify-content: center; }
+.doc-anatomy .doc-stage > * { width: 358px; max-width: 100%; }
+.anat [data-m] { position: relative; outline: 1px dashed var(--brand-interactive-primary-base); outline-offset: 2px; border-radius: 2px; }
+.anat [data-m]::after { content: attr(data-m); position: absolute; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  font: 600 12px/1 var(--font-sans); background: var(--brand-interactive-primary-base); color: var(--background-surface); z-index: 3; }
+.anat [data-at="left"]::after { left: -38px; top: 50%; transform: translateY(-50%); }
+.anat [data-at="right"]::after { right: -42px; top: 50%; transform: translateY(-50%); }
+.anat [data-at="top"]::after { left: 50%; top: -34px; transform: translateX(-50%); }
+.anat [data-at="inside"]::after { left: 8px; top: 8px; }
+.anat [data-at="bottom"]::after { left: 50%; bottom: -34px; transform: translateX(-50%); }
+.doc-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.doc-legend li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; }
+.doc-legend b { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 600; line-height: 1;
+  background: var(--brand-interactive-primary-base); color: var(--background-surface); margin-top: 1px; }
+.doc-legend span { font-weight: 500; line-height: 24px; }
+.doc-legend small { display: block; font-size: 13px; line-height: 18px; color: var(--text-body-subdued); margin-top: 2px; }
+@media (max-width: 800px) { .doc-anatomy { grid-template-columns: 1fr; } }
+
+/* Do, Don't and Caution */
+.doc-dd { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px 24px; align-items: start; margin-top: 24px; }
+.dd-stage { background: var(--background-subdued); border: 1px solid var(--stroke-subdued); border-radius: 12px 12px 0 0; padding: 24px; min-height: 160px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+.dd-bar { height: 4px; border-radius: 0 0 4px 4px; background: var(--stroke-status-success); }
+.dd-verdict { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 14px; font-weight: 600; line-height: 20px; color: var(--text-status-success); }
+.dd p { margin: 4px 0 0; font-size: 15px; line-height: 22px; color: var(--text-body-subdued); }
+.dd--dont .dd-bar { background: var(--stroke-status-critical); }
+.dd--dont .dd-verdict { color: var(--text-status-critical); }
+.dd--caution .dd-bar { background: var(--stroke-status-warning); }
+.dd--caution .dd-verdict { color: var(--text-status-warning); }
+
+/* Tap targets overlay: wrap examples in .tap; buttons get a "Button" tag, data-tap elements get their own label */
+.tap { padding-top: 26px; padding-bottom: 30px; }
+.tap .anvil-btn, .tap .anvil-icon-btn, .tap [data-tap] { position: relative; outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 2px; }
+.tap .anvil-btn::after, .tap .anvil-icon-btn::after, .tap [data-tap]::after {
+  content: "Button"; position: absolute; left: 0; top: calc(100% + 6px); white-space: nowrap; font: 500 11px/16px var(--font-sans); padding: 1px 6px; border-radius: 4px;
+  background: var(--brand-interactive-primary-base); color: var(--background-surface); pointer-events: none; z-index: 3; }
+.tap [data-tap]::after { content: attr(data-tap); }
+
+/* Tables */
+.doc-props { border-collapse: collapse; font-size: 14px; line-height: 22px; width: 100%; margin-top: 16px; }
+.doc-props th, .doc-props td { border-bottom: 1px solid var(--stroke-subdued); padding: 8px 12px 8px 0; text-align: left; vertical-align: top; }
+.doc-props th { font-weight: 600; }
+.doc-props td:first-child { white-space: nowrap; }
+.doc-props ul { margin: 0; padding-left: 18px; }
+
+/* Phone frame for page-level examples */
+.doc-phone { box-sizing: border-box; width: 340px; max-width: 100%; height: 460px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--stroke-base); border-radius: 28px; background: var(--background-base); }
+.doc-phone__body { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 16px; }
+.doc-phone__body i { display: block; height: 12px; border-radius: 6px; background: var(--background-subdued); }
+.doc-phone__body i:nth-child(3n+1) { width: 70%; } .doc-phone__body i:nth-child(3n+2) { width: 92%; } .doc-phone__body i:nth-child(3n) { width: 56%; }
+.doc-phone__body b { display: block; height: 72px; border-radius: 12px; background: var(--background-surface); border: 1px solid var(--stroke-subdued); }
+.doc-phone__foot { padding: 0 12px 16px; }
+.doc-phones { display: flex; flex-wrap: wrap; gap: 24px; }
+
+/* Stacks, full-width rows and wide tiles */
+.doc-stack { display: grid; gap: 16px; align-content: start; }
+.doc-config .full { grid-column: 1 / -1; }
+.doc-dd > .dd--wide { grid-column: 1 / -1; }
+.doc-w { width: 100%; max-width: 358px; }
+.doc-w-lg { width: 100%; max-width: 480px; }
+.doc-states { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px 24px; align-items: start; }

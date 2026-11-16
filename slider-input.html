@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slider input · Pulse</title>
+<meta name="description" content="Slider input guidelines for Pulse: anatomy, types, states, label, value and range options, placement, interaction, accessibility, props and changelog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261106c"></script>
+<script src="site/doc.js?v=20261115a"></script>
+<style>
+  /* Slider input page only. Shared doc styles are in site/doc.css. */
+  .doc-anatomy .doc-stage { padding: 72px 64px 56px 72px; }
+  .doc-anatomy .doc-stage > * { width: 340px; }
+  .sl { width: 100%; max-width: 358px; }
+  .tt-handle .anvil-slider__handle { outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 2px; }
+  .tt-handle-lg .anvil-slider__handle { outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 12px; }
+  .rail-demo { display: grid; grid-template-columns: 200px 1fr; gap: 16px; width: 100%; }
+  .rail-demo aside { border: 1px solid var(--stroke-base); border-radius: 12px; padding: 16px; background: var(--background-surface); }
+  .rail-demo div.video { border-radius: 12px; background: var(--background-subdued); min-height: 160px; display: grid; place-items: center; color: var(--text-body-subdued); font-size: 13px; }
+  .demo-flip .anvil-slider__range { flex-direction: row-reverse; }
+  .anat .anvil-slider__track[data-m], .anat .anvil-slider__fill[data-m], .anat .anvil-slider__value[data-m] { position: absolute; }
+  .demo-nohandle .anvil-slider__handle { opacity: 0; }
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#Slider">Form</a> / Slider input</p>
+<span class="doc-status">Figma, React, iOS and Android available · FlowUI pending</span>
+<h1 class="page-title" style="margin-top:12px">Slider input</h1>
+<p class="lede">Slider input lets people pick a value from a range. Use it to capture a number, or to adjust settings such as volume and brightness. Changes are usually immediate, so people see the effect as they move along the track.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.Slider</code><a class="pg-link" href="playground.html#Slider">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#usage">Usage</a><a href="#anatomy">Anatomy</a><a href="#variants">Variants</a><a href="#placement">Placement</a><a href="#interaction">Interaction</a><a href="#accessibility">Accessibility</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<section class="doc-sec" id="usage">
+  <h2 class="sec">Usage</h2>
+  <p class="lede">At its simplest, the slider can have a form label (label and helper text) and show the current, minimum and maximum values.</p>
+  <div class="doc-config">
+    <div><h3>Product usage</h3></div>
+    <div><ul><li>Chronic Condition Management: choosing the low blood sugar reading that alerts a coach when a reading is at or below it</li><li>Video visits: adjusting the volume during a call with a provider</li></ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="anatomy">
+  <h2 class="sec">Anatomy</h2>
+  <div class="doc-anatomy" style="margin-top:24px">
+    <div class="doc-stage anat" id="anat"></div>
+    <ol class="doc-legend">
+      <li><b>1</b><div><span>Label</span></div></li>
+      <li><b>2</b><div><span>Helper text</span></div></li>
+      <li><b>3</b><div><span>Active track</span></div></li>
+      <li><b>4</b><div><span>Inactive track</span></div></li>
+      <li><b>5</b><div><span>Handle, with the current value</span><small>Called the knob on iOS.</small></div></li>
+      <li><b>6</b><div><span>Minimum value</span><small>The lowest number people can pick.</small></div></li>
+      <li><b>7</b><div><span>Maximum value</span><small>The highest number people can pick.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="doc-sec" id="variants">
+  <h2 class="sec">Variants and options</h2>
+  <p class="lede">Available for iOS, Android, and web (mobile and desktop).</p>
+  <div id="variant-rows" style="margin-top:24px"></div>
+</section>
+
+<section class="doc-sec" id="placement">
+  <h2 class="sec">Placement</h2>
+  <div class="doc-config">
+    <div><h3>Desktop to mobile</h3></div>
+    <div><ul><li>The slider usually fills its content container horizontally.</li><li>Content containers rarely take the full width of the screen: side rails and centered containers keep components from stretching too wide.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Drawers and side rails</h3></div>
+    <div class="doc-stack"><p>Like other form inputs, sliders can sit in side rails or flyout drawers, which is useful next to a video call. The slider fills the rail or drawer.</p><div id="rail"></div></div>
+  </div>
+  <div class="doc-dd" id="dd-placement"></div>
+</section>
+
+<section class="doc-sec" id="interaction">
+  <h2 class="sec">Interaction</h2>
+  <div id="interaction-rows" style="margin-top:16px"></div>
+</section>
+
+<section class="doc-sec" id="accessibility">
+  <h2 class="sec">Accessibility</h2>
+  <p class="lede">Using a slider on a page still needs an annotated design review of the page-level design.</p>
+  <div class="doc-config">
+    <div><h3>Screen readers</h3></div>
+    <div><ul><li>Every visible text must be announced, for single and double handles.</li><li>In code, each handle is a native range input, so screen readers hear its value, minimum and maximum. <code>formatValue</code> sets what they hear, such as "70 mg/dL".</li><li>Without a visible label, pass <code>ariaLabel</code>.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Keyboard</h3></div>
+    <div><ul><li>The left and right arrow keys move the handle along the track.</li></ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>label</code>, <code>helper</code></td><td><code>ReactNode</code></td><td>The form label.</td></tr>
+      <tr><td><code>min</code>, <code>max</code>, <code>step</code></td><td><code>number</code></td><td>Defaults 0, 100 and 1.</td></tr>
+      <tr><td><code>value</code>, <code>defaultValue</code>, <code>onChange</code></td><td><code>number | [number, number]</code></td><td>A pair when <code>range</code> is on.</td></tr>
+      <tr><td><code>range</code></td><td><code>boolean</code></td><td>Two handles.</td></tr>
+      <tr><td><code>direction</code></td><td><code>"ltr" | "rtl"</code></td><td>Right-to-left fills from the handle to the maximum.</td></tr>
+      <tr><td><code>formatValue</code></td><td><code>(value) =&gt; string</code></td><td>Formats shown and announced values, such as <code>v =&gt; v + " mg/dL"</code>.</td></tr>
+      <tr><td><code>showValue</code>, <code>showRange</code></td><td><code>boolean</code></td><td>Show the current value and the minimum and maximum.</td></tr>
+      <tr><td><code>disabled</code>, <code>ariaLabel</code></td><td><code>boolean</code>, <code>string</code></td><td></td></tr>
+      <tr><td><code>state</code>, <code>forcedHandle</code></td><td><code>"hover" | "focus" | "pressed"</code>, <code>0 | 1</code></td><td>Forces a state on a handle, for docs.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Code vs. Figma.</strong>
+    <ul>
+      <li>In code, the invisible native input gives the handle a 44 × 44px hit area on web too. Figma limits the web target to the 24 × 24px handle.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Slider-input</td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>RangeSlider</td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>PulseSlider</td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Slider</td></tr>
+      <tr><td>FlowUI</td><td><span class="doc-tag doc-tag--pending">Pending</span></td><td>RangeSlider</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Apr 23, 2025</td><td>v5.0.0</td><td>Pulse 5: color, type and space variable updates for all components.</td></tr>
+      <tr><td>Mar 20, 2024</td><td>v4.0.0</td><td><span class="doc-tag doc-tag--changed">Changed</span>Variant names and width match other form components.</td></tr>
+      <tr><td>Oct 19, 2023</td><td>v3.10.0</td><td><span class="doc-tag doc-tag--new">New</span>Slider input with properties and multi-platform support: left-to-right, right-to-left and range, with optional form label, current value and range values, and interactive states for web and Android.</td></tr>
+      <tr><td>Oct 19, 2023</td><td>v2.2.8</td><td><span class="doc-tag doc-tag--removed">Deprecated</span>Range slider in the Pulse 2 kit.</td></tr>
+      <tr><td>Aug 9, 2022</td><td>v2.2.0</td><td>Range slider uses "Surface shade".</td></tr>
+      <tr><td>Jun 10, 2022</td><td>v2.0.0</td><td>Colors mapped to UI Light; resize bugs fixed.</td></tr>
+      <tr><td>Jun 21, 2021</td><td>v1.0.0</td><td><span class="doc-tag doc-tag--new">New</span>Range slider input.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: Components › Form › Slider input (Usage, Accessibility, Figma build tips, React, and Status and changelog tabs) in the Pulse Design System documentation. Every slider on this page is the live <code>Pulse.Slider</code>.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = Doc.h, cap = Doc.cap, dd = Doc.dd, A = Anvil, S = A.Slider;
+  var mg = function (v) { return v + " mg/dL"; };
+  function sl(props) { return h("div", { className: "sl" }, h(S, Object.assign({ label: "Low blood sugar alert", helper: "We’ll tell your coach when a reading is at or below this.", min: 50, max: 100, defaultValue: 70, formatValue: mg, showValue: true, showRange: true }, props))); }
+
+  Doc.render("anat", h(S, { label: "Low blood sugar alert", helper: "We’ll tell your coach at or below this.", min: 50, max: 100, defaultValue: 70, formatValue: mg, showValue: true, showRange: true }));
+  Doc.tag("anat", [["1", ".anvil-field__label", "left"], ["2", ".anvil-field__helper", "left"], ["3", ".anvil-slider__fill", "left"], ["4", ".anvil-slider__track", "right"], ["5", ".anvil-slider__value", "right"], ["6", ".anvil-slider__range > :first-child", "bottom"], ["7", ".anvil-slider__range > :last-child", "bottom"]]);
+
+  var states = [["Enabled", {}], ["Hover", { state: "hover" }], ["Pressed", { state: "pressed" }], ["Focus", { state: "focus" }], ["Disabled", { disabled: true }]];
+  Doc.rows("variant-rows", [
+    { t: "Type", ol: ["Left-to-right: one handle; the active track grows from the left. Values read from minimum to maximum, left to right.", "Right-to-left: one handle; the active track grows from the right. Values still read left to right. This isn’t for right-to-left languages.", "Range: two handles. The left one is the minimum picked, the right one the maximum."],
+      el: [cap("Left-to-right", sl({ label: null, helper: null }), { key: 1 }), cap("Right-to-left", sl({ label: null, helper: null, direction: "rtl" }), { key: 2 }), cap("Range", sl({ label: null, helper: null, range: true, defaultValue: [60, 85] }), { key: 3 })] },
+    { t: "States", p: "All platforms have enabled and disabled. Web and Android add hover, pressed and focus.", ol: ["Enabled (default)", "Hover: a different handle color and a subtle shadow", "Pressed: a bigger handle, easier to see on small screens", "Focus", "Disabled: blocks the handle and track"],
+      el: states.map(function (s) { return cap(s[0], sl(Object.assign({ label: null, helper: null }, s[1])), { key: s[0] }); }) },
+    { t: "Form label", p: "Show a label and helper text, which helps next to other form fields or settings. Leave them out when you only need the slider.",
+      el: [cap("With label", sl({}), { key: 1 }), cap("Without label", sl({ label: null, helper: null, ariaLabel: "Low blood sugar alert" }), { key: 2 })] },
+    { t: "Current value", p: "Every platform shows the current value above the handle, and it follows the handle. Add a unit (cm, mi, mg/dL) next to the number if needed. Hide it if you don’t need it.",
+      el: [cap("Shown", sl({ label: null, helper: null }), { key: 1 }), cap("Hidden", sl({ label: null, helper: null, showValue: false }), { key: 2 })] },
+    { t: "Value range", p: "Shows the minimum and maximum. Only hide it when the range is obvious, such as 0 to 100 for volume or zoom.",
+      el: [cap("Shown", sl({ label: null, helper: null }), { key: 1 }), cap("Hidden", sl({ label: null, helper: null, showRange: false }), { key: 2 })] },
+    { t: "Slider only", p: "Hide the labels, value and range for utility controls like volume or zoom. In forms and settings, show as much useful information as you can.",
+      el: [cap("Volume", h("div", { className: "sl" }, h(S, { ariaLabel: "Volume", defaultValue: 60, showValue: false, showRange: false })), { key: 1 })] }
+  ]);
+
+  Doc.render("rail", h("div", { className: "rail-demo" },
+    h("div", { className: "video" }, "Video call"),
+    h("aside", null, h(S, { label: "Volume", defaultValue: 60, showValue: false, showRange: false }))));
+
+  Doc.render("dd-placement", h(React.Fragment, null,
+    dd("caution", "The slider fills its container, but watch that it doesn’t get too wide: the wider it is, the more effort it takes to drag the handle. On full-width pages, put it in a narrower container.", h("div", { style: { width: "100%" } }, h(S, { ariaLabel: "Volume", defaultValue: 60, showValue: false, showRange: false })), { wide: true }),
+    dd("dont", "Don’t hide the handle.", h("div", { className: "sl demo-nohandle" }, h(S, { ariaLabel: "Volume", defaultValue: 60, showValue: false }))),
+    dd("dont", "Don’t show the minimum on the right and the maximum on the left. In left-to-right languages, they read from left to right.", h("div", { className: "sl demo-flip" }, h(S, { ariaLabel: "Alert level", min: 50, max: 100, defaultValue: 70, formatValue: mg, showValue: false, showRange: true })))
+  ));
+
+  Doc.rows("interaction-rows", [
+    { t: "Jump to a point", p: "On every platform, clicking or tapping the track moves the handle there.", el: [cap("Try it", sl({ label: null, helper: null }), { key: 1 })] },
+    { t: "Tap targets", p: "Web: the handle itself, 24 × 24px. iOS and Android: 44 × 44px, for fingers.",
+      el: [cap("Web", h("div", { className: "sl tt-handle" }, h(S, { ariaLabel: "Volume", defaultValue: 50, showValue: false })), { key: 1 }), cap("iOS and Android", h("div", { className: "sl tt-handle-lg" }, h(S, { ariaLabel: "Volume", defaultValue: 50, showValue: false })), { key: 2 })] },
+    { t: "Keyboard", p: "Tab to the handle, then use the left and right arrow keys.", el: [cap("Try it", sl({ label: null, helper: null }), { key: 1 })] }
+  ]);
+})();
+</script>
+<script src="site/site.js?v=20261112i"></script>
+</body>
+</html>

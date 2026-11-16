@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foundations · Pulse</title>
+<meta name="description" content="Pulse foundations: design tokens, border radius, color, effect, iconography, typography and spacing, in every theme.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261106c">
+<link rel="stylesheet" href="dist/anvil.css?v=20261106c">
+<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<link rel="stylesheet" href="site/color-browser.css?v=20261116a">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261106c"></script>
+<script src="site/doc.js?v=20261115a"></script>
+<style>
+  /* Foundations page only. Shared doc styles are in site/doc.css. */
+  .f-sec { margin-top: 72px; scroll-margin-top: 90px; }
+  .f-sec > h2.sec { margin-top: 0; }
+  .f-tabs { margin-top: 8px; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; margin-top: 16px; }
+  .swatch { display: grid; gap: 8px; font-size: 13px; line-height: 18px; }
+  .swatch code { background: none; padding: 0; font-size: 12px; }
+  .swatch small { color: var(--text-body-subdued); }
+  .rbox { height: 72px; background: var(--brand-interactive-primary-subdued); border: 1.5px solid var(--brand-interactive-primary-base); }
+  .ebox { height: 88px; border-radius: 12px; background: var(--background-surface); display: grid; place-items: center; font-size: 13px; color: var(--text-body-subdued); }
+  .themes4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; margin-top: 16px; }
+  .themes4 > div { border-radius: 16px; padding: 16px; background: var(--background-base); border: 1px solid var(--stroke-subdued); color: var(--text-body-base); display: grid; gap: 10px; }
+  .themes4 .doc-cap { color: var(--text-body-subdued); }
+  .bar-cell { display: flex; align-items: center; gap: 8px; }
+  .bar-cell span { display: inline-block; height: 12px; background: var(--brand-interactive-primary-subdued); border: 1px solid var(--brand-interactive-primary-base); border-radius: 3px; }
+  .diff { color: var(--text-status-warning); font-weight: 500; }
+  .type-spec { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--stroke-subdued); align-items: baseline; }
+  .type-spec small { font-family: ui-monospace, Menlo, monospace; font-size: 12px; line-height: 18px; color: var(--text-body-subdued); }
+  .type-spec small b { display: block; font-family: var(--font-sans); font-size: 13px; color: var(--text-body-base); font-weight: 600; }
+  .hier { display: grid; gap: 4px; padding: 24px; border-radius: 16px; background: var(--background-surface); border: 1px solid var(--stroke-subdued); }
+  .hier [data-m] { margin-left: 32px; }
+  .icon-row { display: flex; flex-wrap: wrap; gap: 24px 32px; align-items: flex-start; }
+  .icon-row > div { display: grid; justify-items: center; gap: 8px; font-size: 12px; color: var(--text-body-subdued); text-align: center; }
+  .ilist { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .ilist li { display: flex; gap: var(--space-100); align-items: flex-start; font-size: 16px; line-height: 24px; }
+  .ilist li .ic { display: inline-flex; height: 24px; align-items: center; }
+  .ilist--center li { align-items: center; }
+  .ilist--center li .ic { height: auto; }
+  .demo-stroke svg { stroke: currentColor; stroke-width: 1.4px; paint-order: stroke; }
+  .icon-h { display: flex; align-items: center; gap: var(--space-150); }
+  .icon-b { display: flex; align-items: center; gap: var(--space-100); }
+  @media (max-width: 640px) { .type-spec { grid-template-columns: 1fr; } }
+
+  /* Color browser (moved here from colors.html), mapped to Anvil tokens so it follows the site theme */
+  .cb { --bg: var(--background-base); --surface: var(--background-surface); --sunk: var(--background-subdued); --ink: var(--text-body-base); --muted: var(--text-body-subdued);
+    --line: var(--stroke-subdued); --accent: var(--brand-interactive-primary-base); --accent-soft: var(--brand-interactive-primary-subdued); --heading: var(--text-header-serif);
+    --check: var(--background-subdued); --sans: var(--font-sans); --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace; margin-top: 24px; }
+  .cb-meta { font-size: 13px; color: var(--text-body-subdued); font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body class="cp-page">
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html" aria-current="page">Foundations</a><a href="components.html">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<div class="cp">
+<nav class="cp-side" aria-label="Foundations">
+  <p class="eyebrow">Styles</p>
+  <a href="#tokens">Design tokens</a><a href="#radius">Border radius</a><a href="#color">Color</a><a href="#effect">Effect</a><a href="#iconography">Iconography</a><a href="#typography">Typography</a><a href="#spacing">Spacing</a>
+</nav>
+<div class="cp-body">
+<p class="doc-crumb">Foundations / Styles</p>
+<h1 class="page-title">Foundations</h1>
+<p class="lede">Styles set the look of every element and component in Teladoc Health interfaces. Everything on this page reads the live tokens, so switch the theme at the top to see Core UI and PLI, light and dark.</p>
+<nav class="jump" aria-label="Foundations (compact)"><a href="#tokens">Design tokens</a><a href="#radius">Border radius</a><a href="#color">Color</a><a href="#effect">Effect</a><a href="#iconography">Iconography</a><a href="#typography">Typography</a><a href="#spacing">Spacing</a></nav>
+
+<!-- Design tokens -->
+<section class="f-sec" id="tokens">
+  <h2 class="sec">Design tokens</h2>
+  <p class="lede">Design tokens are a shared language between designers and engineers. Designers use them as variables, styles and modes in Figma; engineers use them as variables in each platform's SDK, for color, type, spacing and more. The Pulse team maintains them to keep the product experience consistent.</p>
+  <div class="doc-config">
+    <div><h3>Why use them</h3></div>
+    <div><ul>
+      <li>Brand consistency</li>
+      <li>Room to innovate while the UI stays cohesive</li>
+      <li>Themes for dark interfaces and private label instances (PLI)</li>
+      <li>Easier upkeep as tokens change for brand or accessibility</li>
+      <li>Smoother handoff to engineering</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>When to use them</h3></div>
+    <div><ul><li>Always. Designers and developers both use tokens throughout their work, to stay consistent and support themes.</li><li>Use them alongside Pulse components, which are built from the same tokens.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>What's available</h3></div>
+    <div><ul>
+      <li>Background, text, icon, stroke (border) and brand colors</li>
+      <li>Typography</li>
+      <li>Padding, space and space between</li>
+      <li>Sizes for icons and graphics</li>
+      <li>Border radius</li>
+      <li>Effects</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>For developers</h3></div>
+    <div><ul>
+      <li>Tokens are available for web, iOS and Android, with different syntax on each.</li>
+      <li>In Figma's Dev Mode, hover a variable, click the three dots and open its details: the code syntax for each platform is at the bottom. Some typography, focus and elevation tokens don't show there; use the token Airtable instead.</li>
+      <li>iOS: color tokens use UIKit syntax by default. For SwiftUI, replace <code>.color</code> with <code>.swiftUIColor</code>.</li>
+      <li>On this site: <code>tokens/tokens.json</code> has every token, and <code>tokens/anvil-tokens.css</code> has them as CSS custom properties, with one block per theme.</li>
+    </ul></div>
+  </div>
+  <h3 class="doc-sub">One component, four themes</h3>
+  <p style="max-width:72ch">The same interface in Core UI and PLI, light and dark. Nothing changes but the tokens.</p>
+  <div class="themes4" id="themes4"></div>
+</section>
+
+<!-- Border radius -->
+<section class="f-sec" id="radius">
+  <h2 class="sec">Border radius</h2>
+  <p class="lede">Radius tokens use numbers instead of names (small, medium, large), so new steps can be added without renaming.</p>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Token</th><th>Comfortable</th><th>PLI</th><th>In code, this theme</th></tr></thead>
+    <tbody id="radius-rows"></tbody>
+  </table></div>
+  <div class="swatches" id="radius-swatches"></div>
+  <p style="max-width:72ch;margin-top:16px">Components that need different values per mode also have their own radius tokens, such as <code>radius-menu</code>.</p>
+  <details class="guide" style="margin-top:16px"><summary>Pulse 4 to Pulse 5 mapping</summary><div>
+    <table class="doc-props"><thead><tr><th>Pulse 4</th><th>Pulse 5</th></tr></thead><tbody>
+      <tr><td>radius/none</td><td>radius/0</td></tr><tr><td>radius/small</td><td>radius/050</td></tr><tr><td>radius/medium</td><td>radius/150</td></tr><tr><td>–</td><td>radius/200</td></tr><tr><td>radius/large</td><td>radius/round</td></tr>
+    </tbody></table></div></details>
+</section>
+
+<!-- Color -->
+<section class="f-sec" id="color">
+  <h2 class="sec">Color</h2>
+  <p class="lede">The Pulse 5 palette is closer to the brand, and tokens were cleaned up to avoid repeats. Color tokens are grouped by how you use them.</p>
+  <div class="doc-config">
+    <div><h3>Background</h3></div>
+    <div><ul><li><code>background-surface</code> is for forms, cards, modals and anything that needs to stand apart from <code>background-base</code>.</li><li>Status backgrounds have their own group: <code>background-status-*</code>.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Text</h3></div>
+    <div><ul><li><code>text-header-*</code> is for title, h1 and h2; <code>text-header-serif</code> for the serif headings.</li><li>Body and status text have their own groups: <code>text-body-*</code> and <code>text-status-*</code>.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Icon and stroke</h3></div>
+    <div><ul><li><code>icon-base</code> is the default icon color. Use <code>icon-status-*</code> only to communicate a state.</li><li><code>stroke-base</code> is the default border. Status strokes come in base and subdued.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Brand</h3></div>
+    <div><ul><li><code>brand-interactive-*</code> is for interactive elements.</li><li><code>brand-primary-*</code> and <code>brand-accent-*</code> are for fills and graphics that represent the brand, such as pavers, branded bars and filled backgrounds, never for interactive elements.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Component tokens</h3></div>
+    <div><ul><li>Use illustration and data viz tokens only in illustration and data viz components.</li></ul></div>
+  </div>
+  <h3 class="doc-sub">Every color token</h3>
+  <p style="max-width:72ch">Open a group to see its tokens, pick a theme to see its values, or compare all four. Click a token name to copy it.</p>
+  <div class="cb" id="cb">
+    <div class="cb-meta" id="cb-meta"></div>
+    <div class="bar">
+      <div class="seg" role="group" aria-label="Theme" id="cb-themes"></div>
+      <div class="search"><input id="cb-q" type="search" placeholder="Search tokens, hex or primitive" aria-label="Search color tokens" autocomplete="off"></div>
+      <div class="tools"><button id="cb-openAll" type="button">Expand all</button><button id="cb-closeAll" type="button">Collapse all</button></div>
+    </div>
+    <div class="groups" id="cb-groups"></div>
+    <div class="empty" id="cb-empty" hidden>No tokens match that search.</div>
+  </div>
+  <details class="guide" style="margin-top:24px"><summary>Pulse 4 to Pulse 5 mapping</summary><div>
+    <table class="doc-props"><thead><tr><th>Pulse 4</th><th>Pulse 5</th></tr></thead><tbody>
+      <tr><td>background/base, subdued, disabled, transparent, overlay</td><td>Same names. New: background/surface</td></tr>
+      <tr><td>background/info-, success-, warning-, critical- (base, subdued)</td><td>background/status/… plus new branded-base and branded-subdued</td></tr>
+      <tr><td>text/base, subdued, link, link-visited, inverted, disabled</td><td>text/body/…</td></tr>
+      <tr><td>–</td><td>text/header/serif, base, eyebrow</td></tr>
+      <tr><td>text/error</td><td>text/status/critical, plus new info, success, warning, branded</td></tr>
+      <tr><td>icon/base, subdued, disabled, inverted</td><td>Same names. Status icons move to icon/status/…</td></tr>
+      <tr><td>stroke/base, disabled</td><td>Same names, plus inverted. Status strokes move to stroke/status/… with new subdued versions</td></tr>
+      <tr><td>brand/primary/1, 2, 3</td><td>brand/interactive/primary/subdued, base, shade</td></tr>
+      <tr><td>brand/secondary/1, 2, 3</td><td>brand/interactive/secondary/subdued, base, shade</td></tr>
+      <tr><td>–</td><td>brand/primary/1, 2 and brand/accent/1, 2, 3</td></tr>
+    </tbody></table></div></details>
+</section>
+
+<!-- Effect -->
+<section class="f-sec" id="effect">
+  <h2 class="sec">Effect</h2>
+  <p class="lede">Elevation, also called depth, draws focus and gives a sense of physical space. Effect styles use variables, so they change with the mode.</p>
+  <div class="swatches" id="effect-swatches" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))"></div>
+  <h3 class="doc-sub">Focus</h3>
+  <div class="frame-scroll"><table class="doc-props"><thead><tr><th>Pulse 4</th><th>Pulse 5, desktop</th><th>Pulse 5, mobile</th></tr></thead><tbody>
+    <tr><td>focus/default</td><td>focus/default</td><td>focus/default</td></tr>
+    <tr><td>focus/tertiary-button</td><td>focus/tertiary-button</td><td>focus/tertiary-button</td></tr>
+  </tbody></table></div>
+  <h3 class="doc-sub">Elevation</h3>
+  <p style="max-width:72ch">Elevation changes with the platform.</p>
+  <div class="frame-scroll"><table class="doc-props"><thead><tr><th>Pulse 4</th><th>Pulse 5, desktop</th><th>Pulse 5, mobile</th></tr></thead><tbody>
+    <tr><td>elevation/050</td><td>Removed</td><td>Removed</td></tr>
+    <tr><td>elevation/100</td><td>Removed</td><td>elevation</td></tr>
+    <tr><td>elevation/200</td><td>elevation</td><td>Removed</td></tr>
+    <tr><td>elevation/300</td><td>Removed</td><td>Removed</td></tr>
+  </tbody></table></div>
+</section>
+
+<!-- Iconography -->
+<section class="f-sec" id="iconography">
+  <h2 class="sec">Iconography</h2>
+  <p class="lede">Icons add a graphic to text for clarity and context. Most come from Font Awesome. Icons rarely appear alone: pair them with text.</p>
+  <div class="comp-meta"><code>Pulse.Icon</code><a class="pg-link" href="assets.html">Browse all 343 icons</a></div>
+  <h3 class="doc-sub">Anatomy</h3>
+  <div class="doc-anatomy">
+    <div class="doc-stage anat" id="icon-anat"></div>
+    <ol class="doc-legend"><li><b>1</b><div><span>Icon</span></div></li><li><b>2</b><div><span>Label</span></div></li></ol>
+  </div>
+  <div id="icon-rows" style="margin-top:24px"></div>
+  <div class="doc-dd" id="icon-dd"></div>
+</section>
+
+<!-- Typography -->
+<section class="f-sec" id="typography">
+  <h2 class="sec">Typography</h2>
+  <p class="lede">Type is built for legibility. Each style has two scales, for desktop and handheld screens, and Pulse 5 switches between them with variables, using the same style name.</p>
+  <div class="doc-config">
+    <div><h3>What changed in Pulse 5</h3></div>
+    <div><ul>
+      <li>Reckless Neue for title and heading 1.</li>
+      <li>Lexend Deca for heading 2 to 4, eyebrow, body, body-small, utility, data and button.</li>
+      <li>Effra only for italics.</li>
+      <li>The base size went from 18 to 16.</li>
+      <li>A new type ramp, with simpler names that use variables instead of Large and Small screen sizes.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Categories</h3></div>
+    <div><ul>
+      <li><strong>Heading:</strong> structures pages. Heading 1 (page title), heading 2 (section), heading 3 (sub-section), heading 4 (item).</li>
+      <li><strong>Body:</strong> paragraphs and longer copy.</li>
+      <li><strong>Utility:</strong> labels and form elements.</li>
+      <li><strong>Button:</strong> interactive elements and actions.</li>
+      <li><strong>Data:</strong> numbers, such as stats and data displays.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Line height and size</h3></div>
+    <div><ul>
+      <li>Headlines: font size × 1.2.</li>
+      <li>Body text: font size × 1.618, the golden ratio.</li>
+      <li>The base size is 16px = 1rem: 10, 12, 14, 16, 18, 20, 22, 24, 26, 30 and 38px (0.625 to 2.375rem).</li>
+    </ul></div>
+  </div>
+  <h3 class="doc-sub">Heading hierarchy</h3>
+  <div class="doc-anatomy">
+    <div class="hier anat" id="hier">
+      <div class="heading-heading-1" data-m="1" data-at="left">Your health</div>
+      <div class="heading-heading-2" data-m="2" data-at="left" style="margin-top:16px">Programs</div>
+      <div class="heading-heading-3" data-m="3" data-at="left" style="margin-top:12px">Weight management</div>
+      <div class="heading-heading-4" data-m="4" data-at="left" style="margin-top:8px">Log your weight</div>
+      <div class="body-default" style="margin-left:32px">Weigh in at the same time each morning.</div>
+    </div>
+    <ol class="doc-legend">
+      <li><b>1</b><div><span>Page title, heading 1</span><small>The whole screen or view.</small></div></li>
+      <li><b>2</b><div><span>Section, heading 2</span><small>Groups of related content: cards, nav lists, forms.</small></div></li>
+      <li><b>3</b><div><span>Sub-section, heading 3</span><small>Groupings inside a section, often inside a card, or featured items.</small></div></li>
+      <li><b>4</b><div><span>Item, heading 4</span><small>Single items in a group, such as nav list items and article tiles.</small></div></li>
+    </ol>
+  </div>
+  <h3 class="doc-sub">Type styles</h3>
+  <p style="max-width:72ch">Live from the tokens. Sizes change between desktop and mobile; this shows the size for the current screen.</p>
+  <div id="type-specs" style="border-top:1px solid var(--stroke-subdued);margin-top:8px"></div>
+  <h3 class="doc-sub">Font variables</h3>
+  <div class="frame-scroll"><table class="doc-props"><thead><tr><th>font/size/heading</th><th>Mobile</th><th>Desktop</th><th>Line height, mobile</th><th>Line height, desktop</th></tr></thead><tbody>
+    <tr><td>title</td><td>30</td><td>38</td><td>36</td><td>46</td></tr>
+    <tr><td>h1</td><td>26</td><td>30</td><td>32</td><td>36</td></tr>
+    <tr><td>h2</td><td>22</td><td>24</td><td>26</td><td>32</td></tr>
+    <tr><td>h3</td><td>18</td><td>20</td><td>24</td><td>26</td></tr>
+    <tr><td>h4</td><td>16</td><td>18</td><td>22</td><td>24</td></tr>
+    <tr><td>eyebrow</td><td>12</td><td>12</td><td colspan="2">font/line-height/small</td></tr>
+  </tbody></table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:24px"><thead><tr><th>font/size</th><th>Size</th><th>Line height, mobile</th><th>Line height, desktop</th></tr></thead><tbody>
+    <tr><td>body</td><td>16</td><td>24</td><td>26</td></tr>
+    <tr><td>body-italic</td><td>18</td><td>26</td><td>26</td></tr>
+    <tr><td>small</td><td>14</td><td>20</td><td>20</td></tr>
+    <tr><td>small-italic</td><td>15</td><td>20</td><td>20</td></tr>
+  </tbody></table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:24px"><thead><tr><th>font</th><th>Mobile and desktop</th><th>PLI</th></tr></thead><tbody>
+    <tr><td>effra</td><td>Effra</td><td>Effra</td></tr>
+    <tr><td>lexend-deca</td><td>Lexend Deca</td><td>Lexend Deca</td></tr>
+    <tr><td>serif</td><td>Reckless Neue</td><td>Lexend Deca</td></tr>
+  </tbody></table></div>
+  <p style="max-width:72ch;margin-top:16px">Weights: regular, medium, semi-bold, bold and italic. Paragraph spacing equals the line height: <code>font/paragraph-spacing/body</code> uses <code>font/line-height/body</code>.</p>
+  <details class="guide" style="margin-top:16px"><summary>Pulse 4 to Pulse 5 mapping</summary><div>
+    <table class="doc-props"><thead><tr><th>Pulse 4</th><th>Pulse 5</th><th>Mobile</th><th>Desktop</th></tr></thead><tbody>
+      <tr><td>Heading / XL</td><td>heading / title</td><td>30/36</td><td>38/46</td></tr>
+      <tr><td>Heading / LG</td><td>heading / heading 1</td><td>26/32</td><td>30/36</td></tr>
+      <tr><td>Heading / MD</td><td>heading / heading 2</td><td>22/26</td><td>24/32</td></tr>
+      <tr><td>Heading / SM</td><td>heading / heading 3</td><td>18/24</td><td>20/26</td></tr>
+      <tr><td>Heading / XS</td><td>heading / heading 4</td><td>16/22</td><td>18/24</td></tr>
+      <tr><td>Eyebrow</td><td>heading / eyebrow</td><td>12/20</td><td>12/20</td></tr>
+      <tr><td>Body / Default</td><td>body / default</td><td>16/24</td><td>16/26</td></tr>
+      <tr><td>Body / Medium, Strong</td><td>body / strong</td><td>16/24</td><td>16/26</td></tr>
+      <tr><td>Body / Italics</td><td>body / italics</td><td>18/24</td><td>18/26</td></tr>
+      <tr><td>Body / Text Link</td><td>body / text-link</td><td>16/24</td><td>16/26</td></tr>
+      <tr><td>Small / Default</td><td>body-small / default</td><td>14/20</td><td>14/20</td></tr>
+      <tr><td>Small / Medium, Strong</td><td>body-small / strong</td><td>14/20</td><td>14/20</td></tr>
+      <tr><td>Small / Italics</td><td>body-small / italics</td><td>15/20</td><td>15/20</td></tr>
+      <tr><td>Small / Text Link</td><td>body-small / text-link</td><td>14/20</td><td>14/20</td></tr>
+      <tr><td>Input / Default, Strong, Text Link</td><td>utility-1 / default, strong, text-link</td><td>16/20</td><td>16/20</td></tr>
+      <tr><td>–</td><td>utility-2 / default, strong</td><td>14/20</td><td>14/20</td></tr>
+      <tr><td>–</td><td>utility-3 / default, strong</td><td>12/12</td><td>12/12</td></tr>
+      <tr><td>Data / LG</td><td>data / data 1</td><td>26/32</td><td>30/36</td></tr>
+      <tr><td>Data / MD</td><td>data / data 2</td><td>22/26</td><td>26/32</td></tr>
+      <tr><td>Data / SM</td><td>data / data 3</td><td>20/24</td><td>22/26</td></tr>
+      <tr><td>–</td><td>goal</td><td>10/12</td><td>10/12</td></tr>
+      <tr><td>Button / Regular, Medium, Bold</td><td>button / default</td><td>16/20</td><td>16/20</td></tr>
+      <tr><td>Button / Small</td><td>button / small</td><td>14/20</td><td>14/20</td></tr>
+      <tr><td>Button / Tertiary Hover</td><td>button / tertiary-hover</td><td>16/20</td><td>16/20</td></tr>
+      <tr><td>Data / XS, Avatar / Small, Badge / Medium</td><td>utility-3 / strong</td><td colspan="2">Replaced</td></tr>
+      <tr><td>Avatar / XLarge, Large</td><td>data / data 1, data 2</td><td colspan="2">Replaced</td></tr>
+      <tr><td>Avatar / Medium</td><td>body / strong</td><td colspan="2">Replaced</td></tr>
+      <tr><td>Tag / Default, Medium</td><td>utility-2 / default, strong</td><td colspan="2">Replaced</td></tr>
+      <tr><td>List item / Label, Description, Metadata, Link</td><td>heading-4, body / default, eyebrow, button / default</td><td colspan="2">Replaced</td></tr>
+      <tr><td>DataViz</td><td>–</td><td colspan="2">Folder removed</td></tr>
+    </tbody></table></div></details>
+</section>
+
+<!-- Spacing -->
+<section class="f-sec" id="spacing">
+  <h2 class="sec">Spacing</h2>
+  <p class="lede">Spacing runs on an 8px base, and token names are multiples of it: <code>space-100</code> is 8px. Like radius, they use numbers so new steps can be added.</p>
+  <h3 class="doc-sub">Space</h3>
+  <p style="max-width:72ch">For auto layout spacing and gaps.</p>
+  <div class="frame-scroll"><table class="doc-props"><thead><tr><th>Token</th><th>Size</th><th></th></tr></thead><tbody id="space-rows"></tbody></table></div>
+  <h3 class="doc-sub">Padding</h3>
+  <p style="max-width:72ch">Mostly used inside components, but you can use them in designs too: 0, 2, 4, 8, 12, 16, 24, 32, 48 and 64px (<code>padding-0</code> to <code>padding-800</code>).</p>
+  <h3 class="doc-sub">Icon and graphic sizes</h3>
+  <div class="frame-scroll"><table class="doc-props"><thead><tr><th>Icons</th><th>Size</th><th>Graphics</th><th>Size</th></tr></thead><tbody>
+    <tr><td>icon/100</td><td>8</td><td>icon/300</td><td>24</td></tr>
+    <tr><td>icon/150</td><td>12</td><td>icon/400</td><td>32</td></tr>
+    <tr><td>icon/200</td><td>16</td><td>icon/600</td><td>48</td></tr>
+    <tr><td>icon/250</td><td>20</td><td>icon/800</td><td>64</td></tr>
+    <tr><td>icon/300</td><td>24</td><td>icon/900</td><td>72</td></tr>
+    <tr><td></td><td></td><td>icon/1600</td><td>128</td></tr>
+  </tbody></table></div>
+  <p style="max-width:72ch;margin-top:12px">Height (and width, for square elements), for fixed sizes.</p>
+  <h3 class="doc-sub">Space between</h3>
+  <p style="max-width:72ch">Consistent spacing between elements that are often grouped. The last column reads the token in code.</p>
+  <div class="frame-scroll"><table class="doc-props"><thead><tr><th>Token</th><th>Desktop</th><th>Mobile</th><th>Use between</th><th>In code</th></tr></thead><tbody id="between-rows"></tbody></table></div>
+  <details class="guide" style="margin-top:16px"><summary>Pulse 4 to Pulse 5 mapping</summary><div>
+    <table class="doc-props"><thead><tr><th>Pulse 4</th><th>Pulse 5</th><th>Size</th></tr></thead><tbody>
+      <tr><td>space/none</td><td>space/0</td><td>0</td></tr><tr><td>space/3xsmall</td><td>space/025</td><td>2</td></tr><tr><td>space/2xsmall</td><td>space/050</td><td>4</td></tr>
+      <tr><td>space/xsmall</td><td>space/100</td><td>8</td></tr><tr><td>space/small</td><td>space/150</td><td>12</td></tr><tr><td>space/medium</td><td>space/200</td><td>16</td></tr>
+      <tr><td>space/large</td><td>space/300</td><td>24</td></tr><tr><td>space/xlarge</td><td>space/400</td><td>32</td></tr><tr><td>space/2xlarge</td><td>space/600</td><td>48</td></tr><tr><td>space/3xlarge</td><td>space/800</td><td>64</td></tr>
+    </tbody></table></div></details>
+  <div class="doc-note doc-note--code"><strong>Code vs. Figma.</strong>
+    <ul>
+      <li>Some space-between tokens in code use different values from the guideline, such as sections, heading-1-body and prominent-nav-list. They're marked in the table above.</li>
+      <li>Code also has steps the guideline doesn't list: <code>space-250</code>, <code>space-500</code>, <code>space-550</code>, <code>padding-250</code>, <code>radius-300</code> and <code>radius-menu</code>.</li>
+      <li>Icon and graphic size tokens aren't in the CSS tokens yet; <code>Pulse.Icon</code> takes a <code>size</code> in pixels.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="cb-toast" id="cb-toast" role="status" aria-live="polite"></div>
+<p class="doc-src">Source: Foundations › Styles (Design tokens, Border radius, Color, Effect, Iconography, Typography and Spacing) in the Pulse Design System documentation. The color token browser was moved here from the old Colors page.</p>
+</div></div>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = Doc.h, cap = Doc.cap, dd = Doc.dd, A = Anvil;
+  function cssv(n) { return getComputedStyle(document.documentElement).getPropertyValue("--" + n).trim(); }
+  function px(v) { return v.replace(/px$/, ""); }
+
+  // One component, four themes
+  var names = { "core-light": "Core UI Light", "core-dark": "Core UI Dark", "pli-light": "PLI Light", "pli-dark": "PLI Dark" };
+  Doc.render("themes4", h(React.Fragment, null, Object.keys(names).map(function (t) {
+    return h("div", { key: t, "data-theme": t }, h("div", { className: "doc-cap" }, names[t]),
+      h(A.Card, { eyebrow: "Visit summary", header: "Dr. Ana Rivera", children: h("p", null, "Your next visit is Thursday at 10:30 AM."), footer: h(A.Button, { size: "small" }, "View visit") }));
+  })));
+
+  function tables() {
+    var radius = [["radius-0", "0", "0"], ["radius-050", "4", "1"], ["radius-150", "12", "8"], ["radius-200", "50%", "16"], ["radius-round", "50%", "50%"]];
+    Doc.render("radius-rows", h(React.Fragment, null, radius.map(function (r) {
+      return h("tr", { key: r[0] }, h("td", null, h("code", null, r[0])), h("td", null, r[1]), h("td", null, r[2]), h("td", null, cssv(r[0])));
+    })));
+    Doc.render("radius-swatches", h(React.Fragment, null, ["radius-0", "radius-050", "radius-150", "radius-300", "radius-menu", "radius-round"].map(function (r) {
+      return h("div", { key: r, className: "swatch" }, h("div", { className: "rbox", style: { borderRadius: "var(--" + r + ")" } }), h("code", null, r), h("small", null, cssv(r)));
+    })));
+
+    var space = ["space-0", "space-025", "space-050", "space-100", "space-150", "space-200", "space-300", "space-400", "space-600", "space-800"];
+    Doc.render("space-rows", h(React.Fragment, null, space.map(function (s) {
+      return h("tr", { key: s }, h("td", null, h("code", null, s)), h("td", null, cssv(s)), h("td", null, h("span", { className: "bar-cell" }, h("span", { style: { width: "var(--" + s + ")" } }))));
+    })));
+
+    var between = [["eyebrow-heading", "2", "2", "Eyebrow and heading"], ["heading-1-body", "24", "16", "Heading 1 and body copy"], ["heading-2-body", "20", "16", "Heading 2 and body copy"],
+      ["heading-3-body", "16", "12", "Heading 3 and body copy"], ["heading-4-body", "8", "4", "Heading 4 and body copy"], ["button", "24", "16", "Grouped buttons"],
+      ["body-small", "paragraph spacing", "paragraph spacing", "Text in small body styles"], ["body", "paragraph spacing", "paragraph spacing", "Text in body styles"],
+      ["cards", "20", "16", "Grouped cards"], ["chips", "16", "16", "Chips, across and down"], ["forms", "20", "16", "Form fields"],
+      ["forms-control-input-group", "4", "4", "Grouped checkboxes or radio buttons"], ["info-list-item", "0", "0", "Info list items"], ["prominent-nav-list", "16", "8", "Prominent nav list items"],
+      ["subdued-nav-list", "0", "0", "Subdued nav list items"], ["sections", "24", "24", "Sections of grouped content"], ["tags", "8", "8", "Tags, across and down"]];
+    Doc.render("between-rows", h(React.Fragment, null, between.map(function (b) {
+      var v = cssv("space-between-" + b[0]), n = px(v);
+      var differs = /^\d+$/.test(b[1]) && n !== b[1] && n !== b[2];
+      return h("tr", { key: b[0] }, h("td", null, h("code", null, "space-between-" + b[0])), h("td", null, b[1]), h("td", null, b[2]), h("td", null, b[3]),
+        h("td", { className: differs ? "diff" : undefined }, v || "–", differs ? " (differs)" : ""));
+    })));
+  }
+  tables();
+  var sel = document.getElementById("site-theme");
+  if (sel) sel.addEventListener("change", function () { setTimeout(tables, 0); });
+
+  // Effects
+  Doc.render("effect-swatches", h(React.Fragment, null,
+    h("div", { className: "swatch" }, h("div", { className: "ebox", style: { boxShadow: "var(--elevation)" } }, "elevation"), h("code", null, "elevation"), h("small", null, "Cards, menus and other raised surfaces")),
+    h("div", { className: "swatch" }, h("div", { className: "ebox", style: { boxShadow: "0 4px 12px 0 var(--effect-elevation-tinted)", border: "1px solid var(--stroke-subdued)" } }, "elevation, tinted"), h("code", null, "effect-elevation-tinted"), h("small", null, "Visit cards")),
+    h("div", { className: "swatch" }, h("div", { className: "ebox", style: { boxShadow: "var(--focus-ring)", border: "1px solid var(--stroke-base)" } }, "focus"), h("code", null, "focus-ring"), h("small", null, "focus/default")),
+    h("div", { className: "swatch" }, h("div", { className: "ebox", style: { boxShadow: "var(--focus-ring-tertiary)" } }, "focus, tertiary"), h("code", null, "focus-ring-tertiary"), h("small", null, "focus/tertiary-button"))));
+
+  // Iconography
+  var I = A.Icon;
+  Doc.render("icon-anat", h("span", { className: "icon-b body-default" }, h("span", { className: "anat-ic", style: { display: "inline-flex" } }, h(I, { name: "calendar", size: 16 })), h("span", { className: "anat-lb" }, "Your next visit")));
+  Doc.tag("icon-anat", [["1", ".anat-ic", "left"], ["2", ".anat-lb", "right"]]);
+  var colors = [["icon-base", "Default", "calendar"], ["icon-status-critical", "Error", "error"], ["icon-status-warning", "Warning", "alert-triangle"], ["icon-status-success", "Success", "check-circle"], ["icon-status-info", "Informative", "info"]];
+  Doc.rows("icon-rows", [
+    { t: "Spacing", p: "Two options for 16px icons.", li: ["spacing-xsmall (8px): recommended for most cases, next to body or utility text, in lists, subtitles and inline messages.", "spacing-small (12px): next to headings, usually heading 4."],
+      el: [cap("8px, body", h("span", { className: "icon-b body-default" }, h(I, { name: "calendar" }), "Thursday, 10:30 AM"), { key: 1 }), cap("12px, heading 4", h("span", { className: "icon-h heading-heading-4" }, h(I, { name: "calendar" }), "Upcoming visits"), { key: 2 })] },
+    { t: "States", ol: ["Default", "Active"],
+      el: [h("div", { key: 1, className: "icon-row" }, ["home", "calendar", "chat", "profile"].map(function (n) {
+        return h(React.Fragment, { key: n }, h("div", null, h(I, { name: n, size: 24 }), "Default"), h("div", null, h(I, { name: n, size: 24, variant: "active" }), "Active"));
+      }))] },
+    { t: "Color", p: "Use semantic colors only when you need to communicate a state. Otherwise use icon-base.", ol: ["icon-base: default", "icon-status-critical: error", "icon-status-warning: warning", "icon-status-success: success", "icon-status-info: informative"],
+      el: [h("div", { key: 1, className: "icon-row" }, colors.map(function (c) { return h("div", { key: c[0] }, h(I, { name: c[2], size: 24, color: "var(--" + c[0] + ")" }), c[1]); }))] }
+  ]);
+  var items = ["Weigh in each morning", "Log meals and water", "Message your coach"];
+  function ilist(cls, iconProps) { return h("ul", { className: "ilist " + (cls || "") }, items.map(function (t) { return h("li", { key: t }, h("span", { className: "ic" }, h(I, Object.assign({ name: "check-circle", color: "var(--icon-status-success)" }, iconProps))), h("span", null, t)); })); }
+  var wrap = ["Check your blood pressure at the same time every day, before you eat or take medicine", "Rest for five minutes first"];
+  Doc.render("icon-dd", h(React.Fragment, null,
+    dd("do", "Use icons in lists.", ilist()),
+    dd("dont", "Don’t change icon states unless you need to.", h("ul", { className: "ilist" }, items.map(function (t, i) { return h("li", { key: t }, h("span", { className: "ic" }, h(I, { name: "check-circle", variant: i === 1 ? "active" : "default", color: "var(--icon-status-success)" })), h("span", null, t)); }))),
+    dd("do", "Use icons as they are, without changing their strokes.", h("div", { className: "icon-row" }, ["heart-pulse", "medicine", "steps"].map(function (n) { return h("div", { key: n }, h(I, { name: n, size: 32 })); }))),
+    dd("dont", "Don’t add strokes or extra fills.", h("div", { className: "icon-row demo-stroke" }, ["heart-pulse", "medicine", "steps"].map(function (n) { return h("div", { key: n }, h(I, { name: n, size: 32 })); }))),
+    dd("do", "Align icons to the top of the text box.", h("ul", { className: "ilist", style: { maxWidth: 300 } }, wrap.map(function (t) { return h("li", { key: t }, h("span", { className: "ic" }, h(I, { name: "info", color: "var(--icon-status-info)" })), h("span", null, t)); }))),
+    dd("dont", "Don’t center icons on the text box.", h("ul", { className: "ilist ilist--center", style: { maxWidth: 300 } }, wrap.map(function (t) { return h("li", { key: t }, h("span", { className: "ic" }, h(I, { name: "info", color: "var(--icon-status-info)" })), h("span", null, t)); })))
+  ));
+
+  // Type styles
+  var styles = [
+    ["title", "heading-title", "Reckless Neue, 700", "Care that fits your life"], ["heading-1", "heading-heading-1", "Reckless Neue, 700", "Care that fits your life"],
+    ["heading-2", "heading-heading-2", "Lexend Deca, 600", "Care that fits your life"], ["heading-3", "heading-heading-3", "Lexend Deca, 600", "Care that fits your life"],
+    ["heading-4", "heading-heading-4", "Lexend Deca, 600", "Care that fits your life"], ["eyebrow", "heading-eyebrow", "Lexend Deca, 500", "Visit summary"],
+    ["body/default", "body-default", "Lexend Deca, 400", "Weigh in at the same time each morning, before breakfast."], ["body/strong", "body-strong", "Lexend Deca, 500", "Weigh in at the same time each morning."],
+    ["body/italics", "body-italics", "Effra, 400", "Weigh in at the same time each morning."], ["body/text-link", "body-text-link", "Lexend Deca, 500", "View your visit summary"],
+    ["body-small/default", "body-small-default", "Lexend Deca, 400", "Last synced 5 minutes ago"], ["body-small/strong", "body-small-strong", "Lexend Deca, 500", "Last synced 5 minutes ago"],
+    ["body-small/italics", "body-small-italics", "Effra, 400", "Last synced 5 minutes ago"], ["body-small/text-link", "body-small-text-link", "Lexend Deca, 500", "Manage devices"],
+    ["utility-1/default", "utility-1-default", "Lexend Deca, 400", "Email address"], ["utility-1/strong", "utility-1-strong", "Lexend Deca, 600", "Email address"], ["utility-1/text-link", "utility-1-text-link", "Lexend Deca, 500", "Forgot password?"],
+    ["utility-2/default", "utility-2-default", "Lexend Deca, 400", "At least 10 characters"], ["utility-2/strong", "utility-2-strong", "Lexend Deca, 600", "At least 10 characters"],
+    ["utility-3/default", "utility-3-default", "Lexend Deca, 400", "Today"], ["utility-3/strong", "utility-3-strong", "Lexend Deca, 600", "Today"],
+    ["data-1", "data-data-1", "Lexend Deca, 700", "128 mg/dL"], ["data-2", "data-data-2", "Lexend Deca, 700", "128 mg/dL"], ["data-3", "data-data-3", "Lexend Deca, 700", "128 mg/dL"], ["goal", "data-goal", "Lexend Deca, 500", "GOAL 120"],
+    ["button/default", "button-default", "Lexend Deca, 500", "Schedule a visit"], ["button/small", "button-small", "Lexend Deca, 500", "View details"], ["button/tertiary-hover", "button-tertiary-hover", "Lexend Deca, 500", "View details"]
+  ];
+  Doc.render("type-specs", h(React.Fragment, null, styles.map(function (s) {
+    return h(TypeSpec, { key: s[0], s: s });
+  })));
+  function TypeSpec(p) {
+    var ref = React.useRef(null), st = React.useState(""), meta = st[0], set = st[1];
+    React.useEffect(function () { var cs = getComputedStyle(ref.current); set(px(cs.fontSize) + " / " + px(cs.lineHeight)); }, []);
+    return h("div", { className: "type-spec" }, h("small", null, h("b", null, p.s[0]), p.s[2], h("br"), meta),
+      h("span", { ref: ref, className: p.s[1] }, p.s[3]));
+  }
+})();
+
+// Side menu: highlight the section in view
+(function () {
+  var links = [].slice.call(document.querySelectorAll(".cp-side a"));
+  var secs = links.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); });
+  function spy() {
+    var cur = 0;
+    secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < 140) cur = i; });
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) cur = secs.length - 1;
+    links.forEach(function (a, i) { if (i === cur) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
+  }
+  window.addEventListener("scroll", spy, { passive: true }); window.addEventListener("resize", spy); spy();
+})();
+</script>
+<script src="site/color-browser.js?v=20261116a"></script>
+<script src="site/site.js?v=20261112i"></script>
+</body>
+</html>
