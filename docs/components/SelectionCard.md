@@ -12,7 +12,7 @@ Selection card is a radio or checkbox option that needs more than a one-line lab
 ## Anatomy
 
 - **Padding:** 24px (`padding-300`) with 16px between content and control.
-- **Shape:** `radius-150` corners and a 1px `form-input-control-stroke-default` outline.
+- **Shape:** `radius-150` corners and a 1px `form-input-control-stroke-default` outline. The checkbox control inside has `radius-050` corners (4px; 1px in PLI).
 - **Control:** 24px, on the right.
 
 ## States

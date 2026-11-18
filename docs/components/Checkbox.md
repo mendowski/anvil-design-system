@@ -11,7 +11,7 @@ Checkbox lets people pick any number of options from a short list, or confirm ag
 
 ## Anatomy
 
-- **Box:** 24px (`form-input-control-selection-height`) with 4px corners.
+- **Box:** 24px (`form-input-control-selection-height`) with `radius-050` corners (4px; 1px in PLI).
 - **Row padding:** 8px vertical, 4px horizontal, with 12px between the box and the label (`form-input-control-selection-gap`).
 - **Label:** 16/20 regular.
 - **Selected:** fills with `form-input-control-checkbox-background-selected`, with a white check.

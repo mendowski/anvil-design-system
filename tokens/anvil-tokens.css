@@ -1082,6 +1082,22 @@
   --font-serif: "Reckless Neue", Georgia, serif;
   --font-effra: Effra, "Lexend Deca", system-ui, sans-serif;
 }
+/* Figma: Pulse Scale, PLI modes. Only these tokens differ from Comfortable; every other scale token is the same. */
+[data-theme="pli-light"], [data-theme="pli-dark"] {
+  --radius-050: 1px;
+  --radius-150: 8px;
+  --radius-200: 16px;
+  --radius-300: 20px;
+  --form-input-control-radius: 8px;
+  --form-input-password-input-requirements-radius: 8px;
+  --font-serif: "Lexend Deca", system-ui, sans-serif;
+}
+@media (max-width: 599px) {
+  /* Figma: Mobile / PLI */
+  [data-theme="pli-light"], [data-theme="pli-dark"] {
+    --space-between-heading-4-body: 4px;
+  }
+}
 @font-face { font-family: "Reckless Neue"; src: url("../fonts/RecklessNeue-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: "Effra"; src: url("../fonts/Effra-Italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
 .heading-title { font-family: var(--font-serif); font-size: 30px; line-height: 36px; font-weight: 700; }
