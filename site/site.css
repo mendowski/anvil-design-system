@@ -11,6 +11,14 @@ a { color: var(--text-body-link); }
 .site-nav a[aria-current="page"] { color: var(--text-body-base); border-bottom-color: var(--brand-interactive-primary-base); font-weight: 500; }
 .site-theme { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-body-subdued); }
 .site-theme select { font: inherit; font-size: 13px; color: var(--text-body-base); background: var(--background-surface); border: 1px solid var(--stroke-base); border-radius: 8px; padding: 6px 8px; }
+.site-hex[hidden] { display: none; }
+.site-hex input { font: inherit; font-size: 13px; width: 11ch; color: var(--text-body-base); background: var(--background-surface); border: 1px solid var(--stroke-base); border-radius: 8px; padding: 6px 8px; font-variant-numeric: tabular-nums; }
+.site-hex input::placeholder { color: var(--text-body-subdued); }
+.site-hex input:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.site-hex input[aria-invalid="true"] { border-color: var(--form-input-control-stroke-error); }
+.site-hex { position: relative; }
+.site-hex__msg { position: absolute; top: calc(100% + 6px); right: 0; width: 260px; margin: 0; padding: 8px 12px; font-size: 13px; line-height: 18px; font-weight: 400; color: var(--form-input-label-text-label-error); background: var(--background-surface); border: 1px solid var(--form-input-control-stroke-error); border-radius: 8px; }
+.site-hex__msg[hidden] { display: none; }
 main { max-width: 1120px; margin: 0 auto; padding: 48px 16px 80px; }
 .lede { max-width: 66ch; color: var(--text-body-subdued); }
 h1.page-title { font-family: var(--font-serif); font-weight: 700; font-size: 44px; line-height: 52px; color: var(--text-header-serif); margin: 0 0 12px; text-wrap: balance; }
@@ -35,6 +43,10 @@ pre { background: var(--background-subdued); border: 1px solid var(--stroke-subd
 .scalelist .bar { height: 12px; background: var(--brand-interactive-primary-subdued); border: 1px solid var(--brand-interactive-primary-base); border-radius: 3px; }
 /* components page */
 .comp { margin-top: 56px; scroll-margin-top: 90px; }
+/* Start of a group on the Components page, such as Data viz */
+.cp-intro { margin-top: 96px; padding-top: 32px; border-top: 1px solid var(--stroke-subdued); scroll-margin-top: 90px; }
+.cp-intro .lede { margin-bottom: 0; }
+.cp-intro + .comp { margin-top: 32px; }
 .comp-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
 .comp-head h2 { margin-top: 0; }
 .comp-frame { width: 100%; border: 1px solid var(--stroke-subdued); border-radius: 16px; background: var(--background-surface); display: block; margin-top: 12px; }

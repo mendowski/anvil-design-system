@@ -10,14 +10,14 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
 <link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261118a">
 <link rel="stylesheet" href="dist/anvil.css?v=20261118a">
-<link rel="stylesheet" href="site/site.css?v=20261112j">
-<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="stylesheet" href="site/site.css?v=20261118b">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t);var b=localStorage.getItem("anvil-site-pli-brand");if(b&&/^pli-/.test(t||"")&&/^#[0-9a-f]{6}$/.test(b)){document.documentElement.style.setProperty("--brand-interactive-primary-base",b);document.documentElement.style.setProperty("--brand-interactive-secondary-base",b)}}catch(e){}</script>
 </head>
 <body>
 
 <header class="site-top">
   <a class="site-brand" href="index.html">Pulse</a>
-  <nav class="site-nav" aria-label="Sections"><a href="index.html" aria-current="page">Overview</a><a href="foundations.html">Foundations</a><a href="components.html">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html" aria-current="page">Overview</a><a href="foundations.html">Foundations</a><a href="components.html">Components</a><a href="playground.html">Playground</a></nav>
   <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
 </header>
 
@@ -32,7 +32,7 @@
   <path class="p-berry" d="M419.848 100.748C399.507 100.748 382.97 116.944 382.436 137.138H382.409V175.541H419.848C440.522 175.541 457.286 158.799 457.286 138.151C457.286 117.504 440.522 100.762 419.848 100.762"/>
   <path class="p-purple" d="M437.65 88.9676C437.65 109.082 453.974 125.384 474.101 125.384V52.5645C453.974 52.5645 437.65 68.8666 437.65 88.9809"/></svg></section>
 <div class="stats"><div><b>4</b>themes</div><div><b>331</b>color tokens</div><div><b>125</b>scale tokens</div><div><b>30</b>text styles</div><div><b>14</b>components</div><div><b>4</b>chart types</div><div><b>343</b>icons</div><div><b>144</b>illustrations</div></div>
-<div class="tiles"><a class="tile" href="foundations.html"><strong>Foundations</strong><span>Design tokens, radius, color, effect, iconography, typography and spacing, with every color token in all four themes.</span></a><a class="tile" href="components.html"><strong>Components</strong><span>Live examples and guidelines for buttons, inputs, cards, the global header and more.</span></a><a class="tile" href="datavis.html"><strong>Data viz</strong><span>Bar, line, floating column and radial charts with tooltips, goals, legends and empty states.</span></a><a class="tile" href="assets.html"><strong>Icons and illustrations</strong><span>The full icon set and the spot and hero illustration libraries.</span></a></div>
+<div class="tiles"><a class="tile" href="foundations.html"><strong>Foundations</strong><span>Design tokens, radius, color, effect, iconography, typography and spacing, with every color token in all four themes.</span></a><a class="tile" href="components.html"><strong>Components</strong><span>Live examples and guidelines for buttons, inputs, cards, the global header and more.</span></a><a class="tile" href="components.html#data-viz"><strong>Data viz</strong><span>Bar, line, floating column and radial charts with tooltips, goals, legends and empty states.</span></a><a class="tile" href="components.html#icons-and-illustrations"><strong>Icons and illustrations</strong><span>The full icon set and the spot and hero illustration libraries.</span></a></div>
 <h2 class="sec">Themes</h2>
 <p class="lede">Pulse has four color themes. <b>Core UI Light</b> and <b>Core UI Dark</b> are the Teladoc Health experience; <b>PLI Light</b> and <b>PLI Dark</b> are the partner theme. Set <code>data-theme</code> on the page to switch, or use the Theme menu at the top of this site.</p>
 <h2 class="sec">Foundations</h2>
@@ -58,6 +58,6 @@
 &lt;/script&gt;</code></pre>
 </main>
 <footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
-<script src="site/site.js?v=20261112i"></script>
+<script src="site/site.js?v=20261118b"></script>
 </body>
 </html>

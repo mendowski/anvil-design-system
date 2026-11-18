@@ -10,10 +10,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
 <link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261118a">
 <link rel="stylesheet" href="dist/anvil.css?v=20261118a">
-<link rel="stylesheet" href="site/site.css?v=20261112j">
+<link rel="stylesheet" href="site/site.css?v=20261118b">
 <link rel="stylesheet" href="site/doc.css?v=20261115c">
 <link rel="stylesheet" href="site/color-browser.css?v=20261116a">
-<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t);var b=localStorage.getItem("anvil-site-pli-brand");if(b&&/^pli-/.test(t||"")&&/^#[0-9a-f]{6}$/.test(b)){document.documentElement.style.setProperty("--brand-interactive-primary-base",b);document.documentElement.style.setProperty("--brand-interactive-secondary-base",b)}}catch(e){}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script src="dist/anvil.js?v=20261106c"></script>
@@ -63,7 +63,7 @@
 
 <header class="site-top">
   <a class="site-brand" href="index.html">Pulse</a>
-  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html" aria-current="page">Foundations</a><a href="components.html">Components</a><a href="datavis.html">Data viz</a><a href="playground.html">Playground</a><a href="assets.html">Icons and illustrations</a></nav>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html" aria-current="page">Foundations</a><a href="components.html">Components</a><a href="playground.html">Playground</a></nav>
   <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
 </header>
 
@@ -213,7 +213,7 @@
 <section class="f-sec" id="iconography">
   <h2 class="sec">Iconography</h2>
   <p class="lede">Icons add a graphic to text for clarity and context. Most come from Font Awesome. Icons rarely appear alone: pair them with text.</p>
-  <div class="comp-meta"><code>Pulse.Icon</code><a class="pg-link" href="assets.html">Browse all 343 icons</a></div>
+  <div class="comp-meta"><code>Pulse.Icon</code><a class="pg-link" href="components.html#icons">Browse all 343 icons</a></div>
   <h3 class="doc-sub">Anatomy</h3>
   <div class="doc-anatomy">
     <div class="doc-stage anat" id="icon-anat"></div>
@@ -491,6 +491,6 @@
 })();
 </script>
 <script src="site/color-browser.js?v=20261116a"></script>
-<script src="site/site.js?v=20261112i"></script>
+<script src="site/site.js?v=20261118b"></script>
 </body>
 </html>
