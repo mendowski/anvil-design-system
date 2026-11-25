@@ -107,6 +107,41 @@
       },
       key: function (a) { return a.defaultValue; }
     },
+    SelectInput: {
+      blurb: "Select input lets people pick one answer from a list.",
+      canvas: { maxWidth: 440 },
+      controls: {
+        label: text("Label", "Where are you right now?"), helper: text("Helper", "We'll match you with providers licensed in your state."),
+        placeholder: text("Placeholder", "Select"),
+        options: area("Options (one per line)", "Arizona\nCalifornia\nFlorida\nNew York\nTexas"),
+        defaultValue: text("Selected option", ""),
+        optional: bool("Optional (adds a clear item)", false),
+        status: sel("Status", ["none", "warning", "error"], "none"),
+        message: text("Message", "State is required", { when: function (a) { return a.status !== "none"; } }),
+        disabled: bool("Disabled", false), readOnly: bool("Read only", false),
+        state: sel("Force state", ["none", "hover", "focus"], "none")
+      },
+      props: function (a) {
+        var opts = String(a.options || "").split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+        return { label: a.label, helper: a.helper || undefined, placeholder: a.placeholder && a.placeholder !== "Select" ? a.placeholder : undefined,
+          options: opts, defaultValue: opts.indexOf(a.defaultValue) !== -1 ? a.defaultValue : undefined, optional: a.optional || undefined,
+          status: none(a.status), message: a.status !== "none" ? a.message : undefined, disabled: a.disabled || undefined,
+          readOnly: a.readOnly || undefined, state: none(a.state) };
+      },
+      key: function (a) { return a.defaultValue + "|" + a.options; }
+    },
+    MarkdownText: {
+      blurb: "Markdown text renders dynamic content with Pulse type styles.",
+      canvas: { maxWidth: 640 },
+      controls: {
+        children: area("Markdown", "## Before your visit\n\nHave your **medication list** ready and find a *quiet, private* spot.\n\n1. Check your camera and microphone\n2. Join 5 minutes early\n\nQuestions? [Visit the help center](https://www.example.com)."),
+        headingOffset: num("Heading offset", 0, 0, 3)
+      },
+      props: function (a) { return { children: a.children, headingOffset: a.headingOffset || undefined }; },
+      code: function (a) {
+        return "<MarkdownText" + (a.headingOffset ? " headingOffset={" + a.headingOffset + "}" : "") + ">{`" + String(a.children).replace(/[`\\$]/g, "\\$&") + "`}</MarkdownText>";
+      }
+    },
     PasswordInput: {
       blurb: "Password input for signing in and creating a password.",
       canvas: { maxWidth: 440 },
@@ -510,7 +545,7 @@
     else if (c.type === "area") input = h("textarea", { id: id, rows: 3, value: v, onChange: function (e) { set(e.target.value); } });
     else if (c.type === "number") input = h("input", { id: id, type: "number", value: v, min: c.min, max: c.max, step: c.step, onChange: function (e) { var n = Number(e.target.value); if (!isNaN(n)) set(n); } });
     else if (c.type === "bool") input = h("button", { id: id, type: "button", role: "switch", "aria-checked": v ? "true" : "false", className: "pg-switch", onClick: function () { set(!v); } }, h("span", null));
-    else if (c.type === "select") input = h("select", { id: id, value: v, onChange: function (e) { set(e.target.value); } }, c.options.map(function (o) { return h("option", { key: o, value: o }, o); }));
+    else if (c.type === "select") input = h(A.SelectInput, { id: id, className: "pg-select", value: v, onChange: function (val) { set(val); }, options: c.options });
     else if (c.type === "icon") input = h(IconPicker, { id: id, value: v, set: set, allowNone: c.allowNone });
     else if (c.type === "illo") input = h(IlloPicker, { id: id, value: v, set: set, kind: c.kind });
     return h("div", { className: "pg-field pg-field--" + c.type },
@@ -523,7 +558,7 @@
     var list = ICONS.filter(function (n) { return !q || n.indexOf(q.toLowerCase()) >= 0; });
     return h("div", { className: "pg-picker" },
       h("button", { id: p.id, type: "button", className: "pg-picker__btn", "aria-expanded": open, onClick: function () { setOpen(!open); } },
-        p.value && p.value !== "none" ? h(A.Icon, { name: p.value, size: 16 }) : null, h("span", null, p.value), h("span", { className: "pg-caret", "aria-hidden": true })),
+        p.value && p.value !== "none" ? h(A.Icon, { name: p.value, size: 16 }) : null, h("span", null, p.value), h("span", { className: "pg-caret", "aria-hidden": true }, h(A.Icon, { name: "arrow-down" }))),
       open ? h("div", { className: "pg-pop" },
         h("input", { type: "search", placeholder: "Search " + ICONS.length + " icons", value: q, autoFocus: true, "aria-label": "Search icons", onChange: function (e) { setQ(e.target.value); } }),
         h("div", { className: "pg-grid pg-grid--icons" },
@@ -540,7 +575,7 @@
     var list = all.filter(function (n) { return !q || n.indexOf(q.toLowerCase()) >= 0; });
     return h("div", { className: "pg-picker" },
       h("button", { id: p.id, type: "button", className: "pg-picker__btn", "aria-expanded": open, onClick: function () { setOpen(!open); } },
-        h("img", { src: A.Illustration.url(p.kind, p.value), alt: "", className: "pg-thumb pg-thumb--" + p.kind }), h("span", null, p.value), h("span", { className: "pg-caret", "aria-hidden": true })),
+        h("img", { src: A.Illustration.url(p.kind, p.value), alt: "", className: "pg-thumb pg-thumb--" + p.kind }), h("span", null, p.value), h("span", { className: "pg-caret", "aria-hidden": true }, h(A.Icon, { name: "arrow-down" }))),
       open ? h("div", { className: "pg-pop" },
         h("input", { type: "search", placeholder: "Search " + all.length + " illustrations", value: q, autoFocus: true, "aria-label": "Search illustrations", onChange: function (e) { setQ(e.target.value); } }),
         h("div", { className: "pg-grid pg-grid--" + p.kind },
@@ -612,5 +647,8 @@
         })));
   }
 
-  ReactDOM.createRoot(document.getElementById("playground")).render(h(App));
+  // The screen builder (builder.html) reuses these component controls.
+  window.ANVIL_PLAYGROUND = { stories: STORIES, jsx: jsx, Field: Field, defaults: defaults };
+  var mount = document.getElementById("playground");
+  if (mount) ReactDOM.createRoot(mount).render(h(App));
 })();

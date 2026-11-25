@@ -8,29 +8,29 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261118a">
-<link rel="stylesheet" href="dist/anvil.css?v=20261118a">
-<link rel="stylesheet" href="site/site.css?v=20261118b">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261124a">
+<link rel="stylesheet" href="dist/anvil.css?v=20261124c">
+<link rel="stylesheet" href="site/site.css?v=20261124a">
 <script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t);var b=localStorage.getItem("anvil-site-pli-brand");if(b&&/^pli-/.test(t||"")&&/^#[0-9a-f]{6}$/.test(b)){document.documentElement.style.setProperty("--brand-interactive-primary-base",b);document.documentElement.style.setProperty("--brand-interactive-secondary-base",b)}}catch(e){}</script>
 </head>
 <body class="cp-page">
 
 <header class="site-top">
   <a class="site-brand" href="index.html">Pulse</a>
-  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="playground.html">Playground</a></nav>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="playground.html">Playground</a><a href="builder.html">Screen builder</a></nav>
   <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
 </header>
 
 <main><div class="cp">
-<nav class="cp-side" aria-label="Components"><details class="cp-group" open><summary><span>Action</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#Button">Button</a></details><details class="cp-group" open><summary><span>Form</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#Checkbox">Checkbox input</a><a href="#PasswordInput">Password input</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider input</a><a href="#TextInput">Text input</a></details><details class="cp-group" open><summary><span>Containers</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#Card">Card</a><a href="#VisitCard">Visit card</a></details><details class="cp-group" open><summary><span>Navigation and menus</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#GlobalFooter">Global footer</a><a href="#GlobalHeader">Global header</a><a href="#NavList">Prominent nav list</a></details><details class="cp-group" open><summary><span>Brand and media</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#Connector">Connector</a><a href="#Icon">Icon</a><a href="#Illustration">Illustration</a><a href="#Logo">Logo</a></details><details class="cp-group" open><summary><span>Data viz</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#DataVizColors">Colors</a><a href="#BarChart">Bar chart</a><a href="#LineChart">Line chart</a><a href="#FloatingColumns">Floating columns</a><a href="#RadialChart">Radial chart</a><a href="#ChartTooltip">Tooltips</a><a href="#ChartLegend">Legend</a><a href="#ChartEmpty">Empty states</a></details><details class="cp-group" open><summary><span>Icons and illustrations</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#icons">Icons</a><a href="#spot">Spot illustrations</a><a href="#hero">Hero illustrations</a></details></nav>
+<nav class="cp-side" aria-label="Components"><details class="cp-group" open><summary><span>Action</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#Button">Button</a></details><details class="cp-group" open><summary><span>Form</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#Checkbox">Checkbox input</a><a href="#PasswordInput">Password input</a><a href="#SelectInput">Select input</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider input</a><a href="#TextInput">Text input</a></details><details class="cp-group" open><summary><span>Content display</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#Card">Card</a><a href="#MarkdownText">Markdown text</a><a href="#VisitCard">Visit card</a></details><details class="cp-group" open><summary><span>Navigation and menus</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#GlobalFooter">Global footer</a><a href="#GlobalHeader">Global header</a><a href="#NavList">Prominent nav list</a></details><details class="cp-group" open><summary><span>Brand and media</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#Connector">Connector</a><a href="#Icon">Icon</a><a href="#Illustration">Illustration</a><a href="#Logo">Logo</a></details><details class="cp-group" open><summary><span>Data viz</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#DataVizColors">Colors</a><a href="#BarChart">Bar chart</a><a href="#LineChart">Line chart</a><a href="#FloatingColumns">Floating columns</a><a href="#RadialChart">Radial chart</a><a href="#ChartTooltip">Tooltips</a><a href="#ChartLegend">Legend</a><a href="#ChartEmpty">Empty states</a></details><details class="cp-group" open><summary><span>Icons and illustrations</span><svg class="cp-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary><a href="#icons">Icons</a><a href="#spot">Spot illustrations</a><a href="#hero">Hero illustrations</a></details></nav>
 <div class="cp-body">
 <p class="eyebrow">Components</p><h1 class="page-title">Components</h1>
 <p class="lede">Live React components built from the Pulse Figma component sets. Every example below is running code, so switch the theme at the top to see each one in Core UI and PLI, light and dark.</p>
-<nav class="jump" aria-label="Components (compact)"><a href="#Button">Button</a><a href="#Checkbox">Checkbox input</a><a href="#PasswordInput">Password input</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider input</a><a href="#TextInput">Text input</a><a href="#Card">Card</a><a href="#VisitCard">Visit card</a><a href="#GlobalFooter">Global footer</a><a href="#GlobalHeader">Global header</a><a href="#NavList">Prominent nav list</a><a href="#Connector">Connector</a><a href="#Icon">Icon</a><a href="#Illustration">Illustration</a><a href="#Logo">Logo</a><a href="#DataVizColors">Colors</a><a href="#BarChart">Bar chart</a><a href="#LineChart">Line chart</a><a href="#FloatingColumns">Floating columns</a><a href="#RadialChart">Radial chart</a><a href="#ChartTooltip">Tooltips</a><a href="#ChartLegend">Legend</a><a href="#ChartEmpty">Empty states</a><a href="#icons">Icons</a><a href="#spot">Spot illustrations</a><a href="#hero">Hero illustrations</a></nav>
+<nav class="jump" aria-label="Components (compact)"><a href="#Button">Button</a><a href="#Checkbox">Checkbox input</a><a href="#PasswordInput">Password input</a><a href="#SelectInput">Select input</a><a href="#SelectionCard">Selection card</a><a href="#Slider">Slider input</a><a href="#TextInput">Text input</a><a href="#Card">Card</a><a href="#MarkdownText">Markdown text</a><a href="#VisitCard">Visit card</a><a href="#GlobalFooter">Global footer</a><a href="#GlobalHeader">Global header</a><a href="#NavList">Prominent nav list</a><a href="#Connector">Connector</a><a href="#Icon">Icon</a><a href="#Illustration">Illustration</a><a href="#Logo">Logo</a><a href="#DataVizColors">Colors</a><a href="#BarChart">Bar chart</a><a href="#LineChart">Line chart</a><a href="#FloatingColumns">Floating columns</a><a href="#RadialChart">Radial chart</a><a href="#ChartTooltip">Tooltips</a><a href="#ChartLegend">Legend</a><a href="#ChartEmpty">Empty states</a><a href="#icons">Icons</a><a href="#spot">Spot illustrations</a><a href="#hero">Hero illustrations</a></nav>
 <section class="comp" id="Button">
   <div class="comp-head"><h2 class="sec">Button</h2><span class="comp-meta"><code>Pulse.Button</code><a class="pg-link" href="button.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#Button">Try it in the playground</a></span></div>
   <p class="lede">Buttons start actions, in three levels of emphasis: primary, secondary and tertiary, each with a destructive version.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Button.html?v=20261106c" title="Button examples" height="400" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Button.html?v=20261124d" title="Button examples" height="400" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Buttons start actions, in three levels of emphasis: primary, secondary and tertiary, each with a destructive version.</p>
 <h2>Choosing a variant</h2>
 <ul>
@@ -73,8 +73,8 @@
 <h2>Layout</h2>
 <ul>
 <li><strong>Shape:</strong> primary and secondary are pills (<code>radius-200</code>).</li>
-<li><strong>Desktop size:</strong> <code>button-min-height</code> 48px, with <code>button-vertical-padding</code> 14px and <code>button-horizontal-padding</code> 32px.</li>
-<li><strong>Mobile size (under 600px):</strong> 44px tall with 12px / 24px padding, so the touch target stays at least 44px.</li>
+<li><strong>Size:</strong> <code>button-min-height</code> 44px, with <code>button-vertical-padding</code> 12px, on desktop and mobile.</li>
+<li><strong>Side padding:</strong> <code>button-horizontal-padding</code> 32px on desktop and 24px on mobile (under 600px).</li>
 <li><strong>Icons:</strong> 16px (<code>height-icon-200</code>), with <code>space-100</code> (8px) between icon and label.</li>
 <li><strong>Labels:</strong> Lexend Deca Medium, 16/20. Small tertiary buttons use 14/20.</li>
 <li><strong>Tertiary</strong> has no padding or minimum height. Give it room in the layout so the tap area reaches 44px on touch screens.</li>
@@ -103,7 +103,7 @@
 <section class="comp" id="Checkbox">
   <div class="comp-head"><h2 class="sec">Checkbox input</h2><span class="comp-meta"><code>Pulse.Checkbox</code><a class="pg-link" href="checkbox-input.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#Checkbox">Try it in the playground</a></span></div>
   <p class="lede">Checkbox lets people pick any number of options from a short list, or confirm agreement.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Checkbox.html?v=20261106c" title="Checkbox examples" height="470" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Checkbox.html?v=20261124d" title="Checkbox examples" height="470" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Checkbox lets people pick any number of options from a short list, or confirm agreement.</p>
 <h2>Usage</h2>
 <ul>
@@ -159,7 +159,7 @@
 <section class="comp" id="PasswordInput">
   <div class="comp-head"><h2 class="sec">Password input</h2><span class="comp-meta"><code>Pulse.PasswordInput</code><a class="pg-link" href="password-input.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#PasswordInput">Try it in the playground</a></span></div>
   <p class="lede">Password input is for entering or creating a password, with a Show/Hide toggle and, when creating, live strength and requirement feedback.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/PasswordInput.html?v=20261106c" title="Password input examples" height="700" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/PasswordInput.html?v=20261124d" title="Password input examples" height="700" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Password input is for entering or creating a password, with a Show/Hide toggle and, when creating, live strength and requirement feedback.</p>
 <h2>Modes</h2>
 <ul>
@@ -193,10 +193,80 @@
 <li>Each requirement includes hidden "met" or "not met" text, so it isn't conveyed by the icon alone.</li>
 </ul></div></details>
 </section>
+<section class="comp" id="SelectInput">
+  <div class="comp-head"><h2 class="sec">Select input</h2><span class="comp-meta"><code>Pulse.SelectInput</code><a class="pg-link" href="select-input.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#SelectInput">Try it in the playground</a></span></div>
+  <p class="lede">Select input lets people pick one answer from a list of set options. The list opens in a dropdown menu under the control.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/SelectInput.html?v=20261124d" title="Select input examples" height="760" loading="lazy" style="min-width:1080px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Select input lets people pick one answer from a list of set options. The list opens in a dropdown menu under the control.</p>
+<h2>When to use</h2>
+<ul>
+<li>There's a reasonable number of options, and people don't need to search or filter them.</li>
+<li>Only one option can be chosen.</li>
+<li>There isn't room to show every option on the page.</li>
+</ul>
+<p>Don't use it when:</p>
+<ul>
+<li>There are many options, or searching would help. Use an advanced select.</li>
+<li>People can pick more than one. Use checkbox inputs or checkbox selection cards.</li>
+<li>Each option needs more than a short description. Use selection cards.</li>
+</ul>
+<p>Common uses at Teladoc Health include choosing your location when requesting a visit, describing conditions in a medical history, and picking a time frame for health data, such as the past 14 days or 3 months.</p>
+<h2>Anatomy</h2>
+<ul>
+<li><strong>Label</strong> (<code>label</code>): 16/20 semibold. It turns red (<code>form-input-label-text-label-error</code>) in the error state.</li>
+<li><strong>Helper</strong> (<code>helper</code>): 14/20 in <code>form-input-label-text-helper</code>.</li>
+<li><strong>Control:</strong> the same as text input. 44px tall, 12px padding, <code>form-input-control-radius</code> corners, 1px <code>form-input-control-stroke-default</code> outline.</li>
+<li><strong>Placeholder</strong> (<code>placeholder</code>): "Select" by default, in <code>form-input-control-text-placeholder</code>. Once something is chosen, the answer shows in <code>form-input-control-text-filled</code>.</li>
+<li><strong>Dropdown indicator:</strong> the <code>arrow-down</code> icon in <code>form-input-control-icon-default</code>. It flips while the menu is open.</li>
+<li><strong>Inline message</strong> (<code>message</code>): appears under the control with a status icon.</li>
+<li><strong>Dropdown menu (Form-dropdown):</strong> floats <code>space-100</code> below the control, over the content below it. <code>navigation-background-surface</code> fill, <code>radius-150</code> corners, <code>elevation</code> shadow, scrolls after about 9 options.</li>
+<li><strong>Option:</strong> 16/20 label with 12px padding and a <code>stroke-base</code> divider. An optional 14/20 description (<code>description</code>) sits under the label.</li>
+<li><strong>Selected option:</strong> <code>navigation-text-selected</code> label and a <code>check</code> icon on the right.</li>
+</ul>
+<h2>Options</h2>
+<p><code>options</code> takes strings, or objects with <code>value</code>, <code>label</code> and an optional <code>description</code>. Options with and without descriptions can be mixed in one menu.</p>
+<pre><code>&lt;SelectInput
+  label="Time frame"
+  options={[
+    { value: "14d", label: "Past 14 days" },
+    { value: "3m", label: "Past 3 months", description: "Weekly averages" }
+  ]}
+  defaultValue="14d"
+/&gt;</code></pre>
+<h2>States</h2>
+<table>
+<thead>
+<tr><th>State</th><th>What changes</th></tr>
+</thead>
+<tbody>
+<tr><td>Hover</td><td>Outline becomes 2px <code>form-input-control-stroke-hover</code>.</td></tr>
+<tr><td>Focus</td><td>2px hover outline plus the <code>focus-ring</code> halo.</td></tr>
+<tr><td>Warning</td><td><code>form-input-control-stroke-warning</code> outline and a warning message.</td></tr>
+<tr><td>Error</td><td><code>form-input-control-stroke-error</code> outline, red label, error message. The control gets <code>aria-invalid</code>.</td></tr>
+<tr><td>Disabled</td><td><code>form-input-control-background-disabled</code> fill, disabled text and icon.</td></tr>
+<tr><td>View only (<code>readOnly</code>)</td><td><code>form-input-control-background-view-only</code> fill and a lock icon in place of the arrow.</td></tr>
+</tbody>
+</table>
+<p>Menu options have default, hover (<code>navigation-background-hover</code>), pressed (<code>navigation-form-list-item-background-pressed</code>) and selected states.</p>
+<h2>Interaction</h2>
+<ul>
+<li>Click or tap the control to open the menu. Choosing an option updates the control and closes the menu.</li>
+<li>Clicking outside the menu closes it without changing the answer.</li>
+<li>The menu sits over other content. It never pushes the page down.</li>
+<li><strong>Optional fields</strong> need a way to clear the answer. Set <code>optional</code> to add a "Select" item at the top of the menu that returns the control to its placeholder.</li>
+</ul>
+<h2>Accessibility</h2>
+<ul>
+<li>The control is a <code>combobox</code> button that opens a <code>listbox</code>. Screen readers announce the label, the current answer and whether the menu is open.</li>
+<li>Keyboard: Down, Up, Enter or Space opens the menu. Home and End open it on the first or last option. Up and Down move through options, Enter or Space chooses one, and Escape closes the menu. Typing a letter jumps to the next option that starts with it.</li>
+<li>A view-only select stays in the tab order. A disabled select is skipped.</li>
+<li>The helper and message are linked with <code>aria-describedby</code>. The status icon in the message is decorative.</li>
+</ul></div></details>
+</section>
 <section class="comp" id="SelectionCard">
   <div class="comp-head"><h2 class="sec">Selection card</h2><span class="comp-meta"><code>Pulse.SelectionCard</code><a class="pg-link" href="selection-card.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#SelectionCard">Try it in the playground</a></span></div>
   <p class="lede">Selection card is a radio or checkbox option that needs more than a one-line label, such as a visit type with a short description.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/SelectionCard.html?v=20261106c" title="Selection card examples" height="560" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/SelectionCard.html?v=20261124d" title="Selection card examples" height="560" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Selection card is a radio or checkbox option that needs more than a one-line label, such as a visit type with a short description.</p>
 <h2>Usage</h2>
 <ul>
@@ -255,7 +325,7 @@
 <section class="comp" id="Slider">
   <div class="comp-head"><h2 class="sec">Slider input</h2><span class="comp-meta"><code>Pulse.Slider</code><a class="pg-link" href="slider-input.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#Slider">Try it in the playground</a></span></div>
   <p class="lede">Slider lets people pick a value, or a range of values, by dragging along a track.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Slider.html?v=20261106c" title="Slider examples" height="420" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Slider.html?v=20261124d" title="Slider examples" height="420" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Slider lets people pick a value, or a range of values, by dragging along a track.</p>
 <h2>Types</h2>
 <ul>
@@ -309,7 +379,7 @@
 <section class="comp" id="TextInput">
   <div class="comp-head"><h2 class="sec">Text input</h2><span class="comp-meta"><code>Pulse.TextInput</code><a class="pg-link" href="text-input.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#TextInput">Try it in the playground</a></span></div>
   <p class="lede">Text input lets people write or edit a single line of text, with an optional unit, icon and status message.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/TextInput.html?v=20261106c" title="Text input examples" height="620" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/TextInput.html?v=20261124d" title="Text input examples" height="620" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Text input lets people write or edit a single line of text, with an optional unit, icon and status message.</p>
 <h2>When to use</h2>
 <ul>
@@ -374,7 +444,7 @@
 <section class="comp" id="Card">
   <div class="comp-head"><h2 class="sec">Card</h2><span class="comp-meta"><code>Pulse.Card</code><a class="pg-link" href="card.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#Card">Try it in the playground</a></span></div>
   <p class="lede">Cards group related content, such as text, media and actions, into one container.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Card.html?v=20261106c" title="Card examples" height="900" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Card.html?v=20261124d" title="Card examples" height="900" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Cards group related content, such as text, media and actions, into one container. They can be arranged in stacks, columns or grids.</p>
 <h2>Anatomy</h2>
 <ul>
@@ -409,10 +479,58 @@
 <li>Images need <code>alt</code> text unless they're decorative.</li>
 </ul></div></details>
 </section>
+<section class="comp" id="MarkdownText">
+  <div class="comp-head"><h2 class="sec">Markdown text</h2><span class="comp-meta"><code>Pulse.MarkdownText</code><a class="pg-link" href="markdown-text.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#MarkdownText">Try it in the playground</a></span></div>
+  <p class="lede">Markdown text renders dynamic content, such as text from a content system, with Pulse type styles.</p>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/MarkdownText.html?v=20261124d" title="Markdown text examples" height="700" loading="lazy" style="min-width:1080px"></iframe></div>
+  <details class="guide"><summary>Guidelines and props</summary><div><p>Markdown text renders dynamic content, such as text from a content system or an API, with Pulse type styles. The same Markdown can be shown on web, iOS and Android.</p>
+<h2>When to use</h2>
+<ul>
+<li>The text comes from somewhere else and can change, such as care plan steps or help articles.</li>
+<li>The content mixes headings, paragraphs, lists and links.</li>
+</ul>
+<p>For text you write into a screen, use the Pulse type styles directly.</p>
+<h2>Markdown and type styles</h2>
+<table>
+<thead>
+<tr><th>Property</th><th>Markdown</th><th>Pulse type style</th></tr>
+</thead>
+<tbody>
+<tr><td>H1</td><td><code># Heading</code></td><td><code>heading-heading-1</code></td></tr>
+<tr><td>H2</td><td><code>## Heading</code></td><td><code>heading-heading-2</code></td></tr>
+<tr><td>H3</td><td><code>### Heading</code></td><td><code>heading-heading-3</code></td></tr>
+<tr><td>H4</td><td><code>#### Heading</code></td><td><code>heading-heading-4</code></td></tr>
+<tr><td>Body text (default)</td><td>Plain text</td><td><code>body-default</code></td></tr>
+<tr><td>Bold</td><td><code><strong>bold text</strong></code></td><td><code>body-strong</code></td></tr>
+<tr><td>Italics</td><td><code>*italics text*</code></td><td><code>body-italics</code></td></tr>
+<tr><td>Ordered list</td><td><code>1. First item</code></td><td><code>body-default</code></td></tr>
+<tr><td>Unordered list</td><td><code>- First item</code></td><td><code>body-default</code></td></tr>
+<tr><td>Link</td><td><code>[title](https://www.example.com)</code></td><td><code>body-text-link</code></td></tr>
+</tbody>
+</table>
+<p>Bare links such as <code>https://www.example.com</code> also become links.</p>
+<h2>Spacing</h2>
+<ul>
+<li>Headings use the matching <code>space-between-heading-N-body</code> token before the text under them.</li>
+<li>Paragraphs and lists use <code>space-between-body</code>.</li>
+<li>Padding around the content is up to the team using it.</li>
+</ul>
+<h2>Safety</h2>
+<ul>
+<li>The component builds React elements and never inserts HTML, so HTML in the Markdown shows as plain text.</li>
+<li>Only <code>https:</code>, <code>http:</code>, <code>mailto:</code>, <code>tel:</code> and relative links become links. Anything else shows as plain text.</li>
+</ul>
+<h2>Accessibility</h2>
+<ul>
+<li>Headings are real <code>h1</code> to <code>h4</code> elements, so they show up in the page outline. Use <code>headingOffset</code> to move them down a level (1 makes <code>#</code> an <code>h2</code>) when the page already has an <code>h1</code>. They keep their look.</li>
+<li>Annotate Markdown text like any other text. The headings and body in one block are one component.</li>
+<li>Write link text that makes sense out of context.</li>
+</ul></div></details>
+</section>
 <section class="comp" id="VisitCard">
   <div class="comp-head"><h2 class="sec">Visit card</h2><span class="comp-meta"><code>Pulse.VisitCard</code><a class="pg-link" href="visit-card.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#VisitCard">Try it in the playground</a></span></div>
   <p class="lede">Visit card shows one scheduled visit: the date and time, the provider and the care type, with up to three actions.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/VisitCard.html?v=20261106c" title="Visit card examples" height="560" loading="lazy" style="min-width:820px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/VisitCard.html?v=20261124d" title="Visit card examples" height="560" loading="lazy" style="min-width:820px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Visit card shows one scheduled visit: the date and time, the provider and the care type, with up to three actions. It's built from the Figma "Visit-card-v2" set, which is marked as under development for Pulse 5.7.</p>
 <h2>Types</h2>
 <table>
@@ -476,7 +594,7 @@
 <section class="comp" id="GlobalFooter">
   <div class="comp-head"><h2 class="sec">Global footer</h2><span class="comp-meta"><code>Pulse.GlobalFooter</code><a class="pg-link" href="global-footer.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#GlobalFooter">Try it in the playground</a></span></div>
   <p class="lede">Global footer is the tab bar at the bottom of the app. It links to the main sections, such as Home, Programs, Health info, Messages and Account, and looks the same on every platform. In Figma it's "Global-footer", built from ".Tap-nav-items".</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/GlobalFooter.html?v=20261106c" title="Global footer examples" height="560" loading="lazy" style="min-width:800px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/GlobalFooter.html?v=20261124d" title="Global footer examples" height="560" loading="lazy" style="min-width:800px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Global footer is the tab bar at the bottom of the app. It links to the main sections, such as Home, Programs, Health info, Messages and Account, and looks the same on every platform. In Figma it's "Global-footer", built from ".Tap-nav-items".</p>
 <h2>Usage</h2>
 <pre><code class="language-jsx">&lt;GlobalFooter items={[
@@ -551,7 +669,7 @@
 <section class="comp" id="GlobalHeader">
   <div class="comp-head"><h2 class="sec">Global header</h2><span class="comp-meta"><code>Pulse.GlobalHeader</code><a class="pg-link" href="global-header.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#GlobalHeader">Try it in the playground</a></span></div>
   <p class="lede">Global header is the top bar of every screen: main navigation in the app, a focused header for single tasks, and a progress tracker for multi-step flows.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/GlobalHeader.html?v=20261106c" title="Global header examples" height="1820" loading="lazy" style="min-width:1180px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/GlobalHeader.html?v=20261124d" title="Global header examples" height="1820" loading="lazy" style="min-width:1180px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Global header is the top bar of every screen: main navigation in the app, a focused header for single tasks, and a progress tracker for multi-step flows.</p>
 <h2>Types</h2>
 <ul>
@@ -661,7 +779,7 @@
 <section class="comp" id="NavList">
   <div class="comp-head"><h2 class="sec">Prominent nav list</h2><span class="comp-meta"><code>Pulse.NavList</code><a class="pg-link" href="prominent-nav-list.html">Full guidelines (draft)</a><a class="pg-link" href="playground.html#NavList">Try it in the playground</a></span></div>
   <p class="lede">Prominent nav list is a stack or grid of large, tappable links to the most important destinations, such as programs, services and next steps.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/NavList.html?v=20261106c" title="Prominent nav list examples" height="760" loading="lazy" style="min-width:1120px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/NavList.html?v=20261124d" title="Prominent nav list examples" height="760" loading="lazy" style="min-width:1120px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Prominent nav list is a stack or grid of large, tappable links to the most important destinations, such as programs, services and next steps. Each item is a <code>NavListItem</code>, from the Figma "Prominent-nav-list-item" set.</p>
 <h2>Usage</h2>
 <pre><code class="language-jsx">&lt;NavList label=&quot;Next steps&quot; items={[
@@ -756,7 +874,7 @@
 <section class="comp" id="Connector">
   <div class="comp-head"><h2 class="sec">Connector</h2><span class="comp-meta"><code>Pulse.Connector</code><a class="pg-link" href="playground.html#Connector">Try it in the playground</a></span></div>
   <p class="lede">The Connector is a key Teladoc Health brand element, from the Figma &quot;Teladoc-Health-connector&quot; on the Logos and marks page.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Connector.html?v=20261106c" title="Connector examples" height="220" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Connector.html?v=20261124d" title="Connector examples" height="220" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>The Connector is a key Teladoc Health brand element, from the Figma "Teladoc-Health-connector" on the Logos and marks page. It can pair with the paver system, but use it purposefully.</p>
 <h2>When to use it</h2>
 <ul>
@@ -784,7 +902,7 @@
 <section class="comp" id="Icon">
   <div class="comp-head"><h2 class="sec">Icon</h2><span class="comp-meta"><code>Pulse.Icon</code><a class="pg-link" href="playground.html#Icon">Try it in the playground</a></span></div>
   <p class="lede">Icons are the 174 glyphs from the Pulse Figma Icons page.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Icon.html?v=20261106c" title="Icon examples" height="1180" loading="lazy" style="min-width:960px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Icon.html?v=20261124d" title="Icon examples" height="1180" loading="lazy" style="min-width:960px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Icons are the 174 glyphs from the Pulse Figma Icons page. They're drawn on a 16px grid and follow the surrounding text color.</p>
 <h2>Using icons</h2>
 <ul>
@@ -815,7 +933,7 @@
 <section class="comp" id="Illustration">
   <div class="comp-head"><h2 class="sec">Illustration</h2><span class="comp-meta"><code>Pulse.Illustration</code><a class="pg-link" href="playground.html#Illustration">Try it in the playground</a></span></div>
   <p class="lede">Illustration is the frame for Pulse artwork: a spot illustration for small moments and way-finding, or a hero illustration for onboarding and big moments.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Illustration.html?v=20261106c" title="Illustration examples" height="620" loading="lazy" style="min-width:1080px"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Illustration.html?v=20261124d" title="Illustration examples" height="620" loading="lazy" style="min-width:1080px"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>Illustration is the frame for Pulse artwork: a spot illustration for small moments and way-finding, or a hero illustration for onboarding and big moments.</p>
 <h2>Types</h2>
 <ul>
@@ -866,7 +984,7 @@
 <section class="comp" id="Logo">
   <div class="comp-head"><h2 class="sec">Logo</h2><span class="comp-meta"><code>Pulse.Logo</code><a class="pg-link" href="playground.html#Logo">Try it in the playground</a></span></div>
   <p class="lede">The Teladoc Health logo, from the Pulse &quot;Logos and marks&quot; page in Figma.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Logo.html?v=20261106c" title="Logo examples" height="380" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/Logo.html?v=20261124d" title="Logo examples" height="380" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><p>The Teladoc Health logo, from the Pulse "Logos and marks" page in Figma. Use it in headers, footers and sign-in screens.</p>
 <h2>Usage</h2>
 <pre><code class="language-jsx">&lt;Logo /&gt;                      // 40px tall, accessible name &quot;Teladoc Health&quot;
@@ -921,12 +1039,12 @@
 <section class="comp" id="DataVizColors">
   <div class="comp-head"><h2 class="sec">Colors</h2><span class="comp-meta"><code>--data-viz-*</code></span></div>
   <p class="lede">Data viz has its own color tokens: 12 dataset colors with base, hover and subdued values in every theme, a gray for missing data, and colors for axes, gridlines, goals and tooltips. Use datasets 2, 4, 1 and 8 in that order when a chart has several.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/DataVizColors.html?v=20261106c" title="Colors examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/DataVizColors.html?v=20261124d" title="Colors examples" height="420" loading="lazy"></iframe></div>
 </section>
 <section class="comp" id="BarChart">
   <div class="comp-head"><h2 class="sec">Bar chart</h2><span class="comp-meta"><code>Pulse.BarChart</code><a class="pg-link" href="playground.html#BarChart">Try it in the playground</a></span></div>
   <p class="lede">Bar chart compares values across categories, such as steps per day or doses per week. Bars rise from the baseline, with an optional goal line or goal range. It comes from the Figma "Chart-bar" and "Bar-chart" components in Pulse 5: Data Visualization.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/BarChart.html?v=20261106c" title="Bar chart examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/BarChart.html?v=20261124d" title="Bar chart examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
 <ul>
 <li><strong>Title</strong> (optional): <code>title</code> at 18/24 semibold and <code>subtitle</code> at 14/20 in <code>text-body-subdued</code>.</li>
@@ -956,7 +1074,7 @@
 <section class="comp" id="LineChart">
   <div class="comp-head"><h2 class="sec">Line chart</h2><span class="comp-meta"><code>Pulse.LineChart</code><a class="pg-link" href="playground.html#LineChart">Try it in the playground</a></span></div>
   <p class="lede">Line chart shows trends and change over time for one to four datasets, such as weight or blood glucose by day. It comes from the Figma "Line-chart" component in Pulse 5: Data Visualization.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/LineChart.html?v=20261106c" title="Line chart examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/LineChart.html?v=20261124d" title="Line chart examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
 <ul>
 <li><strong>Title</strong> (optional) at 18/24 semibold, with an optional <code>subtitle</code>.</li>
@@ -983,7 +1101,7 @@
 <section class="comp" id="FloatingColumns">
   <div class="comp-head"><h2 class="sec">Floating columns</h2><span class="comp-meta"><code>Pulse.FloatingColumns</code><a class="pg-link" href="playground.html#FloatingColumns">Try it in the playground</a></span></div>
   <p class="lede">Floating columns show a range for each category, such as a day's lowest and highest heart rate. Each column floats between its <code>low</code> and <code>high</code> value instead of rising from the baseline. It comes from the Figma "Floating-columns" component in Pulse 5: Data Visualization.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/FloatingColumns.html?v=20261106c" title="Floating columns examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/FloatingColumns.html?v=20261124d" title="Floating columns examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
 <ul>
 <li>Columns in <code>data-viz-data-data-2-base</code> by default (set <code>color</code> for another dataset), with rounded ends.</li>
@@ -1008,7 +1126,7 @@
 <section class="comp" id="RadialChart">
   <div class="comp-head"><h2 class="sec">Radial chart</h2><span class="comp-meta"><code>Pulse.RadialChart</code><a class="pg-link" href="playground.html#RadialChart">Try it in the playground</a></span></div>
   <p class="lede">Radial chart is a donut that shows a part of a whole, such as 7 of 10 doses logged. It comes from the Figma "Chart-radial" component in Pulse 5: Data Visualization.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/RadialChart.html?v=20261106c" title="Radial chart examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/RadialChart.html?v=20261124d" title="Radial chart examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
 <ul>
 <li><strong>Track:</strong> a full ring in <code>data-viz-axis-radial</code>.</li>
@@ -1036,7 +1154,7 @@
 <section class="comp" id="ChartTooltip">
   <div class="comp-head"><h2 class="sec">Tooltips</h2><span class="comp-meta"><code>Pulse.ChartTooltip</code></span></div>
   <p class="lede">Chart tooltips show exact values for the point being explored. The charts render them for you; use <code>ChartTooltip</code> directly for custom charts. From the Figma "Chart-overlay-tooltip" and "Chart-inline-tooltip" ("Chart-tooltip" is deprecated).</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartTooltip.html?v=20261106c" title="Tooltips examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartTooltip.html?v=20261124d" title="Tooltips examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Variants</h2>
 <ul>
 <li><strong>Overlay</strong> (default): <code>data-viz-tooltip-background-primary</code> (dark) with white text, 4px corners and a 16×8 beak. <code>beak</code> sets the side (<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>) and <code>beakAlign</code> the position (<code>center</code>, <code>leading</code>, <code>trailing</code>). BarChart and FloatingColumns use it.</li>
@@ -1056,7 +1174,7 @@
 <section class="comp" id="ChartLegend">
   <div class="comp-head"><h2 class="sec">Legend</h2><span class="comp-meta"><code>Pulse.ChartLegend</code></span></div>
   <p class="lede">Chart legend names the datasets in a chart. The charts add it when there's more than one dataset or a goal; use it directly for custom charts. From the Figma "Chart-legend" and "Chart-legend-item".</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartLegend.html?v=20261106c" title="Legend examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartLegend.html?v=20261124d" title="Legend examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Anatomy</h2>
 <ul>
 <li>Items wrap in a row with 16px between them. Labels are 12/12 in <code>data-viz-label-legend</code>, 8px from the icon.</li>
@@ -1079,7 +1197,7 @@
 <section class="comp" id="ChartEmpty">
   <div class="comp-head"><h2 class="sec">Empty states</h2><span class="comp-meta"><code>Pulse.ChartEmpty</code></span></div>
   <p class="lede">Chart empty states replace a chart that has nothing to show: a gray ghost chart with a message card over it. From the Figma "Chart-empty-message" and the ghost charts on the Empty states page.</p>
-  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartEmpty.html?v=20261106c" title="Empty states examples" height="420" loading="lazy"></iframe></div>
+  <div class="frame-scroll"><iframe data-example class="comp-frame" src="examples/ChartEmpty.html?v=20261124d" title="Empty states examples" height="420" loading="lazy"></iframe></div>
   <details class="guide"><summary>Guidelines and props</summary><div><h2>Statuses</h2>
 <ul>
 <li><strong>Zero data</strong> (<code>status="zero"</code>, default): "No data yet" with the info icon. Use it before someone has logged anything.</li>
@@ -1130,7 +1248,7 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-<script src="dist/anvil.js?v=20261106c"></script>
+<script src="dist/anvil.js?v=20261124d"></script>
 <script>
 (function () {
   var host = document.getElementById("icons-grid");
@@ -1150,6 +1268,6 @@
 })();
 </script>
 <footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
-<script src="site/site.js?v=20261118b"></script>
+<script src="site/site.js?v=20261124b"></script>
 </body>
 </html>

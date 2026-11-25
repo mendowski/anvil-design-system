@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../tokens/anvil-tokens.css?v=20261124a">
+<link rel="stylesheet" href="../dist/anvil.css?v=20261124c">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../dist/anvil.js?v=20261124d"></script>
+<script>(function(){var m=/[?&]theme=([\w-]+)/.exec(location.search);document.documentElement.setAttribute("data-theme",m?m[1]:"core-light")})()</script>
+
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--background-surface, #fff); font-family: var(--font-sans, system-ui, sans-serif); color: var(--text-body-base); }
+  .grid { display: grid; gap: 32px 24px; align-items: start; }
+  .cap { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--text-body-subdued); margin-bottom: 8px; }
+  .grid { grid-template-columns: repeat(3, 1fr); }
+  .menu { min-height: 380px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var h = React.createElement;
+  var A = Anvil;
+  function cell(caption, el, cls) { return h("div", { className: cls }, h("div", { className: "cap" }, caption), el); }
+  var S = A.SelectInput;
+  var STATES = ["Arizona", "California", "Colorado", "Florida", "Illinois", "New York", "Texas", "Washington"];
+  var RANGE = [
+    { value: "14d", label: "Past 14 days" },
+    { value: "1m", label: "Past month", description: "Daily averages" },
+    { value: "3m", label: "Past 3 months", description: "Weekly averages" },
+    { value: "1y", label: "Past year", description: "Monthly averages" }
+  ];
+  ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "grid" },
+    cell("Default", h(S, { label: "Input label", helper: "Helper text", options: STATES })),
+    cell("Hover", h(S, { label: "Input label", helper: "Helper text", options: STATES, defaultValue: "Texas", state: "hover" })),
+    cell("Focus", h(S, { label: "Input label", helper: "Helper text", options: STATES, defaultValue: "Texas", state: "focus" })),
+    cell("Warning", h(S, { label: "Where are you right now?", helper: "We can only connect you with providers licensed in your state", options: STATES, defaultValue: "Florida", status: "warning", message: "Some visit types aren't available in Florida." })),
+    cell("Error", h(S, { label: "State", options: STATES, status: "error", message: "State is required" })),
+    cell("Disabled", h(S, { label: "State", helper: "Set by your plan", options: STATES, defaultValue: "Illinois", disabled: true })),
+    cell("View only", h(S, { label: "State", options: STATES, defaultValue: "Colorado", readOnly: true })),
+    cell("Menu open, with descriptions", h(S, { label: "Time frame", options: RANGE, defaultValue: "1m", defaultOpen: true }), "menu"),
+    cell("Optional, with a clear item", h(S, { label: "Preferred language", helper: "Optional", optional: true, options: ["English", "Spanish", "French", "Mandarin"] }))
+  ));
+</script>
+</body>
+</html>

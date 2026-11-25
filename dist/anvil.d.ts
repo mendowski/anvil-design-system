@@ -89,6 +89,55 @@ export interface TextInputProps extends FieldProps {
 }
 export declare function TextInput(props: TextInputProps): React.ReactElement;
 
+export interface SelectOption {
+  value: string;
+  /** Text shown in the menu and in the control once chosen. Defaults to the value. */
+  label?: string;
+  /** Optional second line in the menu. */
+  description?: string;
+}
+export interface SelectInputProps extends FieldProps {
+  /** Strings, or objects with a value, label and optional description. */
+  options: Array<string | SelectOption>;
+  value?: string;
+  defaultValue?: string;
+  /** Called with the chosen value, and the option (null when cleared). */
+  onChange?: (value: string, option: SelectOption | null) => void;
+  /** Shown until something is chosen. Default "Select". */
+  placeholder?: string;
+  /** Adds a "Select" item at the top of the menu that clears the answer. Use it on optional fields. */
+  optional?: boolean;
+  /** Sends the value with a form, through a hidden input. */
+  name?: string;
+  /** "warning" or "error". Shows the message with the matching icon. */
+  status?: "warning" | "error";
+  disabled?: boolean;
+  /** View-only: shows the answer with a lock icon and can't be changed. */
+  readOnly?: boolean;
+  required?: boolean;
+  /** Opens the menu on first render, for documentation. */
+  defaultOpen?: boolean;
+  /** Accessible name when there's no visible label. */
+  "aria-label"?: string;
+  /** Id of an element that names the control, when the label sits outside the component. */
+  "aria-labelledby"?: string;
+  /** Forces a visual state for documentation. */
+  state?: "hover" | "focus";
+}
+export declare function SelectInput(props: SelectInputProps): React.ReactElement;
+
+export interface MarkdownTextProps {
+  /** The Markdown to render. Supports # to #### headings, **bold**, *italics*, 1. and - lists, [links](url) and bare https:// links. */
+  children?: string;
+  /** The same as children. */
+  markdown?: string;
+  /** Moves heading tags down (1 makes # an h2) while keeping its look, so the page keeps one h1. */
+  headingOffset?: number;
+  className?: string;
+  style?: React.CSSProperties;
+}
+export declare function MarkdownText(props: MarkdownTextProps): React.ReactElement;
+
 export interface PasswordRequirement { label: string; test?: (value: string, excludeWords?: string[]) => boolean; met?: boolean; }
 export interface PasswordInputProps extends FieldProps {
   /** "sign-in" (default) or "create", which adds strength and requirements. */

@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"Anvil","components":[{"name":"Button"},{"name":"TextInput"},{"name":"PasswordInput"},{"name":"Checkbox"},{"name":"SelectionCard"},{"name":"Slider"},{"name":"Card"},{"name":"VisitCard"},{"name":"NavList"},{"name":"GlobalHeader"},{"name":"GlobalFooter"},{"name":"Illustration"},{"name":"Logo"},{"name":"Connector"},{"name":"BarChart"},{"name":"LineChart"},{"name":"RadialChart"},{"name":"FloatingColumns"},{"name":"ChartTooltip"},{"name":"ChartLegend"},{"name":"ChartEmpty"}]} */
+/* @ds-bundle: {"format":4,"namespace":"Anvil","components":[{"name":"Button"},{"name":"TextInput"},{"name":"SelectInput"},{"name":"MarkdownText"},{"name":"PasswordInput"},{"name":"Checkbox"},{"name":"SelectionCard"},{"name":"Slider"},{"name":"Card"},{"name":"VisitCard"},{"name":"NavList"},{"name":"GlobalHeader"},{"name":"GlobalFooter"},{"name":"Illustration"},{"name":"Logo"},{"name":"Connector"},{"name":"BarChart"},{"name":"LineChart"},{"name":"RadialChart"},{"name":"FloatingColumns"},{"name":"ChartTooltip"},{"name":"ChartLegend"},{"name":"ChartEmpty"}]} */
 (function () {
   var React = window.React;
   var h = React.createElement;
@@ -176,6 +176,197 @@
           p.unitPosition !== "before" && unit,
           viewOnly && h("span", { className: "anvil-input__lock" }, h(Icon, { name: "lock", title: "View only" })));
       });
+  }
+
+  // ---------- Select input ----------
+  // A button that opens a Form-dropdown list (a listbox). Options are strings or { value, label, description }.
+  // The menu floats over the content below it, space-100 under the control.
+
+  function normOption(o) { return typeof o === "string" ? { value: o, label: o } : Object.assign({ label: String(o.value) }, o); }
+
+  function SelectInput(p) {
+    var id = useFieldId(p.id);
+    var listId = id + "-list";
+    var options = (p.options || []).map(normOption);
+    if (p.optional) options = [{ value: "", label: p.placeholder || "Select", clear: true }].concat(options);
+    var internal = React.useState(p.defaultValue != null ? p.defaultValue : "");
+    var value = p.value !== undefined ? p.value : internal[0];
+    var os = React.useState(!!p.defaultOpen), open = os[0], setOpen = os[1];
+    var as = React.useState(-1), active = as[0], setActive = as[1];
+    var rootRef = React.useRef(null), btnRef = React.useRef(null), listRef = React.useRef(null);
+    var status = p.status;
+    var viewOnly = !!p.readOnly, locked = p.disabled || viewOnly;
+    var selected = options.filter(function (o) { return !o.clear && o.value === value; })[0];
+    var selIndex = options.indexOf(selected);
+
+    function choose(o) {
+      if (p.value === undefined) internal[1](o.value);
+      if (p.onChange) p.onChange(o.value, o.clear ? null : o);
+      setOpen(false);
+      if (btnRef.current) btnRef.current.focus();
+    }
+    function show(at) {
+      if (locked) return;
+      setOpen(true);
+      setActive(at != null ? at : selIndex >= 0 ? selIndex : 0);
+    }
+
+    // close on a click outside
+    React.useEffect(function () {
+      if (!open) return;
+      function onDown(e) { if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false); }
+      document.addEventListener("mousedown", onDown);
+      return function () { document.removeEventListener("mousedown", onDown); };
+    }, [open]);
+    // keep the active option in view
+    React.useEffect(function () {
+      if (!open || !listRef.current || active < 0) return;
+      var el = listRef.current.children[active];
+      if (el && el.scrollIntoView) el.scrollIntoView({ block: "nearest" });
+    }, [open, active]);
+
+    function onKey(e) {
+      if (locked) return;
+      var k = e.key, last = options.length - 1;
+      if (!open) {
+        if (k === "ArrowDown" || k === "ArrowUp" || k === "Enter" || k === " ") { e.preventDefault(); show(k === "ArrowUp" && selIndex < 0 ? last : null); }
+        else if (k === "Home") { e.preventDefault(); show(0); }
+        else if (k === "End") { e.preventDefault(); show(last); }
+        return;
+      }
+      if (k === "ArrowDown") { e.preventDefault(); setActive(Math.min(last, active + 1)); }
+      else if (k === "ArrowUp") { e.preventDefault(); if (e.altKey) { if (options[active]) choose(options[active]); } else setActive(Math.max(0, active - 1)); }
+      else if (k === "Home") { e.preventDefault(); setActive(0); }
+      else if (k === "End") { e.preventDefault(); setActive(last); }
+      else if (k === "Enter" || k === " ") { e.preventDefault(); if (options[active]) choose(options[active]); }
+      else if (k === "Escape") { e.preventDefault(); setOpen(false); }
+      else if (k === "Tab") setOpen(false);
+      else if (k.length === 1) {
+        // type to jump to the next option that starts with that letter
+        var ch = k.toLowerCase();
+        for (var i = 1; i <= options.length; i++) {
+          var j = (active + i) % options.length;
+          if (String(options[j].label).toLowerCase().charAt(0) === ch) { setActive(j); break; }
+        }
+      }
+    }
+
+    return h(Field, { id: id, label: p.label, helper: p.helper, message: p.message, status: status, className: cx("anvil-select-field", p.className), style: p.style },
+      function (describedBy) {
+        return h("div", { className: "anvil-select", ref: rootRef },
+          h("button", {
+            id: id, ref: btnRef, type: "button",
+            className: cx("anvil-input", "anvil-select__control", status && "anvil-input--" + status, p.disabled && "is-disabled", viewOnly && "is-view-only", open && "is-open"),
+            "data-state": p.state || undefined,
+            role: "combobox",
+            "aria-haspopup": "listbox",
+            "aria-expanded": open ? "true" : "false",
+            "aria-controls": listId,
+            "aria-labelledby": p.label ? id + "-label " + id : p["aria-labelledby"] ? p["aria-labelledby"] + " " + id : undefined,
+            "aria-label": !p.label && !p["aria-labelledby"] ? p["aria-label"] : undefined,
+            "aria-activedescendant": open && active >= 0 ? listId + "-" + active : undefined,
+            "aria-invalid": status === "error" || undefined,
+            "aria-required": p.required || undefined,
+            "aria-readonly": viewOnly || undefined,
+            "aria-describedby": describedBy,
+            disabled: p.disabled,
+            onClick: function () { if (open) setOpen(false); else show(); },
+            onKeyDown: onKey,
+          },
+            h("span", { className: cx("anvil-select__value", !selected && "is-placeholder") }, selected ? selected.label : p.placeholder || "Select"),
+            viewOnly
+              ? h("span", { className: "anvil-input__lock" }, h(Icon, { name: "lock", title: "View only" }))
+              : h("span", { className: "anvil-select__chev", "aria-hidden": "true" }, h(Icon, { name: "arrow-down" }))),
+          p.name ? h("input", { type: "hidden", name: p.name, value: value }) : null,
+          open && h("ul", { className: "anvil-dropdown", id: listId, role: "listbox", ref: listRef, "aria-labelledby": p.label ? id + "-label" : p["aria-labelledby"], "aria-label": !p.label && !p["aria-labelledby"] ? p["aria-label"] : undefined, tabIndex: -1 },
+            options.map(function (o, i) {
+              var isSel = o === selected;
+              return h("li", {
+                key: (o.clear ? "__clear" : "o-") + i, id: listId + "-" + i, role: "option", "aria-selected": isSel ? "true" : "false",
+                className: cx("anvil-dropdown__item", i === active && "is-active", isSel && "is-selected"),
+                onMouseDown: function (e) { e.preventDefault(); },
+                onMouseEnter: function () { setActive(i); },
+                onClick: function () { choose(o); },
+              },
+                h("span", { className: "anvil-dropdown__text" },
+                  h("span", { className: "anvil-dropdown__label" }, o.label),
+                  o.description && h("span", { className: "anvil-dropdown__desc" }, o.description)),
+                h("span", { className: "anvil-dropdown__check", "aria-hidden": "true" }, isSel ? h(Icon, { name: "check" }) : null));
+            })));
+      });
+  }
+
+  // ---------- Markdown text ----------
+  // Renders a small, safe set of Markdown with Pulse type styles: # to #### headings, paragraphs,
+  // **bold**, *italics*, 1. ordered and - unordered lists, [links](url) and bare https:// links.
+  // It builds React elements (never HTML strings), and only http(s), mailto, tel and relative links become links.
+
+  var MD_HEADING = { 1: "heading-heading-1", 2: "heading-heading-2", 3: "heading-heading-3", 4: "heading-heading-4" };
+
+  function safeHref(url) {
+    url = String(url || "").trim();
+    return /^(https?:|mailto:|tel:|\/|#|\.\/|\.\.\/)/i.test(url) ? url : null;
+  }
+
+  function mdInline(text, keyBase) {
+    var out = [], i = 0, n = 0;
+    // order matters: links first, then bold, then italics, then bare URLs
+    var re = /\[([^\]]+)\]\(([^)\s]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*|_([^_]+)_|(https?:\/\/[^\s<)]+[^\s<).,;:!?'"])/g, m;
+    while ((m = re.exec(text))) {
+      if (m.index > i) out.push(text.slice(i, m.index));
+      var key = keyBase + "-" + n++;
+      if (m[1] != null) {
+        var href = safeHref(m[2]);
+        out.push(href ? h("a", { key: key, className: "anvil-md__link", href: href }, mdInline(m[1], key)) : m[1]);
+      } else if (m[3] != null) out.push(h("strong", { key: key, className: "anvil-md__strong" }, mdInline(m[3], key)));
+      else if (m[4] != null || m[5] != null) out.push(h("em", { key: key, className: "anvil-md__em" }, m[4] != null ? m[4] : m[5]));
+      else if (m[6] != null) out.push(h("a", { key: key, className: "anvil-md__link", href: m[6] }, m[6]));
+      i = re.lastIndex;
+    }
+    if (i < text.length) out.push(text.slice(i));
+    return out;
+  }
+
+  function mdBlocks(src) {
+    var lines = String(src || "").replace(/\r\n?/g, "\n").split("\n"), blocks = [], para = [], list = null;
+    function flush() {
+      if (para.length) { blocks.push({ type: "p", text: para.join(" ") }); para = []; }
+      if (list) { blocks.push(list); list = null; }
+    }
+    lines.forEach(function (raw) {
+      var line = raw.trim(), m;
+      if (!line) { flush(); return; }
+      if ((m = /^(#{1,4})\s+(.*)$/.exec(line))) { flush(); blocks.push({ type: "h", level: m[1].length, text: m[2] }); return; }
+      if ((m = /^(\d+)[.)]\s+(.*)$/.exec(line)) || (m = /^[-*+]\s+(.*)$/.exec(line))) {
+        var ordered = m.length === 3, item = ordered ? m[2] : m[1];
+        if (para.length) { blocks.push({ type: "p", text: para.join(" ") }); para = []; }
+        if (!list || list.ordered !== ordered) { if (list) blocks.push(list); list = { type: "list", ordered: ordered, start: ordered ? Number(m[1]) : 1, items: [] }; }
+        list.items.push(item);
+        return;
+      }
+      if (list) { blocks.push(list); list = null; }
+      para.push(line);
+    });
+    flush();
+    return blocks;
+  }
+
+  function MarkdownText(p) {
+    var src = p.children != null ? (Array.isArray(p.children) ? p.children.join("") : String(p.children)) : p.markdown;
+    var blocks = mdBlocks(src);
+    return h("div", { className: cx("anvil-md", p.className), style: p.style },
+      blocks.map(function (b, i) {
+        var k = "b" + i;
+        if (b.type === "h") {
+          var lvl = Math.min(4, b.level + (p.headingOffset || 0));
+          return h("h" + lvl, { key: k, className: cx("anvil-md__h", "anvil-md__h" + b.level, MD_HEADING[b.level]) }, mdInline(b.text, k));
+        }
+        if (b.type === "list") {
+          return h(b.ordered ? "ol" : "ul", { key: k, className: "anvil-md__list body-default", start: b.ordered && b.start !== 1 ? b.start : undefined },
+            b.items.map(function (it, j) { return h("li", { key: j }, mdInline(it, k + "-" + j)); }));
+        }
+        return h("p", { key: k, className: "anvil-md__p body-default" }, mdInline(b.text, k));
+      }));
   }
 
   // ---------- Password input ----------
@@ -845,7 +1036,8 @@
     React.useLayoutEffect(function () {
       var el = ref.current;
       if (!el) return;
-      var set = function () { var n = Math.round(el.getBoundingClientRect().width); if (n > 0) setW(n); };
+      // clientWidth is the layout width, so a scaled-down preview (like the screen builder) still gets the full width.
+      var set = function () { var n = el.clientWidth; if (n > 0) setW(n); };
       set();
       if (typeof ResizeObserver === "undefined") return;
       var ro = new ResizeObserver(set);
@@ -1424,7 +1616,7 @@
   }
 
 
-  window.Anvil = { BarChart: BarChart, LineChart: LineChart, RadialChart: RadialChart, FloatingColumns: FloatingColumns, ChartTooltip: ChartTooltip, ChartLegend: ChartLegend, ChartEmpty: ChartEmpty, ChartTitle: ChartTitle, ChartSummary: ChartSummary, DataPoint: DataPoint, Button: Button, Logo: Logo, Connector: Connector, VisitCard: VisitCard, NavList: NavList, NavListItem: NavListItem, Icon: Icon, PlusIcon: PlusIcon, TextInput: TextInput, PasswordInput: PasswordInput, Checkbox: Checkbox, CheckboxGroup: CheckboxGroup, SelectionCard: SelectionCard, Slider: Slider, Card: Card, GlobalHeader: GlobalHeader, GlobalFooter: GlobalFooter, TabItem: TabItem, Illustration: Illustration, InlineMessage: InlineMessage, Badge: Badge, IconButton: IconButton, NavItem: NavItem };
+  window.Anvil = { BarChart: BarChart, LineChart: LineChart, RadialChart: RadialChart, FloatingColumns: FloatingColumns, ChartTooltip: ChartTooltip, ChartLegend: ChartLegend, ChartEmpty: ChartEmpty, ChartTitle: ChartTitle, ChartSummary: ChartSummary, DataPoint: DataPoint, Button: Button, Logo: Logo, Connector: Connector, VisitCard: VisitCard, NavList: NavList, NavListItem: NavListItem, Icon: Icon, PlusIcon: PlusIcon, TextInput: TextInput, SelectInput: SelectInput, MarkdownText: MarkdownText, PasswordInput: PasswordInput, Checkbox: Checkbox, CheckboxGroup: CheckboxGroup, SelectionCard: SelectionCard, Slider: Slider, Card: Card, GlobalHeader: GlobalHeader, GlobalFooter: GlobalFooter, TabItem: TabItem, Illustration: Illustration, InlineMessage: InlineMessage, Badge: Badge, IconButton: IconButton, NavItem: NavItem };
   // Pulse was the system's original name. Both names point to the same library, so Pulse.Button and Anvil.Button both work.
   window.Pulse = window.Anvil;
 })();

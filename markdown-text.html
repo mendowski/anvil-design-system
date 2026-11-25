@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Markdown text · Pulse</title>
+<meta name="description" content="Markdown text guidelines for Pulse: usage, how Markdown maps to Pulse type styles, spacing, placement, accessibility, props and changelog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261124a">
+<link rel="stylesheet" href="dist/anvil.css?v=20261124c">
+<link rel="stylesheet" href="site/site.css?v=20261124a">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t);var b=localStorage.getItem("anvil-site-pli-brand");if(b&&/^pli-/.test(t||"")&&/^#[0-9a-f]{6}$/.test(b)){document.documentElement.style.setProperty("--brand-interactive-primary-base",b);document.documentElement.style.setProperty("--brand-interactive-secondary-base",b)}}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261124d"></script>
+<script src="site/doc.js?v=20261115a"></script>
+<style>
+  /* Markdown text page only. Shared doc styles are in site/doc.css. */
+  .md-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; width: 100%; align-items: start; }
+  .md-src { margin: 0; padding: 16px; border-radius: 12px; background: var(--background-subdued); font-size: 13px; line-height: 20px; white-space: pre-wrap; color: var(--text-body-base); }
+  .md-map { min-width: 720px; }
+  .md-map td:nth-child(2) code, .md-map td:nth-child(3) code { white-space: nowrap; }
+  .md-map td:last-child .anvil-md { min-width: 180px; }
+  .md-box { width: 100%; max-width: 420px; }
+  @media (max-width: 600px) { .md-pair { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="playground.html">Playground</a><a href="builder.html">Screen builder</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#MarkdownText">Content display</a> / Markdown text</p>
+<span class="doc-status doc-status--ok">Available · React, iOS, Android, FlowUI</span>
+<h1 class="page-title" style="margin-top:12px">Markdown text</h1>
+<p class="lede">Markdown text renders dynamic content across platforms. It maps common Markdown to Pulse type styles, so text from a content system or an API looks the same on web, iOS and Android.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.MarkdownText</code><a class="pg-link" href="foundations.html#typography">Type styles</a><a class="pg-link" href="playground.html#MarkdownText">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#usage">Usage</a><a href="#mapping">Markdown and type styles</a><a href="#placement">Placement</a><a href="#accessibility">Accessibility</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<section class="doc-sec" id="usage">
+  <h2 class="sec">Usage</h2>
+  <div class="doc-config">
+    <div><h3>When to use</h3></div>
+    <div><ul><li>The text comes from somewhere else and can change, such as care plan steps or help articles.</li><li>The content mixes headings, paragraphs, lists and links.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>When not to use</h3></div>
+    <div><ul><li>Text you write into a screen. Use the Pulse <a href="foundations.html#typography">type styles</a> directly.</li></ul></div>
+  </div>
+  <div class="md-pair" id="overview" style="margin-top:24px"></div>
+</section>
+
+<section class="doc-sec" id="mapping">
+  <h2 class="sec">Markdown and type styles</h2>
+  <p class="lede">Markdown text supports these properties. The right column is the live component.</p>
+  <div class="frame-scroll"><table class="doc-props md-map">
+    <thead><tr><th>Property</th><th>Markdown</th><th>Pulse type style</th><th>Result</th></tr></thead>
+    <tbody id="map-rows"></tbody>
+  </table></div>
+  <ul style="margin-top:16px;max-width:72ch">
+    <li>Bare links such as <code>https://www.example.com</code> also become links.</li>
+    <li>Headings use the matching <code>space-between-heading-N-body</code> token before the text under them. Paragraphs and lists use <code>space-between-body</code>.</li>
+  </ul>
+</section>
+
+<section class="doc-sec" id="placement">
+  <h2 class="sec">Placement</h2>
+  <p class="lede">Padding around the content is up to the team using it. Until Pulse controls more of an app's layout, padding standards can't be set at the system level.</p>
+</section>
+
+<section class="doc-sec" id="accessibility">
+  <h2 class="sec">Accessibility</h2>
+  <p class="lede">Using Markdown text on a page still needs an annotated design review of the page-level design.</p>
+  <div class="doc-config">
+    <div><h3>Annotations</h3></div>
+    <div><ul><li>Annotate Markdown text with the standard annotations. The headings and body in one block are part of the same component.</li><li>Inline links are their own tab stops.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>In code</h3></div>
+    <div><ul>
+      <li>Headings are real <code>h1</code> to <code>h4</code> elements. Use <code>headingOffset</code> to move them down a level when the page already has an <code>h1</code>. They keep their look.</li>
+      <li>The component builds React elements and never inserts HTML, so HTML in the Markdown shows as plain text. Only <code>https:</code>, <code>http:</code>, <code>mailto:</code>, <code>tel:</code> and relative links become links.</li>
+      <li>Write link text that makes sense out of context.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>children</code>, <code>markdown</code></td><td><code>string</code></td><td>The Markdown to render.</td></tr>
+      <tr><td><code>headingOffset</code></td><td><code>number</code></td><td>Moves heading tags down. 1 makes <code>#</code> an <code>h2</code>.</td></tr>
+      <tr><td><code>className</code>, <code>style</code></td><td></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Figma.</strong>
+    <ul><li>Markdown text isn't a Figma component. Designers use the Figma type styles directly, following the mapping above.</li></ul>
+  </div>
+</section>
+
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td>Not applicable</td><td></td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>MarkdownText</td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>PulseMarkdown</td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Markdown</td></tr>
+      <tr><td>FlowUI</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Markdown</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Apr 23, 2025</td><td>v5.0.0</td><td>Pulse 5: color, type and space variable updates for all components.</td></tr>
+      <tr><td>Jul 29, 2024</td><td>v4.3.0</td><td><span class="doc-tag doc-tag--new">New</span>Initial release.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: Components › Content display › Markdown text (Usage, Accessibility, Figma build tips, React, and Status and changelog tabs) in the Pulse Design System documentation. Every example on this page is the live <code>Pulse.MarkdownText</code>.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = Doc.h, cap = Doc.cap, M = Anvil.MarkdownText;
+  var SRC = "## Before your visit\n\nHave your **medication list** ready and find a *quiet, private* spot.\n\n1. Check your camera and microphone\n2. Join 5 minutes early\n\nQuestions? [Visit the help center](https://www.example.com).";
+  Doc.render("overview", h(React.Fragment, null,
+    cap("Markdown", h("pre", { className: "md-src" }, SRC)),
+    cap("Markdown text", h("div", { className: "md-box" }, h(M, { headingOffset: 1 }, SRC)))));
+
+  var ROWS = [
+    ["H1", "# Heading", "heading-heading-1"], ["H2", "## Heading", "heading-heading-2"], ["H3", "### Heading", "heading-heading-3"], ["H4", "#### Heading", "heading-heading-4"],
+    ["Body text (default)", "Plain text", "body-default", "Plain text"], ["Bold", "**bold text**", "body-strong"], ["Italics", "*italics text*", "body-italics"],
+    ["Ordered list", "1. First item\n2. Second item\n3. Third item", "body-default"], ["Unordered list", "- First item\n- Second item\n- Third item", "body-default"],
+    ["Link", "[title](https://www.example.com)", "body-text-link"]
+  ];
+  Doc.render("map-rows", h(React.Fragment, null, ROWS.map(function (r) {
+    return h("tr", { key: r[0] },
+      h("td", null, r[0]),
+      h("td", null, r[1].split("\n").map(function (l, i) { return h("div", { key: i }, h("code", null, l)); })),
+      h("td", null, h("code", null, r[2])),
+      h("td", null, h(M, { headingOffset: 2 }, r[3] || r[1])));
+  })));
+})();
+</script>
+<script src="site/site.js?v=20261124b"></script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en" data-theme="core-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Select input · Pulse</title>
+<meta name="description" content="Select input guidelines for Pulse: usage, anatomy, states, the dropdown menu, placement, interaction, clearing optional answers, accessibility, props and changelog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens/anvil-tokens.css?v=20261124a">
+<link rel="stylesheet" href="dist/anvil.css?v=20261124c">
+<link rel="stylesheet" href="site/site.css?v=20261124a">
+<link rel="stylesheet" href="site/doc.css?v=20261115c">
+<script>try{var t=localStorage.getItem("anvil-site-theme");if(t)document.documentElement.setAttribute("data-theme",t);var b=localStorage.getItem("anvil-site-pli-brand");if(b&&/^pli-/.test(t||"")&&/^#[0-9a-f]{6}$/.test(b)){document.documentElement.style.setProperty("--brand-interactive-primary-base",b);document.documentElement.style.setProperty("--brand-interactive-secondary-base",b)}}catch(e){}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dist/anvil.js?v=20261124d"></script>
+<script src="site/doc.js?v=20261115a"></script>
+<style>
+  /* Select input page only. Shared doc styles are in site/doc.css. */
+  .doc-anatomy .doc-stage { padding: 56px 72px 40px; }
+  .doc-anatomy .doc-stage > * { width: 340px; }
+  .si { width: 100%; max-width: 358px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
+  .open { min-height: 300px; }
+  .open-sm { min-height: 250px; }
+  .tt-field .anvil-select__control { outline: 1.5px dashed var(--brand-interactive-primary-base); outline-offset: 3px; }
+  .pushed { display: grid; gap: 8px; width: 100%; max-width: 358px; }
+  .pushed .anvil-dropdown { position: static; margin-top: 8px; }
+  .below { font-size: 14px; line-height: 20px; color: var(--text-body-subdued); padding: 12px; border: 1px dashed var(--stroke-base); border-radius: 8px; }
+  .keys td:first-child { white-space: nowrap; }
+  @media (max-width: 600px) {
+    .doc-anatomy .doc-stage { padding: 40px 32px 32px; }
+    .doc-anatomy .doc-stage > * { width: 100%; }
+    .pair { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-top">
+  <a class="site-brand" href="index.html">Pulse</a>
+  <nav class="site-nav" aria-label="Sections"><a href="index.html">Overview</a><a href="foundations.html">Foundations</a><a href="components.html" aria-current="page">Components</a><a href="playground.html">Playground</a><a href="builder.html">Screen builder</a></nav>
+  <label class="site-theme"><span>Theme</span><select id="site-theme"><option value="core-light">Core UI Light</option><option value="core-dark">Core UI Dark</option><option value="pli-light">PLI Light</option><option value="pli-dark">PLI Dark</option></select></label>
+</header>
+
+<main>
+<p class="doc-crumb"><a href="components.html">Components</a> / <a href="components.html#SelectInput">Form</a> / Select input</p>
+<span class="doc-status doc-status--ok">Available · Figma, React, iOS, Android</span>
+<h1 class="page-title" style="margin-top:12px">Select input</h1>
+<p class="lede">Select input lets people pick one answer from a list of set options. It usually sits in forms with other inputs. Choosing it opens a dropdown menu of options under the control.</p>
+<div class="comp-meta" style="margin-top:12px"><code>Pulse.SelectInput</code><a class="pg-link" href="text-input.html">Text input</a><a class="pg-link" href="selection-card.html">Selection card</a><a class="pg-link" href="playground.html#SelectInput">Try it in the playground</a></div>
+
+<nav class="jump" aria-label="On this page"><a href="#usage">Usage</a><a href="#anatomy">Anatomy</a><a href="#variants">Variants</a><a href="#placement">Placement</a><a href="#interaction">Interaction</a><a href="#accessibility">Accessibility</a><a href="#props">Props</a><a href="#changelog">Changelog</a></nav>
+
+<section class="doc-sec" id="usage">
+  <h2 class="sec">Usage</h2>
+  <div class="doc-config">
+    <div><h3>When to use</h3></div>
+    <div><ul><li>There's a reasonable number of options, and people don't need to search or filter them.</li><li>Only one option can be chosen.</li><li>There isn't room to show every option on the page.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>When not to use</h3></div>
+    <div><ul><li>There are many options, or searching would help. Use an advanced select.</li><li>People can pick more than one. Use an advanced select or <a href="selection-card.html">checkbox selection cards</a>.</li><li>Each option needs more than a short description. Use <a href="selection-card.html">selection cards</a>.</li></ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Product usage</h3></div>
+    <div><ul><li>Request a visit: choosing your location</li><li>Medical history: describing conditions</li><li>Chronic Condition Management: picking a time frame for health data, such as the past 14 days, 1 month or 3 months</li></ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="anatomy">
+  <h2 class="sec">Anatomy</h2>
+  <div class="doc-anatomy" style="margin-top:24px">
+    <div class="doc-stage anat" id="anat"></div>
+    <ol class="doc-legend">
+      <li><b>1</b><div><span>Label</span></div></li>
+      <li><b>2</b><div><span>Helper text</span></div></li>
+      <li><b>3</b><div><span>Select input</span></div></li>
+      <li><b>4</b><div><span>Placeholder</span><small>Replaced by the chosen option once the select is filled.</small></div></li>
+      <li><b>5</b><div><span>Dropdown indicator</span></div></li>
+      <li><b>6</b><div><span>Inline message</span><small>Warning and error states add an inline message under the control.</small></div></li>
+    </ol>
+  </div>
+  <div class="doc-anatomy" style="margin-top:24px">
+    <div class="doc-stage anat" id="anat-open"></div>
+    <ol class="doc-legend">
+      <li><b>7</b><div><span>Form dropdown</span><small>Opens when the select is focused, space-100 under the control.</small></div></li>
+      <li><b>8</b><div><span>Option label</span></div></li>
+      <li><b>9</b><div><span>Option description</span><small>Optional, per option.</small></div></li>
+      <li><b>10</b><div><span>Selected option</span><small>Selected label color and a check.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="doc-sec" id="variants">
+  <h2 class="sec">Variants and options</h2>
+  <div id="variant-rows" style="margin-top:24px"></div>
+</section>
+
+<section class="doc-sec" id="placement">
+  <h2 class="sec">Placement</h2>
+  <p class="lede">Choosing a select input opens a menu of options. The menu floats over the page.</p>
+  <div class="doc-dd" id="dd-menu"></div>
+</section>
+
+<section class="doc-sec" id="interaction">
+  <h2 class="sec">Interaction</h2>
+  <div id="interaction-rows" style="margin-top:16px"></div>
+  <div class="doc-config" style="margin-top:32px">
+    <div><h3>iOS wheel picker</h3></div>
+    <div><ul>
+      <li>On iOS, when no option has a description, the native wheel picker opens instead of the dropdown menu. It fills the width of the screen at the bottom, above the home indicator, and the page scrolls so the select sits right above it.</li>
+      <li>People scroll to an option and tap Done. Clear returns an optional select to its placeholder.</li>
+      <li>When at least one option has a description, iOS uses the dropdown menu, since the wheel picker can't show descriptions.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="accessibility">
+  <h2 class="sec">Accessibility</h2>
+  <p class="lede">Using select inputs on a page still needs an annotated design review of the page-level design.</p>
+  <div class="doc-config">
+    <div><h3>Web</h3></div>
+    <div><ul>
+      <li>All visible text must be announced. Screen readers describe selects differently: VoiceOver says "popup button" when closed and "expanded" when open; NVDA says "combobox, collapsed", then "expanded, list" with the selected option and its position.</li>
+      <li>A view-only select isn't skipped in the tab order, so annotate its tab stop.</li>
+      <li>A disabled select is skipped in the tab order (don't annotate it), but screen readers can reach it with the arrow keys. VoiceOver says "dimmed", NVDA "unavailable".</li>
+      <li>Inline error icons don't need alt text.</li>
+    </ul></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>Keyboard</h3></div>
+    <div><div class="frame-scroll"><table class="doc-props keys">
+      <thead><tr><th>Key</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td>↓, ↑, Enter, Space</td><td>Opens the menu on the selected option, or the first one.</td></tr>
+        <tr><td>Home, End</td><td>Opens the menu on the first or last option, or moves there when it's open.</td></tr>
+        <tr><td>↓, ↑ (menu open)</td><td>Moves through the options.</td></tr>
+        <tr><td>Enter, Space, Alt + ↑</td><td>Chooses the highlighted option and closes the menu.</td></tr>
+        <tr><td>Escape, Tab</td><td>Closes the menu without changing the answer.</td></tr>
+        <tr><td>A letter</td><td>Jumps to the next option that starts with it.</td></tr>
+      </tbody>
+    </table></div></div>
+  </div>
+  <div class="doc-config">
+    <div><h3>In code</h3></div>
+    <div><ul><li>The control is a <code>combobox</code> button that opens a <code>listbox</code>. Focus stays on the control while the highlighted option is shared with <code>aria-activedescendant</code>.</li><li>The label names the control, and the helper text and message are linked with <code>aria-describedby</code>. Errors set <code>aria-invalid</code>.</li></ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="props">
+  <h2 class="sec">Props</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>label</code>, <code>helper</code>, <code>message</code></td><td><code>ReactNode</code></td><td></td></tr>
+      <tr><td><code>options</code></td><td><code>Array&lt;string | { value, label?, description? }&gt;</code></td><td>Options with and without descriptions can be mixed.</td></tr>
+      <tr><td><code>value</code>, <code>defaultValue</code></td><td><code>string</code></td><td>The chosen option's value.</td></tr>
+      <tr><td><code>onChange</code></td><td><code>(value, option) =&gt; void</code></td><td><code>option</code> is <code>null</code> when the answer is cleared.</td></tr>
+      <tr><td><code>placeholder</code></td><td><code>string</code></td><td>"Select" by default.</td></tr>
+      <tr><td><code>optional</code></td><td><code>boolean</code></td><td>Adds a "Select" item at the top of the menu that clears the answer.</td></tr>
+      <tr><td><code>status</code></td><td><code>"warning" | "error"</code></td><td>Shows <code>message</code> with the matching icon.</td></tr>
+      <tr><td><code>disabled</code>, <code>readOnly</code></td><td><code>boolean</code></td><td>Read-only is view-only, with a lock.</td></tr>
+      <tr><td><code>name</code>, <code>required</code></td><td></td><td><code>name</code> sends the value with a form.</td></tr>
+      <tr><td><code>state</code>, <code>defaultOpen</code></td><td><code>"hover" | "focus"</code>, <code>boolean</code></td><td>Force a state or an open menu, for docs.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-note doc-note--code"><strong>Code vs. React SDK.</strong>
+    <ul>
+      <li>The Pulse React SDK has two selects: <code>Select</code>, an older one built on the HTML select element, and <code>DetailSelectInput</code>, with a custom dropdown and option descriptions. <code>Pulse.SelectInput</code> here works like <code>DetailSelectInput</code>, which the SDK recommends for new work.</li>
+      <li>The iOS wheel picker is native to iOS, so it isn't part of the web component.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="doc-sec" id="changelog">
+  <h2 class="sec">Status and changelog</h2>
+  <div class="frame-scroll"><table class="doc-props">
+    <thead><tr><th>Platform</th><th>Status</th><th>Name</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Select-input, iOS select picker</td></tr>
+      <tr><td>React</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>DetailSelectInput, Select</td></tr>
+      <tr><td>iOS</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>PulseSelectInput</td></tr>
+      <tr><td>Android</td><td><span class="doc-tag doc-tag--new">Available</span></td><td>Select</td></tr>
+      <tr><td>FlowUI</td><td><span class="doc-tag doc-tag--new">Available</span> <span class="doc-tag doc-tag--pending">Pending</span></td><td>Select (available), DetailSelectInput (web only, pending)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame-scroll"><table class="doc-props" style="margin-top:32px">
+    <thead><tr><th>Date</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Apr 23, 2025</td><td>v5.0.0</td><td>Pulse 5: color, type and space variable updates for all components.</td></tr>
+      <tr><td>Mar 20, 2024</td><td>v4.0.0</td><td><span class="doc-tag doc-tag--changed">Changed</span>Form input label text style.</td></tr>
+      <tr><td>Jul 25, 2023</td><td>v3.7.1</td><td>Large component supports Web (Desktop).</td></tr>
+      <tr><td>Oct 21, 2021</td><td>v1.0.6</td><td>Component naming standardized; keywords added to descriptions.</td></tr>
+      <tr><td>Jul 28, 2021</td><td>v1.0.2</td><td>Form labels use the right font style with a tighter line height.</td></tr>
+      <tr><td>Apr 9, 2021</td><td>v0.0.5</td><td>Theme color styles, for light and dark mode and white-labeling.</td></tr>
+      <tr><td>Dec 30, 2020</td><td>v0.0.2</td><td>Initial release. Select was part of Text-input.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="doc-src">Source: Components › Form › Select input (Usage, Accessibility, Figma build tips, React, and Status and changelog tabs) in the Pulse Design System documentation, and the Select-input and Form-dropdown components in the Anvil Components Figma library. Every field on this page is the live <code>Pulse.SelectInput</code>.</p>
+</main>
+<footer class="site-foot">Pulse (later renamed Anvil) by Aida Mendoza and the Teladoc Health design system team. Shown here as portfolio work.</footer>
+
+<script>
+(function () {
+  var h = Doc.h, cap = Doc.cap, dd = Doc.dd, A = Anvil, S = A.SelectInput;
+  var STATES = ["Arizona", "California", "Colorado", "Florida", "Illinois", "New York", "Texas", "Washington"];
+  var RANGE = [
+    { value: "14d", label: "Past 14 days" },
+    { value: "1m", label: "Past month", description: "Daily averages" },
+    { value: "3m", label: "Past 3 months", description: "Weekly averages" }
+  ];
+  function si(props) { return h("div", { className: "si" }, h(S, Object.assign({ label: "State", helper: "Where you are right now", options: STATES }, props))); }
+
+  Doc.render("anat", h(S, { label: "State", helper: "Where you are right now", options: STATES, status: "error", message: "State is required" }));
+  Doc.tag("anat", [["1", ".anvil-field__label", "left"], ["2", ".anvil-field__helper", "left"], ["3", ".anvil-select__control", "left"], ["4", ".anvil-select__value", "bottom"], ["5", ".anvil-select__chev", "right"], ["6", ".anvil-msg", "left"]]);
+  Doc.render("anat-open", h("div", { style: { paddingBottom: 250 } }, h(S, { label: "Time frame", options: RANGE, defaultValue: "1m", defaultOpen: true })));
+  Doc.tag("anat-open", [["7", ".anvil-dropdown", "left"], ["8", ".anvil-dropdown__item:first-child .anvil-dropdown__label", "right"], ["9", ".anvil-dropdown__item:last-child .anvil-dropdown__desc", "right"], ["10", ".anvil-dropdown__check", "right"]]);
+
+  var states = [["Default", {}], ["Hover", { state: "hover" }], ["Focus", { state: "focus" }], ["Warning", { status: "warning", message: "Some visits aren’t available here." }], ["Error", { status: "error", message: "State is required" }], ["Disabled", { disabled: true }], ["View only", { readOnly: true }]];
+  Doc.rows("variant-rows", [
+    { t: "States", p: "The right column shows each state filled. A filled select shows the chosen option in place of the placeholder.", ol: ["Default", "Hover", "Focus", "Warning: the answer needs attention, with an inline message", "Error: missing or wrong answer, with a critical label and inline message", "Disabled", "View only: the answer can’t be changed, with a lock"], stack: true,
+      el: states.map(function (s) {
+        return h("div", { key: s[0], className: "pair" }, cap(s[0], si(Object.assign({ helper: null }, s[1]))), cap(s[0] + ", filled", si(Object.assign({ helper: null, defaultValue: "Texas" }, s[1]))));
+      }) },
+    { t: "Label and helper text", ol: ["Label and helper text (default)", "Label only", "No label, when a page header or other text already names the field"],
+      el: [cap("Label and helper", si({}), { key: 1 }), cap("Label only", si({ helper: null }), { key: 2 }), cap("No label", si({ label: null, helper: null }), { key: 3 })] },
+    { t: "Dropdown options", p: "Options have default, hover and selected states. Hover over the menu to see the hover state.", ol: ["Default", "Hover", "Selected"],
+      el: [h("div", { key: 1, className: "si open-sm" }, h(S, { label: "State", options: ["Arizona", "California", "Colorado", "Florida"], defaultValue: "California", defaultOpen: true }))] },
+    { t: "Options with descriptions", p: "Options can have a description for extra context. Descriptions are optional per option, so options with and without them can share a menu.",
+      el: [h("div", { key: 1, className: "si open" }, h(S, { label: "Time frame", options: RANGE, defaultValue: "3m", defaultOpen: true }))] }
+  ]);
+
+  Doc.render("dd-menu", h(React.Fragment, null,
+    dd("do", "Open the menu over other content, space-100 below the select input.", h("div", { className: "si open-sm" }, h(S, { label: "State", options: ["Arizona", "California", "Colorado"], defaultOpen: true }), h("div", { className: "below", style: { marginTop: 16 } }, "Content below the select"))),
+    dd("dont", "Don’t push the content below down the page when the menu opens.", h("div", { className: "pushed" },
+      h("div", { className: "anvil-field" }, h("div", { className: "anvil-field__labels" }, h("span", { className: "anvil-field__label" }, "State")),
+        h("div", { className: "anvil-input anvil-select__control is-open" }, h("span", { className: "anvil-select__value is-placeholder" }, "Select"), h("span", { className: "anvil-select__chev" }, h(A.Icon, { name: "arrow-down" })))),
+      h("ul", { className: "anvil-dropdown" }, ["Arizona", "California", "Colorado"].map(function (o) { return h("li", { key: o, className: "anvil-dropdown__item" }, h("span", { className: "anvil-dropdown__text" }, h("span", { className: "anvil-dropdown__label" }, o)), h("span", { className: "anvil-dropdown__check" })); })),
+      h("div", { className: "below" }, "Content below the select")))
+  ));
+
+  Doc.rows("interaction-rows", [
+    { t: "Tap target", p: "The whole control is the tap target, including the arrow.", el: [h("div", { key: 1, className: "si tt-field", style: { padding: 4 } }, h(S, { label: "State", options: STATES }))] },
+    { t: "Choosing an option", p: "Choosing the select opens the menu. Choosing an option updates the select and closes the menu. Clicking or tapping outside closes the menu without changing the answer. Try it.",
+      el: [h("div", { key: 1, className: "si open-sm" }, h(S, { label: "State", helper: "Where you are right now", options: STATES }))] },
+    { t: "Clearing an optional answer", p: "Optional fields need a way to clear the answer. Add a “Select” item at the top of the menu: choosing it returns the select to its placeholder.",
+      el: [h("div", { key: 1, className: "si open" }, h(S, { label: "Preferred language", optional: true, options: ["English", "Spanish", "French", "Mandarin"], defaultValue: "Spanish", defaultOpen: true }))] }
+  ]);
+})();
+</script>
+<script src="site/site.js?v=20261124b"></script>
+</body>
+</html>

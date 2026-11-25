@@ -163,6 +163,34 @@
     });
     sel.closest("label").insertAdjacentElement("afterend", hexWrap);
     paintAll();
+
+    // Show the Pulse Select input in place of the native select. The hidden native select still holds the value
+    // and runs the change handler above, so everything else keeps working.
+    var P = window.Anvil, R = window.React, RD = window.ReactDOM;
+    if (P && P.SelectInput && R && RD && RD.createRoot) {
+      var opts = Array.prototype.map.call(sel.options, function (o) { return { value: o.value, label: o.textContent }; });
+      // The control can't sit inside the <label>: a click on a menu option would also click the label and reopen the menu.
+      var lab = sel.closest("label"), wrap = document.createElement("div"), name = lab.querySelector("span");
+      wrap.className = lab.className;
+      name.id = "site-theme-label";
+      lab.insertAdjacentElement("beforebegin", wrap);
+      wrap.appendChild(name);
+      var mount = document.createElement("span");
+      mount.className = "site-theme__select";
+      wrap.appendChild(mount);
+      lab.hidden = true;
+      lab.className = "";
+      wrap.appendChild(lab);
+      var ThemeSelect = function () {
+        var st = R.useState(sel.value), v = st[0], setV = st[1];
+        return R.createElement(P.SelectInput, { id: "site-theme-control", "aria-labelledby": "site-theme-label", value: v, options: opts, onChange: function (nv) {
+          setV(nv);
+          sel.value = nv;
+          sel.dispatchEvent(new Event("change"));
+        } });
+      };
+      RD.createRoot(mount).render(R.createElement(ThemeSelect));
+    }
   }
   // syncHex needs the theme's defaults; read them without dropping the current overrides.
   function themeDefaultsKeep() { var t = tones, d = themeDefaults(); tones = t; setVars(root); return d; }

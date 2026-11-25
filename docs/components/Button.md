@@ -22,8 +22,8 @@ Buttons start actions, in three levels of emphasis: primary, secondary and terti
 ## Layout
 
 - **Shape:** primary and secondary are pills (`radius-200`).
-- **Desktop size:** `button-min-height` 48px, with `button-vertical-padding` 14px and `button-horizontal-padding` 32px.
-- **Mobile size (under 600px):** 44px tall with 12px / 24px padding, so the touch target stays at least 44px.
+- **Size:** `button-min-height` 44px, with `button-vertical-padding` 12px, on desktop and mobile.
+- **Side padding:** `button-horizontal-padding` 32px on desktop and 24px on mobile (under 600px).
 - **Icons:** 16px (`height-icon-200`), with `space-100` (8px) between icon and label.
 - **Labels:** Lexend Deca Medium, 16/20. Small tertiary buttons use 14/20.
 - **Tertiary** has no padding or minimum height. Give it room in the layout so the tap area reaches 44px on touch screens.

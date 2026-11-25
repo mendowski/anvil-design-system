@@ -955,7 +955,7 @@
   --height-400: 32px;
   --height-550: 44px;
   --height-600: 48px;
-  --button-min-height: 48px;
+  --button-min-height: 44px;
   --height-icon-200: 16px;
   --avatar-x-large: 112px;
   --avatar-large: 80px;
@@ -1069,7 +1069,7 @@
   --space-between-article-tiles: 24px;
   --space-between-tabs: 8px;
   --button-horizontal-padding: 32px;
-  --button-vertical-padding: 14px;
+  --button-vertical-padding: 12px;
   /* Figma: Scale/radius */
   --radius-0: 0px;
   --radius-050: 4px;

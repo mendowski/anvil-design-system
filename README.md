@@ -8,7 +8,8 @@ Pulse (later renamed Anvil) is the design system that brought Teladoc Health, Li
 
 | File or folder | What it is |
 | --- | --- |
-| `index.html`, `foundations.html`, `components.html` | The design system site. Components includes the data viz charts and the icons and illustrations. Component guideline pages such as `button.html` sit beside them. `colors.html` redirects to Foundations, and `datavis.html` and `assets.html` redirect to Components |
+| `index.html`, `foundations.html`, `components.html` | The design system site. Components includes the data viz charts and the icons and illustrations. Component guideline pages such as `button.html` and `select-input.html` sit beside them. `colors.html` redirects to Foundations, and `datavis.html` and `assets.html` redirect to Components |
+| `builder.html` | The screen builder: put Pulse components and layout blocks (stacks, grids, text in Pulse type styles) together into full screens, link screens into a clickable flow, preview them at XL, desktop, tablet and mobile sizes, and copy the JSX. A command box adds section headers from a typed sentence, such as `Add "Your health" to stack 2 as heading 2 with space-300 below`. Every spacing, color and radius choice is an Anvil token. Screens save in the browser and can be exported, imported or shared as a link. It reuses the component controls from `playground.html` |
 | `tokens/tokens.json` | Every token: 333 color tokens in four themes plus 109 primitives, scale (space, form input, layout, spacing, radius), shadows and 30 text styles |
 | `tokens/anvil-tokens.css` | The same tokens as CSS custom properties, theme blocks, `@font-face` rules and a class per text style |
 | `dist/anvil.js` | The React components as one script. It sets `window.Pulse` (and `window.Anvil`, the same object) |
@@ -57,7 +58,7 @@ BarChart, LineChart, FloatingColumns and RadialChart, with ChartTooltip, ChartSu
 
 ## Components
 
-Button, TextInput, PasswordInput, Checkbox (with CheckboxGroup), SelectionCard, Slider, Card, GlobalHeader, GlobalFooter, Illustration and Icon. Each one's guidelines are in `docs/components/`.
+Button, TextInput, SelectInput, MarkdownText, PasswordInput, Checkbox (with CheckboxGroup), SelectionCard, Slider, Card, GlobalHeader, GlobalFooter, Illustration and Icon. Each one's guidelines are in `docs/components/`.
 
 `Pulse.Illustration` loads its artwork from `assets/illustrations/`, found from where `anvil.js` is loaded. If you move `dist/` away from `assets/`, set `window.ANVIL_ASSET_BASE = "https://mendowski.github.io/anvil-design-system/assets/"` before loading `anvil.js`.
 

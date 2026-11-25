@@ -34,8 +34,6 @@
 @media (max-width: 599px) {
   .anvil-btn {
     --button-horizontal-padding: 24px;
-    --button-vertical-padding: 12px;
-    --button-min-height: 44px;
   }
 }
 
@@ -307,6 +305,84 @@
 .anvil-input__icon { display: inline-flex; color: var(--form-input-control-icon-default); flex: none; }
 .anvil-input__lock { display: inline-flex; color: var(--form-input-control-icon-view-only); flex: none; }
 .anvil-input.is-disabled .anvil-input__icon { color: var(--form-input-control-icon-disabled); }
+
+/* ---------- Select input (control reuses .anvil-input) and Form-dropdown ---------- */
+
+.anvil-select { position: relative; }
+.anvil-select__control {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  padding-top: 12px; padding-bottom: 12px;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.anvil-select__control.is-open { --_stroke: var(--form-input-control-stroke-hover); --_sw: 2px; }
+.anvil-select__control:focus-visible { --_stroke: var(--form-input-control-stroke-hover); --_sw: 2px; --_ring: var(--focus-ring); }
+.anvil-select__control.is-view-only { --_stroke: var(--form-input-control-stroke-default); }
+.anvil-select__value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--form-input-control-text-filled); }
+.anvil-select__value.is-placeholder { color: var(--form-input-control-text-placeholder); }
+.anvil-select__control.is-disabled .anvil-select__value { color: var(--form-input-control-text-disabled); }
+.anvil-select__chev { display: inline-flex; flex: none; padding: 0 var(--padding-025); color: var(--form-input-control-icon-default); }
+.anvil-select__control.is-disabled .anvil-select__chev { color: var(--form-input-control-icon-disabled); }
+.anvil-select__control.is-open .anvil-select__chev { transform: rotate(180deg); }
+
+.anvil-dropdown {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + var(--space-100));
+  left: 0; right: 0;
+  max-height: 405px;
+  overflow-y: auto;
+  margin: 0; padding: 0;
+  list-style: none;
+  border-radius: var(--radius-150);
+  background: var(--navigation-background-surface);
+  box-shadow: var(--elevation);
+  font-family: var(--font-sans);
+  scrollbar-width: thin;
+}
+.anvil-dropdown__item {
+  display: flex;
+  gap: var(--space-150);
+  padding: var(--space-150);
+  border-bottom: 1px solid var(--stroke-base);
+  background: var(--navigation-background-surface);
+  color: var(--navigation-text-default);
+  cursor: pointer;
+}
+.anvil-dropdown__item:last-child { border-bottom: 0; }
+.anvil-dropdown__text { display: flex; flex-direction: column; gap: var(--space-050); flex: 1; min-width: 0; }
+.anvil-dropdown__label { font-size: 16px; line-height: 20px; font-weight: 400; }
+.anvil-dropdown__desc { font-size: 14px; line-height: 20px; color: var(--navigation-description-default); }
+.anvil-dropdown__check { display: inline-flex; align-items: center; flex: none; width: 16px; height: 20px; color: var(--navigation-icon-current); }
+.anvil-dropdown__item.is-selected { color: var(--navigation-text-selected); }
+.anvil-dropdown__item.is-active { background: var(--navigation-background-hover); color: var(--navigation-text-hover); }
+.anvil-dropdown__item.is-active .anvil-dropdown__desc { color: var(--navigation-description-hover); }
+.anvil-dropdown__item.is-active .anvil-dropdown__check { color: var(--navigation-icon-hover); }
+.anvil-dropdown__item:active { background: var(--navigation-form-list-item-background-pressed); color: var(--navigation-text-pressed); }
+.anvil-dropdown__item:active .anvil-dropdown__desc { color: var(--navigation-description-pressed); }
+.anvil-dropdown__item:active .anvil-dropdown__check { color: var(--navigation-icon-pressed); }
+
+/* ---------- Markdown text ---------- */
+
+.anvil-md { font-family: var(--font-sans); color: var(--text-body-base); }
+.anvil-md > * { margin: 0; }
+.anvil-md > * + * { margin-top: var(--space-between-body); }
+.anvil-md__h1, .anvil-md__h2 { color: var(--text-header-serif); }
+.anvil-md__h3, .anvil-md__h4 { color: var(--text-body-base); }
+.anvil-md > .anvil-md__h1 + * { margin-top: var(--space-between-heading-1-body); }
+.anvil-md > .anvil-md__h2 + * { margin-top: var(--space-between-heading-2-body); }
+.anvil-md > .anvil-md__h3 + * { margin-top: var(--space-between-heading-3-body); }
+.anvil-md > .anvil-md__h4 + * { margin-top: var(--space-between-heading-4-body); }
+.anvil-md__strong { font-weight: 600; }
+.anvil-md__em { font-family: var(--font-effra); font-size: 18px; font-style: italic; font-weight: 400; }
+.anvil-md__link { font-weight: 500; color: var(--text-body-link); text-decoration: underline; text-underline-offset: 2px; }
+.anvil-md__link:visited { color: var(--text-body-link-visited); }
+.anvil-md__link:focus-visible { outline: none; border-radius: 2px; box-shadow: var(--focus-ring); }
+.anvil-md__list { padding-left: 24px; }
+.anvil-md__list li + li { margin-top: var(--space-050); }
 
 /* ---------- Password input ---------- */
 

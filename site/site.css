@@ -11,6 +11,12 @@ a { color: var(--text-body-link); }
 .site-nav a[aria-current="page"] { color: var(--text-body-base); border-bottom-color: var(--brand-interactive-primary-base); font-weight: 500; }
 .site-theme { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-body-subdued); }
 .site-theme select { font: inherit; font-size: 13px; color: var(--text-body-base); background: var(--background-surface); border: 1px solid var(--stroke-base); border-radius: 8px; padding: 6px 8px; }
+/* The theme picker is the Pulse Select input in a compact size. The native select stays hidden as the source of truth. */
+.site-theme__select { width: 150px; }
+.site-theme__select .anvil-select__control { min-height: 32px; padding: 6px 8px 6px 10px; gap: 6px; font-size: 13px; line-height: 18px; color: var(--text-body-base); }
+.site-theme__select .anvil-dropdown { left: auto; right: 0; min-width: 170px; }
+.site-theme__select .anvil-dropdown__item { padding: 8px 12px; }
+.site-theme__select .anvil-dropdown__label { font-size: 14px; }
 .site-hex[hidden] { display: none; }
 .site-hex input { font: inherit; font-size: 13px; width: 11ch; color: var(--text-body-base); background: var(--background-surface); border: 1px solid var(--stroke-base); border-radius: 8px; padding: 6px 8px; font-variant-numeric: tabular-nums; }
 .site-hex input::placeholder { color: var(--text-body-subdued); }
@@ -186,13 +192,13 @@ details.guide th, details.guide td { border-bottom: 1px solid var(--stroke-subdu
 @media (prefers-reduced-motion: reduce) { .cp-chev { transition: none; } }
 
 /* playground controls: one height for every field */
-.pg-field input[type="text"], .pg-field input[type="number"], .pg-field select, .pg-picker__btn { box-sizing: border-box; height: 40px; padding-top: 0; padding-bottom: 0; line-height: 38px; }
-.pg-field select { -webkit-appearance: none; appearance: none; padding-right: 32px; cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 6 8 10.5 12.5 6' fill='none' stroke='%230f1213' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 10px center; background-size: 16px 16px; }
-[data-theme$="dark"] .pg-field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 6 8 10.5 12.5 6' fill='none' stroke='%23fdfdfd' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
-.pg-picker__btn .pg-caret { width: 16px; height: 16px; border: 0; transform: none; margin-right: -2px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 6 8 10.5 12.5 6' fill='none' stroke='%230f1213' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat; }
-[data-theme$="dark"] .pg-picker__btn .pg-caret { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 6 8 10.5 12.5 6' fill='none' stroke='%23fdfdfd' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.pg-field input[type="text"], .pg-field input[type="number"], .pg-picker__btn { box-sizing: border-box; height: 40px; padding-top: 0; padding-bottom: 0; line-height: 38px; }
+/* Panel selects are the Pulse Select input, sized down to the panels' 40px. The pickers use the same arrow. */
+.pg-select .anvil-select__control { min-height: 40px; padding-top: 10px; padding-bottom: 10px; font-size: 14px; }
+.pg-select .anvil-dropdown { max-height: 320px; }
+.pg-select .anvil-dropdown__item { padding: 10px 12px; }
+.pg-select .anvil-dropdown__label { font-size: 14px; }
+.pg-picker__btn .pg-caret { display: inline-flex; flex: none; width: auto; height: auto; border: 0; transform: none; padding: 0 var(--padding-025); color: var(--form-input-control-icon-default); }
 .pg-thumb { width: 22px; height: 22px; }
 .pg-thumb--hero { width: 36px; height: 18px; }
 
